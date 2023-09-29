@@ -19,3 +19,5 @@ API key: 4f85438c9d278629158c7d8380d0d69f
 Photo of using postman for open weather
 
 ![OpenweatherThingy.png](Photo%2FOpenweatherThingy.png)
+
+![weatherexample.JPG](Photo%2Fweatherexample.JPG)
