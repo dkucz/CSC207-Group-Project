@@ -12,8 +12,9 @@
 
 https://openweathermap.org/api
 API documentation for openweather: https://openweathermap.org/api/one-call-3
-API example call: https://api.openweathermap.org/data/3.0/onecall?lat=33&lon=33&appid=9b3baf9ec158ac42f468eaa7929bb567&units
-API key: 9b3baf9ec158ac42f468eaa7929bb567
+API example call https://api.openweathermap.org/data/3.0/onecall?lat=33&lon=33&appid=4f85438c9d278629158c7d8380d0d69f&unitsZz
+
+API key: 4f85438c9d278629158c7d8380d0d69f
 
 Photo of using postman for open weather
 
