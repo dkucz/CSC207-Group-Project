@@ -20,6 +20,7 @@ Photo of using postman for open weather
 
 ![OpenweatherThingy.png](Photo%2FOpenweatherThingy.png)
 
+# Code Example
 Here is an example of the code running, where you can see the weather is: "clear sky".
 Thus, the user should be able to go on a run. 
 ![weatherexample.JPG](Photo%2Fweatherexample.JPG)
