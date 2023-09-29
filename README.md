@@ -3,9 +3,11 @@
 * Have a shared calendar
 * Track the days you go to the gym/go for a run
 * Use an API to access a calendar
+
+# API
+* https://developers.google.com/calendar
 * Access an API to get data about exercises
 * https://rapidapi.com/mortimerbrian135/api/exerciseapi3/
-
 
 https://openweathermap.org/api
 API documentation for openweather: https://openweathermap.org/api/one-call-3
