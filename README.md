@@ -2,7 +2,8 @@
 * Creating a group of friends
 * Have a shared calendar
 * Track the days you go to the gym/go for a run
-* Use an API to access a calendar
+* Use an API to create a workout routine
+* Use a Weather API to access weather data to allow users to check whether they can go running
 
 # API
 * https://developers.google.com/calendar
