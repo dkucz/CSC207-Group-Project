@@ -3,11 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 public class Log_In_Window extends JFrame {
     private int Width = 500;
     private int Height = 500;
     private final JLayeredPane LP = new JLayeredPane();
+    private final JButton Log_IN = new JButton();
+    private final JButton Sign_Up = new JButton();
+    private final JPasswordField Password_Field = new JPasswordField();
+    private final JTextField User_Name_Field = new JTextField();
     private final Canvas Canvas = new Canvas(){
         @Override
         public void paint(Graphics g){
@@ -21,11 +24,6 @@ public class Log_In_Window extends JFrame {
             g.drawString("Password: ",45,241);
         }
     };
-    private final JButton Log_IN = new JButton();
-    private final JButton Sign_Up = new JButton();
-    private final JPasswordField Password_Field = new JPasswordField();
-    private final JTextField User_Name_Field = new JTextField();
-
     public Log_In_Window(){
         this.setBounds(300,300,500,500);
         Initial_Log_In();
