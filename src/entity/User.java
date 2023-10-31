@@ -7,6 +7,7 @@ public class User {
     private List<User> friends;
     private int points;
 
+    //hehe
     public User(String uname, String pass){
         this.username = uname;
         this.password = pass;
