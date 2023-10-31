@@ -1,93 +1,100 @@
 package view;
+
+import interface_adapter.LogInViewModel;
+import interface_adapter.LogInState;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-public class Log_In_Window extends JFrame {
-    private int Width = 500;
-    private int Height = 500;
-    private final JLayeredPane LP = new JLayeredPane();
-    private final JButton Log_IN = new JButton();
-    private final JButton Sign_Up = new JButton();
-    private final JPasswordField Password_Field = new JPasswordField();
-    private final JTextField User_Name_Field = new JTextField();
-    private final Canvas Canvas = new Canvas(){
-        @Override
-        public void paint(Graphics g){
-            //super.paint(g);
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Monaco",Font.BOLD,46));
-            String APP_NAME = "Fitness T";
-            g.drawString(APP_NAME, 140, 100);
-            g.setFont(new Font("Monaco",Font.BOLD,23));
-            g.drawString("User Name: ", 30,175);
-            g.drawString("Password: ",45,241);
-        }
-    };
-    public Log_In_Window(){
-        this.setBounds(300,300,500,500);
-        Initial_Log_In();
-        Initial_Sign_Up();
-        Initial_Canvas();
-        Initial_LP();
-        Initial_Password_Field();
-        Initial_Name_Field();
-        LP.add(Canvas,0);
-        LP.add(Password_Field,0);
-        LP.add(User_Name_Field,0);
-        LP.add(Log_IN,0);
-        LP.add(Sign_Up,0);
-        this.add(LP);
-        this.setVisible(true);
-        Log_IN.addActionListener(this);
-    }
-    public void Change_Width_Height(int x, int y){
-        this.Width = x;
-        this.Height = y;
-    }
-    private void Initial_Sign_Up(){
-        this.Sign_Up.setBounds(176,300,100,50);
-        this.Sign_Up.setBackground(Color.BLACK);
-        this.Sign_Up.setText("Sign Up");
-        this.Sign_Up.setOpaque(true);
-        this.Sign_Up.addActionListener(new ActionListener() {
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class LogInView extends JPanel implements ActionListener, PropertyChangeListener {
+
+    public final String viewName = "log in";
+    private final LogInViewModel loginViewModel;
+
+    /**
+     * The username chosen by the user
+     */
+    final JTextField usernameInputField = new JTextField(15);
+    private final JLabel usernameErrorField = new JLabel();
+    /**
+     * The password
+     */
+    final JPasswordField passwordInputField = new JPasswordField(15);
+    private final JLabel passwordErrorField = new JLabel();
+
+    final JButton logIn;
+    final JButton cancel;
+
+    /**
+     * A window with a title and a JButton.
+     */
+    public LogInView(LogInViewModel loginViewModel) {
+        this.loginViewModel = loginViewModel;
+        this.loginViewModel.addPropertyChangeListener(this);
+
+        JLabel title = new JLabel("Login Screen");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        LabelTextPanel usernameInfo = new LabelTextPanel(
+                new JLabel("Username"), usernameInputField);
+        LabelTextPanel passwordInfo = new LabelTextPanel(
+                new JLabel("Password"), passwordInputField);
+
+        JPanel buttons = new JPanel();
+        logIn = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
+        buttons.add(logIn);
+        cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
+        buttons.add(cancel);
+
+        logIn.addActionListener(this);
+        cancel.addActionListener(this);
+
+        usernameInputField.addKeyListener(new KeyListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                //TBC.
+            public void keyTyped(KeyEvent e) {
+                LogInState currentState = loginViewModel.getState();
+                currentState.setUsername(usernameInputField.getText());
+                loginViewModel.setState(currentState);
             }
-        });
-    }
-    private void Initial_Log_In(){
-        this.Log_IN.setBounds(290,300,100,50);
-        this.Log_IN.setBackground(Color.BLACK);
-        this.Log_IN.setText("Log in");
-        this.Log_IN.setOpaque(true);
-        this.Log_IN.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // TBC.
-            }
+            public void keyPressed(KeyEvent e) {}
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
         });
-    }
-    private void Initial_Canvas(){
-        this.Canvas.setBounds(0,0,this.Width,this.Height);
-        this.Canvas.setBackground(Color.BLACK);
-    }
-    private void Initial_Password_Field(){
-        this.Password_Field.setBounds(180,225,200,25);
-        this.Password_Field.setOpaque(true);
-    }
-    private void Initial_Name_Field(){
-        this.User_Name_Field.setBounds(180,155,200,25);
-        this.User_Name_Field.setOpaque(true);
-    }
-    private void Initial_LP(){
-        this.LP.setBounds(0,0,this.Width,this.Height);
-        this.LP.setOpaque(true);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        this.add(title);
+        this.add(usernameInfo);
+        this.add(usernameErrorField);
+        this.add(passwordInfo);
+        this.add(passwordErrorField);
+        this.add(buttons);
     }
 
-
-    public static void main(String[] args) {
-        new Log_In_Window();
+    /**
+     * React to a button click that results in evt.
+     */
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        LogInState state = (LogInState) evt.getNewValue();
+        setFields(state);
+    }
+
+    private void setFields(LogInState state) {
+        usernameInputField.setText(state.getUsername());
+        passwordInputField.setText(state.getPassword());
+    }
+
 }
