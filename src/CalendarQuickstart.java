@@ -13,6 +13,9 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.CalendarList;
+import org.apache.http.protocol.HTTP;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -75,33 +78,41 @@ public class CalendarQuickstart {
     }
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                        .setApplicationName(APPLICATION_NAME)
-                        .build();
+        // Build a new authorized API client service.
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName("applicationName").build();
 
-        // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
+// Iterate through entries in calendar list
+        String pageToken = null;
+        do {
+            CalendarList calendarList = service.calendarList().list().setPageToken(pageToken).execute();
+            List<CalendarListEntry> items = calendarList.getItems();
+
+            for (CalendarListEntry calendarListEntry : items) {
+                System.out.println(calendarListEntry.getId());
             }
-        }
+            pageToken = calendarList.getNextPageToken();
+        } while (pageToken != null);
+
+// Create a new calendar list entry
+        CalendarListEntry calendarListEntry = new CalendarListEntry();
+        calendarListEntry.setId("calendarId");
+
+// Insert the new calendar list entry
+        CalendarListEntry createdCalendarListEntry = service.calendarList().insert(calendarListEntry).execute();
+
+        System.out.println(createdCalendarListEntry.getSummary());
+
+        String pageToken1 = null;
+        do {
+            CalendarList calendarList = service.calendarList().list().setPageToken(pageToken1).execute();
+            List<CalendarListEntry> items = calendarList.getItems();
+
+            for (CalendarListEntry calendarListEntry1 : items) {
+                System.out.println(calendarListEntry1.getId());
+            }
+            pageToken1 = calendarList.getNextPageToken();
+        } while (pageToken1 != null);
     }
 }

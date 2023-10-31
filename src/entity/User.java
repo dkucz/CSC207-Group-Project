@@ -7,11 +7,11 @@ public class User {
     private List<User> friends;
     private int points;
 
-    public User(String uname, String pass, int points){
+    public User(String uname, String pass){
         this.username = uname;
         this.password = pass;
         this.friends = new ArrayList<>();
-        this.points = points;
+        this.points = 0;
     }
 
     //Getters
