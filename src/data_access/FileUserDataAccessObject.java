@@ -10,11 +10,8 @@ import java.util.Map;
 
 public class FileUserDataAccessObject {
     private final File csvFile;
-
     private final Map<String, Integer> headers = new LinkedHashMap<>();
-
     private final HashMap<String, User> accounts = new HashMap<String, User>();
-
     private UserFactory userFactory;
 
     public FileUserDataAccessObject(String csvPath, UserFactory userFactory) throws IOException {
