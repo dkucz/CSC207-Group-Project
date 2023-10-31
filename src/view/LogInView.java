@@ -1,4 +1,4 @@
-package Windows;
+package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,6 +39,7 @@ public class Log_In_Window extends JFrame {
         LP.add(Sign_Up,0);
         this.add(LP);
         this.setVisible(true);
+        Log_IN.addActionListener(this);
     }
     public void Change_Width_Height(int x, int y){
         this.Width = x;
@@ -84,6 +85,7 @@ public class Log_In_Window extends JFrame {
         this.LP.setBounds(0,0,this.Width,this.Height);
         this.LP.setOpaque(true);
     }
+
 
     public static void main(String[] args) {
         new Log_In_Window();
