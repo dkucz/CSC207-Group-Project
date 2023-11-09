@@ -9,7 +9,7 @@ public class Main {
         UserFactory userFactory = new UserFactory();
         try{
             FileUserDataAccessObject dataAccess = new FileUserDataAccessObject(
-                    "C:\\Users\\kuczd\\IdeaProjects\\CSC207-Group-Project\\accounts.csv",
+                    "C:\\Users\\olive\\IdeaProjects\\CSC207-Group-Project\\accounts.csv",
                     userFactory);
         } catch (IOException e){
             throw new RuntimeException(e);
