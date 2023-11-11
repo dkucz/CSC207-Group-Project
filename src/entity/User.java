@@ -4,6 +4,7 @@ public class User {
     /* User Class, each User is instantiated using their Google credentials*/
     private final String username;
     private final String password;
+    private final String gmail;
     private List<User> friends;
     private int points;
 
@@ -13,6 +14,8 @@ public class User {
         this.password = pass;
         this.friends = new ArrayList<>();
         this.points = 0;
+        this.gmail = "";
+        //TODO: Update UserFactory to include gmail String
     }
 
     //Getters
@@ -36,6 +39,5 @@ public class User {
     public void addPoints(int points){
         this.points += points;
     }
-
 
 }

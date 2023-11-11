@@ -1,0 +1,17 @@
+package signup.use_case;
+
+public class SignupOutputData {
+
+    private final String username;
+
+    private boolean useCaseFailed;
+
+    public SignupOutputData(String username, String creationTime, boolean useCaseFailed) {
+        this.username = username;
+        this.useCaseFailed = useCaseFailed;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+}

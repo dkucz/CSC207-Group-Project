@@ -1,7 +1,7 @@
-package view;
+package login.view;
 
-import interface_adapter.LogInViewModel;
-import interface_adapter.LogInState;
+import login.interface_adapter.LoginViewModel;
+import login.interface_adapter.LoginState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +12,10 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class LogInView extends JPanel implements ActionListener, PropertyChangeListener {
+public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "log in";
-    private final LogInViewModel loginViewModel;
+    private final LoginViewModel loginViewModel;
 
     /**
      * The username chosen by the user
@@ -34,7 +34,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
     /**
      * A window with a title and a JButton.
      */
-    public LogInView(LogInViewModel loginViewModel) {
+    public LoginView(LoginViewModel loginViewModel) {
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
@@ -58,7 +58,7 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
         usernameInputField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                LogInState currentState = loginViewModel.getState();
+                LoginState currentState = loginViewModel.getState();
                 currentState.setUsername(usernameInputField.getText());
                 loginViewModel.setState(currentState);
             }
@@ -88,11 +88,11 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LogInState state = (LogInState) evt.getNewValue();
+        LoginState state = (LoginState) evt.getNewValue();
         setFields(state);
     }
 
-    private void setFields(LogInState state) {
+    private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());
         passwordInputField.setText(state.getPassword());
     }

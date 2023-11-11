@@ -1,17 +1,17 @@
-package interface_adapter;
+package login.interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-public class LogInViewModel extends ViewModel{
+public class LoginViewModel extends ViewModel{
     public final String TITLE_LABEL = "Log In View";
     public final String USERNAME_LABEL = "Enter Username";
     public final String PASSWORD_LABEL = "Enter Password";
     public final String LOGIN_BUTTON_LABEL = "Log in";
     public final String CANCEL_BUTTON_LABEL = "Cancel";
-    private LogInState state = new LogInState();
+    private LoginState state = new LoginState();
 
-    public LogInViewModel(){super("log in");}
+    public LoginViewModel(){super("log in");}
 
-    public void setState(LogInState state){this.state = state;}
+    public void setState(LoginState state){this.state = state;}
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public void firePropertyChanged(){support.firePropertyChange("state", null, this.state);}
@@ -20,7 +20,7 @@ public class LogInViewModel extends ViewModel{
         support.addPropertyChangeListener(listener);
     }
 
-    public LogInState getState(){return state;}
+    public LoginState getState(){return state;}
 
 
 }
