@@ -11,7 +11,7 @@ public class Main {
         UserFactory userFactory = new UserFactory();
         try{
             LoginUserDataAccessInterface dataAccess = new GoogleCalendarDAO(
-                    "C:\\Users\\kuczd\\IdeaProjects\\CSC207-Group-Project\\accounts.csv",
+                    "./accounts.csv",
                     userFactory);
         } catch (IOException | GeneralSecurityException e){
             throw new RuntimeException(e);
