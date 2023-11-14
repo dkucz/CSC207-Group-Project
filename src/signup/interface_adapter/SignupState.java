@@ -3,6 +3,8 @@ package signup.interface_adapter;
 public class SignupState {
     private String username = "";
     private String usernameError = null;
+    private String gmail = "";
+    private String gmailError = null;
     private String password = "";
     private String passwordError = null;
     private String repeatPassword = "";
@@ -21,6 +23,7 @@ public class SignupState {
     public SignupState() {
     }
 
+    public String getGmail(){return gmail;}
     public String getUsername() {
         return username;
     }
