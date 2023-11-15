@@ -159,7 +159,9 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         } while (pageToken != null);
     }
 
-    public void CreateCalendar() throws GeneralSecurityException, IOException {
+    public void CreateCalendar() throws GeneralSecurityException, IOException {CreateCalendar("calendarSummary");}
+
+    public void CreateCalendar(String summary) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
@@ -167,13 +169,62 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
 
         // Create a new calendar
         com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
-        calendar.setSummary("calendarSummary");
+        calendar.setSummary(summary);
         calendar.setTimeZone("America/Los_Angeles");
 
         // Insert the new calendar
         com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
 
         System.out.println(createdCalendar.getId());
+    }
+
+    public void DeleteCalendar(String calendarId) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        try {
+            Calendar.CalendarList list = service.calendarList();
+            com.google.api.services.calendar.model.CalendarList calendarList = list.list().execute();
+
+            // search for calendar
+            for (CalendarListEntry entry : calendarList.getItems()) {
+                if (entry.getId().equals(calendarId)) {
+                    service.calendars().delete(calendarId).execute();
+                    System.out.println("Successfully deleted Calendar.");
+                    return;
+                }
+
+            }
+            System.out.println("There is no Calendar with that ID.");
+
+        } catch (IOException e) {
+            System.err.println("An error occurred while deleting the calendar.");
+        }
+    }
+
+    public String findIdByName(String calendarName) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        try {
+            Calendar.CalendarList list = service.calendarList();
+            com.google.api.services.calendar.model.CalendarList calendarList = list.list().execute();
+
+            for (CalendarListEntry entry : calendarList.getItems()) {
+                if (entry.getSummary().equals(calendarName)) {
+                    return entry.getId();
+                }
+            }
+
+            System.out.println("Calendar not found.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while searching for the calendar by name.");
+        }
+        return null;
     }
 
     @Override
