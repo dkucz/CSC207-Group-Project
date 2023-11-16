@@ -39,7 +39,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         csvFile = new File(csvPath);
         headers.put("username", 0);
         headers.put("password", 1);
-        headers.put("creation_time", 2);
+        headers.put("gmail", 2);
 
         if (csvFile.length() == 0) {
             save();

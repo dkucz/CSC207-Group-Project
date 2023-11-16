@@ -9,12 +9,12 @@ public class User {
     private int points;
 
     //hehe
-    public User(String uname, String pass){
+    public User(String uname, String pass, String gmail){
         this.username = uname;
         this.password = pass;
         this.friends = new ArrayList<>();
         this.points = 0;
-        this.gmail = "";
+        this.gmail = gmail;
         //TODO: Update UserFactory to include gmail String
     }
 
@@ -22,9 +22,8 @@ public class User {
     public String getUsername(){
         return this.username;
     }
-    public String getPassword(){
-        return this.username;
-    }
+    public String getPassword(){return this.password;}
+    public String getGmail(){return this.gmail;}
     public List<User> getFriends(){
         return this.friends;
     }
@@ -39,5 +38,4 @@ public class User {
     public void addPoints(int points){
         this.points += points;
     }
-
 }

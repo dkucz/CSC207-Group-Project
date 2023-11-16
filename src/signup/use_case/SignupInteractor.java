@@ -1,18 +1,17 @@
 package signup.use_case;
 
-import app.UserFactory;
+import entity.UserFactory;
 import entity.User;
 import signup.data_access.SignupUserDataAccessInterface;
-import signup.interface_adapter.UserSignupDataAccessInterface;
 
 import java.time.LocalDateTime;
 
 public class SignupInteractor implements SignupInputBoundary {
-    final UserSignupDataAccessInterface signupDataAccess;
+    final SignupUserDataAccessInterface signupDataAccess;
     final SignupOutputBoundary signupPresenter;
     final UserFactory userFactory;
 
-    public SignupInteractor(UserSignupDataAccessInterface signupDataAccess,
+    public SignupInteractor(SignupUserDataAccessInterface signupDataAccess,
                             SignupOutputBoundary signupPresenter, UserFactory userFactory)
     {
         this.signupDataAccess = signupDataAccess;
@@ -29,7 +28,8 @@ public class SignupInteractor implements SignupInputBoundary {
         } else {
 
             LocalDateTime now = LocalDateTime.now();
-            User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
+            User user = userFactory.create(signupInputData.getUsername(),
+                    signupInputData.getPassword(), signupInputData.getGmail());
             signupDataAccess.save(user);
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(),
