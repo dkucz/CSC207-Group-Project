@@ -15,4 +15,9 @@ public class SignupController {
         SignupInputData signupInputData = new SignupInputData(username, gmail, password, repeatPassword);
         signupInteractor.execute(signupInputData);
     }
+
+    public void execute()
+    {
+        signupInteractor.execute();
+    }
 }
