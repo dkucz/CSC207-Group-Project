@@ -1,5 +1,6 @@
 package app;
 
+import loggedin.interface_adapter.LoggedInViewModel;
 import login.interface_adapter.LoginViewModel;
 import login.view.LoginView;
 import login.view.ViewManager;
@@ -25,11 +26,13 @@ public class Main {
 
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel);
         views.add(signupView, signupView.viewName);
 
-        LoginView loginView = new LoginView(loginViewModel);
+        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel,
+                loginViewModel, signupViewModel, loggedInViewModel);
         views.add(loginView, loginView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
