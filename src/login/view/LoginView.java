@@ -1,5 +1,6 @@
 package login.view;
 
+import login.interface_adapter.LoginController;
 import login.interface_adapter.LoginViewModel;
 import login.interface_adapter.LoginState;
 
@@ -34,7 +35,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     /**
      * A window with a title and a JButton.
      */
-    public LoginView(LoginViewModel loginViewModel) {
+    public LoginView(LoginController loginController, LoginViewModel loginViewModel) {
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
@@ -52,7 +53,14 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
 
-        logIn.addActionListener(this);
+        logIn.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                    }
+                }
+        );
         cancel.addActionListener(
                 new ActionListener() {
                     @Override
