@@ -80,4 +80,8 @@ public class SignupState {
                 ", repeatPassword='" + repeatPassword + '\'' +
                 '}';
     }
+
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
+    }
 }

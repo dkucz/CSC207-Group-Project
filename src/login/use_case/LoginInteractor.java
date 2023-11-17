@@ -20,7 +20,6 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute(LoginInputData loginInputData) throws GeneralSecurityException, IOException {
         deleteTokenFile();
         String username = loginInputData.getUsername();
-        String gmail = loginInputData.getGmail();
         String password = loginInputData.getPassword();
         if (!userDAO.existsByName(username))
         {
@@ -39,6 +38,11 @@ public class LoginInteractor implements LoginInputBoundary {
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
+    }
+
+    public void execute()
+    {
+        loginPresenter.prepareSuccessView();
     }
 
     private void deleteTokenFile()

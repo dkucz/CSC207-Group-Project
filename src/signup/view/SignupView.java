@@ -26,6 +26,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private final JButton signUp;
     private final JButton cancel;
+    private final JButton login;
 
     public SignupView(SignupController controller, SignupViewModel signupViewModel) {
 
@@ -33,21 +34,23 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         this.signupViewModel = signupViewModel;
         signupViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel(signupViewModel.TITLE_LABEL);
+        JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel(signupViewModel.USERNAME_LABEL), usernameInputField);
-        LabelTextPanel gmail = new LabelTextPanel(new JLabel(signupViewModel.GMAIL), gmailInputField);
+                new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
+        LabelTextPanel gmail = new LabelTextPanel(new JLabel(SignupViewModel.GMAIL), gmailInputField);
         LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel(signupViewModel.PASSWORD_LABEL), passwordInputField);
+                new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
         LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
-                new JLabel(signupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
+                new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
 
         JPanel buttons = new JPanel();
-        signUp = new JButton(signupViewModel.SIGNUP_BUTTON_LABEL);
+        signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
+        login = new JButton(SignupViewModel.LOGIN_BUTTON_LABEL);
         buttons.add(signUp);
-        cancel = new JButton(signupViewModel.CANCEL_BUTTON_LABEL);
+        buttons.add(login);
         buttons.add(cancel);
 
         signUp.addActionListener(
@@ -62,7 +65,29 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
-        cancel.addActionListener(this);
+        cancel.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(cancel))
+                        {
+                            usernameInputField.setText("");
+                            gmailInputField.setText("");
+                            passwordInputField.setText("");
+                            repeatPasswordInputField.setText("");
+                        }
+                    }
+                }
+        );
+
+        login.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        signupController.execute();
+                    }
+                }
+        );
 
         // This makes a new KeyListener implementing class, instantiates it, and
         // makes it listen to keystrokes in the usernameInputField.
@@ -120,10 +145,31 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                     }
                 }
         );
+        gmailInputField.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        SignupState currentState = signupViewModel.getState();
+                        currentState.setGmail(gmailInputField.getText() + e.getKeyChar());
+                        signupViewModel.setState(currentState);
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
+                    }
+                }
+        );
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(usernameInfo);
+        this.add(gmail);
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
         this.add(buttons);

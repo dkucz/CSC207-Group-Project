@@ -1,5 +1,6 @@
 package login.view;
 
+import login.interface_adapter.LoginController;
 import login.interface_adapter.LoginViewModel;
 import login.interface_adapter.LoginState;
 
@@ -11,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -34,7 +37,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     /**
      * A window with a title and a JButton.
      */
-    public LoginView(LoginViewModel loginViewModel) {
+    public LoginView(LoginController loginController, LoginViewModel loginViewModel) {
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
@@ -52,8 +55,32 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         cancel = new JButton(loginViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
 
-        logIn.addActionListener(this);
-        cancel.addActionListener(this);
+        logIn.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        LoginState loginState = loginViewModel.getState();
+                        try {
+                            loginController.execute(loginState.getUsername(), loginState.getPassword());
+                        } catch (GeneralSecurityException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+        );
+
+        cancel.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        usernameInputField.setText("");
+                        passwordInputField.setText("");
+                        loginController.execute();
+                    }
+                }
+        );
 
         usernameInputField.addKeyListener(new KeyListener() {
             @Override

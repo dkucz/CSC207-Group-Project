@@ -1,6 +1,7 @@
 package data_access;
 
-import app.UserFactory;
+import com.google.api.services.calendar.model.*;
+import entity.UserFactory;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -14,10 +15,6 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
 import entity.User;
 import login.data_access.LoginUserDataAccessInterface;
 import signup.data_access.SignupUserDataAccessInterface;
@@ -42,7 +39,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         csvFile = new File(csvPath);
         headers.put("username", 0);
         headers.put("password", 1);
-        headers.put("creation_time", 2);
+        headers.put("gmail", 2);
 
         if (csvFile.length() == 0) {
             save();
@@ -59,12 +56,12 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
                     String[] col = row.split(",");
                     String username = String.valueOf(col[headers.get("username")]);
                     String password = String.valueOf(col[headers.get("password")]);
-                    User user = userFactory.create(username, password);
+                    String gmail = String.valueOf(col[headers.get("gmail")]);
+                    User user = userFactory.create(username, password, gmail);
                     accounts.put(username, user);
                 }
             }
         }
-        createDAO();
     }
     /**
      * Application name.
@@ -109,38 +106,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         return credential;
     }
 
-    public void createDAO() throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                        .setApplicationName(APPLICATION_NAME)
-                        .build();
-
-        // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
-            }
-        }
-    }
-
-    private void GetCalendarList() throws GeneralSecurityException, IOException {
+    public void getCalendarList() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
@@ -159,7 +125,8 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         } while (pageToken != null);
     }
 
-    public void CreateCalendar() throws GeneralSecurityException, IOException {
+    public void createCalendar() throws GeneralSecurityException, IOException
+    {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
@@ -167,13 +134,79 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
 
         // Create a new calendar
         com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
-        calendar.setSummary("calendarSummary");
+        calendar.setSummary("Fitness Tracker");
         calendar.setTimeZone("America/Los_Angeles");
 
         // Insert the new calendar
         com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
 
         System.out.println(createdCalendar.getId());
+    }
+
+    public void createCalendar(String summary) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        // Create a new calendar
+        com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
+        calendar.setSummary(summary);
+        calendar.setTimeZone("America/Los_Angeles");
+
+        // Insert the new calendar
+        com.google.api.services.calendar.model.Calendar createdCalendar = service.calendars().insert(calendar).execute();
+
+        System.out.println(createdCalendar.getId());
+    }
+
+    public void deleteCalendar(String calendarId) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        try {
+            Calendar.CalendarList list = service.calendarList();
+            com.google.api.services.calendar.model.CalendarList calendarList = list.list().execute();
+
+            // search for calendar
+            for (CalendarListEntry entry : calendarList.getItems()) {
+                if (entry.getId().equals(calendarId)) {
+                    service.calendars().delete(calendarId).execute();
+                    System.out.println("Successfully deleted Calendar.");
+                    return;
+                }
+
+            }
+            System.out.println("There is no Calendar with that ID.");
+
+        } catch (IOException e) {
+            System.err.println("An error occurred while deleting the calendar.");
+        }
+    }
+
+    public String findIdByName(String calendarName) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        try {
+            Calendar.CalendarList list = service.calendarList();
+            com.google.api.services.calendar.model.CalendarList calendarList = list.list().execute();
+
+            for (CalendarListEntry entry : calendarList.getItems()) {
+                if (entry.getSummary().equals(calendarName)) {
+                    return entry.getId();
+                }
+            }
+
+            System.out.println("Calendar not found.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while searching for the calendar by name.");
+        }
+        return null;
     }
 
     @Override
@@ -198,6 +231,11 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         getCredentials(HTTP_TRANSPORT);
     }
 
+    @Override
+    public String getCalendarID() throws GeneralSecurityException, IOException {
+        return null;
+    }
+
     private void save()
     {
         BufferedWriter writer;
@@ -208,7 +246,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
 
             for (User user : accounts.values()) {
                 String line = String.format("%s,%s,%s",
-                        user.getUsername(), user.getPassword());
+                        user.getUsername(), user.getPassword(), user.getGmail());
                 writer.write(line);
                 writer.newLine();
             }
@@ -218,5 +256,42 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public void createEvent(String summary, String description) throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Event event = new Event().setSummary(summary).setDescription(description);
+        String calendarID = getCalendarID();
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+        DateTime startTime = new DateTime("2023-10-13T09:00:00-07:00");
+        EventDateTime start = new EventDateTime().setDateTime(startTime).setTimeZone("America/Los_Angeles");
+        DateTime endTime = new DateTime("2023-10-13T17:00:00-07:00");
+        EventDateTime end = new EventDateTime().setDateTime(endTime).setTimeZone("America/Los_Angeles");
+        event.setStart(start);
+        event.setEnd(end);
+        event = service.events().insert(calendarID, event).execute();
+        System.out.printf("Event created: %s\n", event.getHtmlLink());
+    }
+
+    @Override
+    public void createAccessControlRule(String gmail) throws IOException, GeneralSecurityException {
+
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+
+        AclRule rule = new AclRule();
+        AclRule.Scope scope = new AclRule.Scope();
+        scope.setType("default").setValue(gmail);
+        rule.setScope(scope).setRole("writer");
+
+        String calendarID = getCalendarID();
+
+        AclRule createdRule = service.acl().insert(calendarID, rule).execute();
+        System.out.println(createdRule.getId());
     }
 }
