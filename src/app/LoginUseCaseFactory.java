@@ -41,7 +41,7 @@ public class LoginUseCaseFactory {
                                                       LoggedInViewModel loggedInViewModel)
             throws GeneralSecurityException, IOException {
         LoginUserDataAccessInterface loginDAO = new GoogleCalendarDAO("./accounts.csv", new UserFactory());
-        LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel);
+        LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel, signupViewModel);
         LoginInputBoundary loginInteractor = new LoginInteractor(loginDAO, loginPresenter);
         return new LoginController(loginInteractor);
     }

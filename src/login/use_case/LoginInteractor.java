@@ -40,6 +40,11 @@ public class LoginInteractor implements LoginInputBoundary {
         }
     }
 
+    public void execute()
+    {
+        loginPresenter.prepareSuccessView();
+    }
+
     private void deleteTokenFile()
     {
     File storedCredentials = new File("./tokens/StoredCredentials");

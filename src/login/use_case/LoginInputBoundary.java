@@ -5,4 +5,6 @@ import java.security.GeneralSecurityException;
 
 public interface LoginInputBoundary {
     void execute(LoginInputData loginInputData) throws GeneralSecurityException, IOException;
+
+    void execute();
 }

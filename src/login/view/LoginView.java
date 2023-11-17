@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -57,16 +59,25 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        LoginState loginState = loginViewModel.getState();
+                        try {
+                            loginController.execute(loginState.getUsername(), loginState.getPassword());
+                        } catch (GeneralSecurityException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
         );
+
         cancel.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         usernameInputField.setText("");
                         passwordInputField.setText("");
+                        loginController.execute();
                     }
                 }
         );
