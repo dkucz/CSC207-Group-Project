@@ -4,6 +4,8 @@ public class MenuState
 {
     private User currentUser;
 
+    private String username;
+
     public MenuState(MenuState copy){
         currentUser = copy.currentUser;
     }
@@ -22,4 +24,5 @@ public class MenuState
         return this.currentUser.getUsername();
     }
 
+    public void setUsername(String username) { this.username = username; }
 }

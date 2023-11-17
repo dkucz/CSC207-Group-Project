@@ -1,9 +1,10 @@
 package app;
 
-import loggedin.interface_adapter.LoggedInViewModel;
 import login.interface_adapter.LoginViewModel;
 import login.view.LoginView;
 import login.view.ViewManager;
+import menu.interface_adapter.MenuViewModel;
+import menu.view.MenuView;
 import signup.interface_adapter.SignupViewModel;
 import signup.view.SignupView;
 
@@ -26,14 +27,18 @@ public class Main {
 
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
-        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
+        MenuViewModel menuViewModel = new MenuViewModel();
+
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel);
         views.add(signupView, signupView.viewName);
 
         LoginView loginView = LoginUseCaseFactory.create(viewManagerModel,
-                loginViewModel, signupViewModel, loggedInViewModel);
+                loginViewModel, signupViewModel, menuViewModel);
         views.add(loginView, loginView.viewName);
+
+        MenuView menuView = new MenuView(menuViewModel);
+        views.add(menuView, menuView.viewname);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();

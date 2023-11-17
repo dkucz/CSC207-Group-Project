@@ -27,14 +27,15 @@ public class LoginInteractor implements LoginInputBoundary {
         } else
         {
             String pwd = userDAO.get(username).getPassword();
-            if (pwd != password)
+            if (!pwd.equals(password))
             {
                 loginPresenter.prepareFailView("Password is incorrect");
             }else
             {
+                System.out.println("success");
                 User user = userDAO.get(username);
                 userDAO.createStoredCredentials();
-                LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), false);
+                LoginOutputData loginOutputData = new LoginOutputData(user.getUsername(), user, false);
                 loginPresenter.prepareSuccessView(loginOutputData);
             }
         }
@@ -45,9 +46,9 @@ public class LoginInteractor implements LoginInputBoundary {
         loginPresenter.prepareSuccessView();
     }
 
-    private void deleteTokenFile()
+    private static void deleteTokenFile()
     {
-    File storedCredentials = new File("./tokens/StoredCredentials");
+    File storedCredentials = new File("./tokens/StoredCredential");
     storedCredentials.delete();
     }
 }

@@ -11,6 +11,7 @@ import login.use_case.LoginInputBoundary;
 import login.use_case.LoginInteractor;
 import login.use_case.LoginOutputBoundary;
 import login.view.LoginView;
+import menu.interface_adapter.MenuViewModel;
 import signup.interface_adapter.SignupController;
 import signup.interface_adapter.SignupPresenter;
 import signup.interface_adapter.SignupViewModel;
@@ -23,11 +24,11 @@ import java.security.GeneralSecurityException;
 
 public class LoginUseCaseFactory {
     public static LoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel,
-                                   SignupViewModel signupViewModel, LoggedInViewModel loggedInViewModel)
+                                   SignupViewModel signupViewModel, MenuViewModel menuViewModel)
     {
         try {
             LoginController loginController = createLoginUseCase(viewManagerModel,
-                    signupViewModel, loginViewModel, loggedInViewModel);
+                    signupViewModel, loginViewModel, menuViewModel);
             return new LoginView(loginController, loginViewModel);
         } catch (IOException | GeneralSecurityException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -38,10 +39,10 @@ public class LoginUseCaseFactory {
     private static LoginController createLoginUseCase(ViewManagerModel viewManagerModel,
                                                       SignupViewModel signupViewModel,
                                                       LoginViewModel loginViewModel,
-                                                      LoggedInViewModel loggedInViewModel)
+                                                      MenuViewModel menuViewModel)
             throws GeneralSecurityException, IOException {
         LoginUserDataAccessInterface loginDAO = new GoogleCalendarDAO("./accounts.csv", new UserFactory());
-        LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, loggedInViewModel, loginViewModel, signupViewModel);
+        LoginOutputBoundary loginPresenter = new LoginPresenter(viewManagerModel, menuViewModel, loginViewModel, signupViewModel);
         LoginInputBoundary loginInteractor = new LoginInteractor(loginDAO, loginPresenter);
         return new LoginController(loginInteractor);
     }

@@ -1,5 +1,5 @@
 package menu.interface_adapter;
-import login.interface_adapter.ViewModel;
+import app.ViewModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -24,5 +24,4 @@ public class MenuViewModel extends ViewModel{
     public MenuState getState(){
         return state;
     }
-
 }

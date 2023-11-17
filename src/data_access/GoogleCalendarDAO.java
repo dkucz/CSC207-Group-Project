@@ -294,4 +294,6 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         AclRule createdRule = service.acl().insert(calendarID, rule).execute();
         System.out.println(createdRule.getId());
     }
+
+
 }
