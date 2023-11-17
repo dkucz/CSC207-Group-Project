@@ -25,6 +25,7 @@ public class User {
     public String getPassword(){
         return this.username;
     }
+    public String getGmail(){ return this.gmail; }
     public List<User> getFriends(){
         return this.friends;
     }
