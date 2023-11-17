@@ -22,9 +22,6 @@ public class User {
     public String getUsername(){
         return this.username;
     }
-    public String getPassword(){
-        return this.username;
-    }
     public String getPassword(){return this.password;}
     public String getGmail(){return this.gmail;}
 
