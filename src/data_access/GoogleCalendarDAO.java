@@ -33,7 +33,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
 
     private UserFactory userFactory;
 
-    public GoogleCalendarDAO(String csvPath, UserFactory userFactory) throws GeneralSecurityException, IOException {
+    public GoogleCalendarDAO(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
@@ -294,6 +294,4 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         AclRule createdRule = service.acl().insert(calendarID, rule).execute();
         System.out.println(createdRule.getId());
     }
-
-
 }
