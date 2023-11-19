@@ -23,7 +23,6 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-
 public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private final File csvFile;
 
@@ -32,6 +31,8 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
     private final Map<String, User> accounts = new HashMap<>();
 
     private UserFactory userFactory;
+
+    private final String fitnessCalendarID = "Fitness Tracker";
 
     public GoogleCalendarDAO(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
@@ -231,11 +232,6 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         getCredentials(HTTP_TRANSPORT);
     }
 
-    @Override
-    public String getCalendarID() throws GeneralSecurityException, IOException {
-        return null;
-    }
-
     private void save()
     {
         BufferedWriter writer;
@@ -263,7 +259,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
         Event event = new Event().setSummary(summary).setDescription(description);
-        String calendarID = getCalendarID();
+        String calendarID = findIdByName(fitnessCalendarID);
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
                 .setApplicationName("applicationName").build();
         DateTime startTime = new DateTime("2023-10-13T09:00:00-07:00");
@@ -276,7 +272,6 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         System.out.printf("Event created: %s\n", event.getHtmlLink());
     }
 
-    @Override
     public void createAccessControlRule(String gmail) throws IOException, GeneralSecurityException {
 
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -289,7 +284,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         scope.setType("default").setValue(gmail);
         rule.setScope(scope).setRole("writer");
 
-        String calendarID = getCalendarID();
+        String calendarID = findIdByName(fitnessCalendarID);
 
         AclRule createdRule = service.acl().insert(calendarID, rule).execute();
         System.out.println(createdRule.getId());
