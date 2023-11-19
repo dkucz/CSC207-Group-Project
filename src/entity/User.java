@@ -7,6 +7,7 @@ public class User {
     private final String gmail;
     private List<User> friends;
     private int points;
+    private String userID;
 
     //hehe
     public User(String uname, String pass, String gmail){
@@ -24,6 +25,8 @@ public class User {
     }
     public String getPassword(){return this.password;}
     public String getGmail(){return this.gmail;}
+    public void setUserID(String id){this.userID = id;}
+    public String getUserID(){return this.userID; }
 
     public List<User> getFriends(){
         return this.friends;
