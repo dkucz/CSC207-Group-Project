@@ -13,9 +13,9 @@ public class ExercisesDAO {
 
         ExercisesDAO owa = new ExercisesDAO();
 
-        owa.GetExercisesInfo("chest");
+        //owa.GetExercisesInfo("chest");
         //owa.GetExercisesInfo("balls");
-        //owa.ExercisesOnDifficulty("expert");
+        //owa.ExercisesOnDifficulty("hard");
         //owa.FindOfType("strongman");
     }
 
@@ -64,6 +64,7 @@ public class ExercisesDAO {
             System.out.println(response);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
+                return;
             }
             System.out.println(responseBody);
 
@@ -91,6 +92,7 @@ public class ExercisesDAO {
             System.out.println(response);
             if (responseBody.equals("[]")) {
                 System.out.println("Not a valid difficulty");
+                return;
             }
             System.out.println(responseBody);
 
