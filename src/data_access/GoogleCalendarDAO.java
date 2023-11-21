@@ -259,21 +259,31 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
     }
 
 
-    public void createEvent(String summary, String description) throws GeneralSecurityException, IOException {
+    public void CREATEEvent(String googleCalendarId, String eventName, String eventDescription, String startDate,
+                            String endDate) throws IOException, GeneralSecurityException {
+        //appDAO.createEvent("77a9a99e76145bf103054637889ea83e78dd424d9395229f707a46de5550ccac@group.calendar.google.com", "Fuck", "my life", "2023-11-21T10:00:00", "2023-11-21T11:00:00");
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
-        Event event = new Event().setSummary(summary).setDescription(description);
-        String calendarID = getCalendarID();
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
                 .setApplicationName("applicationName").build();
-        DateTime startTime = new DateTime("2023-10-13T09:00:00-07:00");
-        EventDateTime start = new EventDateTime().setDateTime(startTime).setTimeZone("America/Los_Angeles");
-        DateTime endTime = new DateTime("2023-10-13T17:00:00-07:00");
-        EventDateTime end = new EventDateTime().setDateTime(endTime).setTimeZone("America/Los_Angeles");
+
+        Event event = new Event()
+                .setSummary(eventName)
+                .setDescription(eventDescription);
+
+        DateTime startDateTime = new DateTime(startDate);
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone("America/New_York");
         event.setStart(start);
+
+        DateTime endDateTime = new DateTime(endDate);
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("America/New_York");
         event.setEnd(end);
-        event = service.events().insert(calendarID, event).execute();
-        System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+        service.events().insert(googleCalendarId, event).execute();
     }
 
     @Override
