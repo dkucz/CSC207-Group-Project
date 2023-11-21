@@ -14,6 +14,7 @@ public class ExercisesDAO {
         ExercisesDAO owa = new ExercisesDAO();
 
         owa.GetExercisesInfo("chest");
+        //owa.GetExercisesInfo("balls");
         //owa.ExercisesOnDifficulty("expert");
         //owa.FindOfType("strongman");
     }
@@ -31,11 +32,15 @@ public class ExercisesDAO {
                 .build();
 
 
-
         try {
             Response response = client.newCall(request).execute();
+            String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            System.out.println(response.body().string());
+            if (responseBody.equals("[]")) {
+                System.out.println("No exercises found for this muscle");
+                return;
+            }
+            System.out.println(responseBody);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -43,7 +48,6 @@ public class ExercisesDAO {
     }
 
     public void FindOfType(String type) {
-
 
         OkHttpClient client = new OkHttpClient();
 
@@ -54,12 +58,14 @@ public class ExercisesDAO {
                 .addHeader("X-RapidAPI-Host", "exercises-by-api-ninjas.p.rapidapi.com")
                 .build();
 
-
-
         try {
             Response response = client.newCall(request).execute();
+            String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            System.out.println(response.body().string());
+            if (responseBody.equals("[]")) {
+                System.out.println("No exercises found for this type");
+            }
+            System.out.println(responseBody);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -68,7 +74,6 @@ public class ExercisesDAO {
 
 
     public void ExercisesOnDifficulty(String difficulty) {
-
 
         OkHttpClient client = new OkHttpClient();
 
@@ -80,11 +85,14 @@ public class ExercisesDAO {
                 .build();
 
 
-
         try {
             Response response = client.newCall(request).execute();
+            String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            System.out.println(response.body().string());
+            if (responseBody.equals("[]")) {
+                System.out.println("Not a valid difficulty");
+            }
+            System.out.println(responseBody);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
