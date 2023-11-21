@@ -283,7 +283,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
                 .setTimeZone("America/New_York");
         event.setEnd(end);
 
-        service.events().insert(googleCalendarId, event).execute();
+
     }
 
     @Override
