@@ -9,7 +9,6 @@ public class Friend_Controller {
         this.Friend_Interactor = x;
     }
     public void excute(String Gmail){
-
         Friend_Input_Data x = new Friend_Input_Data(Gmail);
         Friend_Interactor.excute(x);
     }
