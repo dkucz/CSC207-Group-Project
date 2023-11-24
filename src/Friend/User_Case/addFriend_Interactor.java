@@ -1,4 +1,4 @@
-package addFriend.User_Case;
+package Friend.User_Case;
 
 public class addFriend_Interactor implements addFriend_Input_Boundary{
     public addFriend_Interactor(){

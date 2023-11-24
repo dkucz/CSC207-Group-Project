@@ -1,4 +1,4 @@
-package addFriend.User_Case;
+package Friend.User_Case;
 
 public class addFriend_Output_Data{
     private final String Targer_User_Username;

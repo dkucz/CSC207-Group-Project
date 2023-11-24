@@ -1,7 +1,7 @@
-package addFriend.Interface_Adapter;
+package Friend.Interface_Adapter;
 
-import addFriend.User_Case.addFriend_Output_Boundary;
-import addFriend.User_Case.addFriend_Output_Data;
+import Friend.User_Case.addFriend_Output_Boundary;
+import Friend.User_Case.addFriend_Output_Data;
 
 public class addFriend_Presenter implements addFriend_Output_Boundary {
     @Override

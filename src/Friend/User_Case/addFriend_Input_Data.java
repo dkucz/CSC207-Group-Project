@@ -1,4 +1,4 @@
-package addFriend.User_Case;
+package Friend.User_Case;
 
 import entity.User;
 
