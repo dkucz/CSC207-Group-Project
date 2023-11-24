@@ -15,7 +15,6 @@ public class Friend_Controller {
         Friend_Input_Data x = new Friend_Input_Data(Gmail);
         Friend_Interactor.excute(x);
     }
-
     public static void main(String[] args) {
         Friend_View_Manager_Model View_Manager_Model = new Friend_View_Manager_Model();
         Friend_View_Model View_Model = new Friend_View_Model("FRIEND");
