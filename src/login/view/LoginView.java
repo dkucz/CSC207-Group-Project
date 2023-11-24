@@ -3,6 +3,7 @@ package login.view;
 import login.interface_adapter.LoginController;
 import login.interface_adapter.LoginViewModel;
 import login.interface_adapter.LoginState;
+import menu.view.MenuView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,9 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     public final String viewName = "log in";
     private final LoginViewModel loginViewModel;
 
+    public LoginViewModel getLoginViewModel(){
+        return this.loginViewModel;
+    }
     /**
      * The username chosen by the user
      */

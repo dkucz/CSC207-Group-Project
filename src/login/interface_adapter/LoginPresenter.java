@@ -1,8 +1,6 @@
 package login.interface_adapter;
 
 import app.ViewManagerModel;
-import loggedin.interface_adapter.LoggedInState;
-import loggedin.interface_adapter.LoggedInViewModel;
 import login.use_case.LoginOutputBoundary;
 import login.use_case.LoginOutputData;
 import menu.interface_adapter.MenuState;
@@ -29,13 +27,19 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData response) {
         // On success, switch to the logged in view.
 
+        // Get Menu View and update it
+        this.loginViewModel.menuView.setUser(response.getUser());
+
         MenuState menuState = menuViewModel.getState();
         menuState.setUsername(response.getUsername());
         menuState.setUser(response.getUser());
         this.menuViewModel.setState(menuState);
         this.menuViewModel.firePropertyChanged();
 
+
+
         this.viewManagerModel.setActiveView(menuViewModel.getViewName());
+
         this.viewManagerModel.firePropertyChanged();
     }
 
