@@ -16,6 +16,7 @@ public class Friend_View extends JFrame implements PropertyChangeListener {
         this.setSize(500,1000);
         this.setLocationRelativeTo(null);
         I_LP();
+        this.add(LP);
     }
     private void I_LP(){
         this.LP = new JLayeredPane();

@@ -14,7 +14,6 @@ public class Friend_Data_Access_Object implements Friend_Data_Access_Interface{
     public void Add_Friend(String Gamil_0, String Gamil_1) {
 
     }
-
     @Override
     public void Delete_Friend(String Gmail_0, String Gmail_1) {
 
