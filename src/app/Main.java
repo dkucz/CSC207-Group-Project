@@ -44,8 +44,10 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
+
         MenuView menuView = new MenuView(menuViewModel);
         views.add(menuView, menuView.viewname);
+        loginView.getLoginViewModel().setMenuView(menuView);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
