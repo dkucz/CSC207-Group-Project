@@ -6,6 +6,7 @@ import entity.User;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public class LoginInteractor implements LoginInputBoundary {
     final LoginUserDataAccessInterface userDAO;
@@ -17,7 +18,7 @@ public class LoginInteractor implements LoginInputBoundary {
         this.loginPresenter = loginPresenter;
     }
 
-    public void execute(LoginInputData loginInputData) throws GeneralSecurityException, IOException {
+    public void execute(LoginInputData loginInputData) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
         deleteTokenFile();
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();

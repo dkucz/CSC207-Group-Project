@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.ExecutionException;
 
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "sign up";
@@ -58,9 +59,13 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
-                            signupController.execute(signupViewModel.getState().getUsername(), signupViewModel.getState().getGmail(),
-                                    String.valueOf(signupViewModel.getState().getPassword()),
-                                    String.valueOf(signupViewModel.getState().getRepeatPassword()));
+                            try {
+                                signupController.execute(signupViewModel.getState().getUsername(), signupViewModel.getState().getGmail(),
+                                        String.valueOf(signupViewModel.getState().getPassword()),
+                                        String.valueOf(signupViewModel.getState().getRepeatPassword()));
+                            } catch (ExecutionException | InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 }

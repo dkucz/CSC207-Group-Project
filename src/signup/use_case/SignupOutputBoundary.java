@@ -1,9 +1,11 @@
 package signup.use_case;
 
-public interface SignupOutputBoundary {
-    void prepareFailView(String s);
+import java.util.concurrent.ExecutionException;
 
-    void prepareSuccessView(SignupOutputData signupOutputData);
+public interface SignupOutputBoundary {
+    void prepareFailView(String s) throws ExecutionException, InterruptedException;
+
+    void prepareSuccessView(SignupOutputData signupOutputData) throws ExecutionException, InterruptedException;
 
     void prepareSuccessView();
 }
