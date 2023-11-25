@@ -6,8 +6,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 import entity.User;
+import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 
@@ -46,8 +49,21 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         modifyEvent.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttons.add(modifyEvent);
 
+
+        createEvent.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            CreateEventController createEventController = new CreateEventController();
+                            createEventController.execute();
+                        } catch (GeneralSecurityException | IOException ex){
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+        );
         friends.addActionListener(this);
-        modifyEvent.addActionListener(this);
         modifyEvent.addActionListener(this);
 
 
