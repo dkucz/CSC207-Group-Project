@@ -9,7 +9,9 @@ public class FriendViewModel extends ViewModel {
     private final int height = 700;
     private final int fontSize = 27;
     private final int userNameWidthRatio = 32;
-    private final int userNameHeightRatio = 32;
+    private final int userNameHeightRatio = 23;
+    private final int firstLineYcoordinate = height/16;
+    private final int secondLineYcoordinate = height - (height/8);
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public FriendViewModel(String viewName) {
         super(viewName);
@@ -42,5 +44,11 @@ public class FriendViewModel extends ViewModel {
     }
     public int getUserNameHeightRatio(){
         return this.userNameHeightRatio;
+    }
+    public int getFirstLineYcoordinate(){
+        return this.firstLineYcoordinate;
+    }
+    public int getSecondLineYcoordinate(){
+        return this.secondLineYcoordinate;
     }
 }

@@ -1,4 +1,3 @@
 In order to implement the functionalities without fireStore being fully implemented. I have to make some changes here.
-Friend.app.FriendUseCaseFactory --> Line 15.
+Friend.app.FriendUseCaseFactory --> Line15.
 Friend.use_case.FriendInteractor --> Line8, Line9.
-gitr
