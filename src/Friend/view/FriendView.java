@@ -1,11 +1,15 @@
 package Friend.view;
 
 import Friend.interface_adapter.FriendViewModel;
+import entity.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 public class FriendView extends JFrame implements PropertyChangeListener {
     private FriendViewModel friendViewModel;
@@ -14,6 +18,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
     private int width;
     private int height;
     private String userName;
+    private ArrayList<User> friendList;
     private final Canvas canvas = new Canvas(){
         @Override
         public void paint(Graphics g){
@@ -42,21 +47,53 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.JLayeredPane.setBackground(friendViewModel.getFriendPageBackgroundColour());
         this.JLayeredPane.setOpaque(true);
         this.JLayeredPane.add(this.canvas,0);
-        this.JlayeredPane_1 = new JLayeredPane();
-        this.JlayeredPane_1.setBounds(0,friendViewModel.getFirstLineYcoordinate()+ 1,width,
-                (friendViewModel.getSecondLineYcoordinate() - friendViewModel.getFirstLineYcoordinate())-1);
-        //Have to add one to the start Y value and minus one from the end Y value in order to show the lines.
-        this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
-        this.JlayeredPane_1.setOpaque(true);
-        this.JLayeredPane.add(JlayeredPane_1,0);
     }
     private void initializeCanvas(){
         this.canvas.setBounds(0,0,width,height);
     }
+    private void updateFriendList(){
+        this.JlayeredPane_1 = new JLayeredPane();
+        int numOfButtons = this.friendList.size();
+        this.JlayeredPane_1.setPreferredSize(new Dimension(0,
+                (numOfButtons + 1) * friendViewModel.getFriendButtonHeight()));
+        //Have to plus one in order to show the last button.
+        this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
+        this.JlayeredPane_1.setOpaque(true);
+        this.JLayeredPane.add(addFriendsAsButtons(JlayeredPane_1),0);
+    }
+    private JScrollPane addFriendsAsButtons(JLayeredPane JLayeredPane){
+        if(this.friendList == null){
+            return new JScrollPane();
+        }
+        for(int i = 0; i < friendList.size();i ++){
+            JButton button = new JButton(friendList.get(i).getUsername());
+            int buttonYCoordinate = (friendViewModel.getFirstLineYcoordinate() - 35)// Just to make it looks better.
+                    + i * (friendViewModel.getFriendButtonHeight() + friendViewModel.getFriendButtonGap());
+            button.setBounds(10,buttonYCoordinate,
+                    friendViewModel.getFriendButtonWidth(),
+                    friendViewModel.getFriendButtonHeight());
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                }
+            });
+            JLayeredPane.add(button,0);
+        }
+        JScrollPane scrollPane = new JScrollPane(JLayeredPane);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBounds(0,friendViewModel.getFirstLineYcoordinate() + 1,width - 20, // Have to minus 20 in
+                friendViewModel.getSecondJlayeredPaneHeight());                          // order to show the bar.
+        return scrollPane;
+
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("friendViewUsername")){
-            this.userName = (String) evt.getNewValue();
+        if(evt.getPropertyName().equals("friendViewPropertyChange")){
+            ArrayList<Object> outputDataList = (ArrayList<Object>) evt.getNewValue();
+            this.userName = (String) outputDataList.get(0);
+            this.friendList = (ArrayList<User>) outputDataList.get(1);
+            updateFriendList();
         }
     }
     public void setWidth(int width){

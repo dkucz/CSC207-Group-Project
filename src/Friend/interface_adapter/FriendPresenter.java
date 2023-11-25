@@ -12,7 +12,7 @@ public class FriendPresenter implements FriendOutputBoundary {
     public void prepareSuccessView(FriendOutputData outputData) {
         this.friendViewManagerModel.setActiveView("FRIEND");
         this.friendViewManagerModel.firePropertyChanged();
-        friendViewModel.setCurrentUserName(outputData.getCurrentUserName());
+        friendViewModel.setOutputDataList(outputData.getOutputDataAsAList());
         friendViewModel.firePropertyChanged();
     }
 }
