@@ -5,25 +5,20 @@ import signup.data_access.SignupUserDataAccessInterface;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryUserDAO implements SignupUserDataAccessInterface {
+
+    private final Map<String, User> users = new HashMap<>();
+
     @Override
     public boolean existsByName(String identifier) {
-        return false;
+        return users.containsKey(identifier);
     }
 
     @Override
     public void save(User user) {
-
-    }
-
-
-    public String getCalendarID() throws GeneralSecurityException, IOException {
-        return null;
-    }
-
-
-    public void createAccessControlRule(String gmail) throws IOException, GeneralSecurityException {
-
+        users.put(user.getUsername(), user);
     }
 }
