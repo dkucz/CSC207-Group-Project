@@ -7,7 +7,7 @@ public class FriendViewManagerModel {
     private String activeView;
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public void firePropertyChanged(){
-        this.support.firePropertyChange("PC_00",null,this.activeView);
+        this.support.firePropertyChange("view",null,this.activeView);
     }
     public void addPropertyChangeListener(PropertyChangeListener x){
         this.support.addPropertyChangeListener(x);

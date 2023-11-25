@@ -1,11 +1,11 @@
 package Friend.use_case;
 
 public class FriendInputData {
-    private String gmail;
-    public FriendInputData(String gmail){
-        this.gmail = gmail;
+    private String userName;
+    public FriendInputData(String userName){
+        this.userName = userName;
     }
-    public String getGamil(){
-        return this.gmail;
+    public String getUserName(){
+        return this.userName;
     }
 }
