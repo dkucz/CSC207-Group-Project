@@ -1,6 +1,7 @@
 package FirestoreDAO;
 
 import data_access.FirestoreDAO;
+import entity.Friend;
 import entity.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -33,17 +34,19 @@ public class FirestoreDAOTest {
         firestoreDAO.save(testUser);
 
         // Check if the user exists by username
-        assertTrue(firestoreDAO.existsByName(testUser.getUserID()));
+        assertTrue(firestoreDAO.existsByName(testUser.getUsername()));
 
         // Check if the user exists by a non-existing username
         assertFalse(firestoreDAO.existsByName("NonExistingUser"));
     }
 
     @Test
-    public void testAddFriend() {
+    public void testAddFriend() throws ExecutionException, InterruptedException {
         // Create two test users
         User user1 = new User("User1", "user1@gmail.com", "password1");
         User user2 = new User("User2", "user2@gmail.com", "password2");
+        Friend friend = new Friend("User2");
+        friend.setGmail("user2@gmail.com");
 
         // Save the users to Firestore
         try {
@@ -54,20 +57,21 @@ public class FirestoreDAOTest {
         }
 
         // Add user2 as a friend to user1
-        firestoreDAO.addFriend(user1, user2);
+        firestoreDAO.addFriend(user1, friend);
 
         // Check if the friend was added successfully
-        assertTrue(userExistsInFriendsCollection(user1, user2));
+        assertTrue(userExistsInFriendsCollection(user1, friend));
 
         // Check if a non-existing friend is not in the collection
-        User nonExistingFriend = new User("NonExistingFriend", "nonexisting@gmail.com", "nonexistingPassword");
+        Friend nonExistingFriend = new Friend("NonExistingFriend");
+        nonExistingFriend.setGmail("nonexisting@gmail.com");
         assertFalse(userExistsInFriendsCollection(user1, nonExistingFriend));
     }
 
-    private boolean userExistsInFriendsCollection(User user, User friend) {
+    private boolean userExistsInFriendsCollection(User user, Friend friend) {
         try {
             // Check if the friend exists in the user's friends collection
-            return firestoreDAO.existsByNameInFriendsCollection(user.getUserID(), friend.getUserID());
+            return firestoreDAO.existsByNameInFriendsCollection(user.getUsername(), friend.getUsername());
         } catch (ExecutionException | InterruptedException e) {
             fail("Exception thrown while checking if user exists in friends collection: " + e.getMessage());
             return false;
