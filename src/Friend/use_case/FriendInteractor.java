@@ -1,7 +1,6 @@
 package Friend.use_case;
 
 import Friend.interface_adapter.FriendPresenter;
-import Friend.data_access.FriendDataAccessInterface;
 import data_access.FirestoreDAO;
 
 public class FriendInteractor implements FriendInputBoundary {
