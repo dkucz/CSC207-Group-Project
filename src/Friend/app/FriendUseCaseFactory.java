@@ -13,7 +13,7 @@ public class FriendUseCaseFactory {
     public FriendUseCaseFactory(){}
     public static FriendController create(FriendViewModel friendViewModel,
                                           FriendViewManagerModel friendViewManagerModel) throws IOException {
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        String firestoreDAO = "";                               //FirestoreDAO firestoreDAO = new FirestoreDAO();
         FriendPresenter FriendPresenter = new FriendPresenter(friendViewModel,friendViewManagerModel);
         FriendInputBoundary friendInteractor = new FriendInteractor(FriendPresenter,firestoreDAO);
         return new FriendController(friendInteractor);
