@@ -18,12 +18,17 @@ public class FriendController {
         friendInteractor.execute(friendInputData);
     }
     public static void main(String[] args) throws IOException {
+        //The following codes should be moved to the main method of src/app/Main
         FriendViewManagerModel viewManagerModel = new FriendViewManagerModel();
         FriendViewModel viewModel = new FriendViewModel("FRIEND");
         FriendViewManager friendViewManager = new FriendViewManager(viewManagerModel);
         FriendView friendView = new FriendView(viewModel);
         friendViewManager.addView(friendView);
+        //
+
+        // The following codes should be used in the manu.
         FriendController friendController = FriendUseCaseFactory.create(viewModel,viewManagerModel);
         friendController.execute("Pranky124777");
+        //
     }
 }
