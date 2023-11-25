@@ -11,7 +11,8 @@ public class FriendInteractor implements FriendInputBoundary {
         this.firestoreDAO = firestoreDAO;
     }
     @Override
-    public void execute(FriendInputData FriendInputData){
-        this.friendPresenter.prepareSuccessView();
+    public void execute(FriendInputData friendInputData){
+        FriendOutputData outputData = new FriendOutputData(friendInputData.getUserName());
+        this.friendPresenter.prepareSuccessView(outputData);
     }
 }

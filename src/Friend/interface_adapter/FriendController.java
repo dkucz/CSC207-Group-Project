@@ -24,6 +24,6 @@ public class FriendController {
         FriendView friendView = new FriendView(viewModel);
         friendViewManager.addView(friendView);
         FriendController friendController = FriendUseCaseFactory.create(viewModel,viewManagerModel);
-        friendController.execute("Pranky");
+        friendController.execute("Pranky124777");
     }
 }

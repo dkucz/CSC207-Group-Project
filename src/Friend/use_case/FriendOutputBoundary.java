@@ -1,5 +1,5 @@
 package Friend.use_case;
 
 public interface FriendOutputBoundary {
-    void prepareSuccessView();
+    void prepareSuccessView(FriendOutputData friendOutputData);
 }
