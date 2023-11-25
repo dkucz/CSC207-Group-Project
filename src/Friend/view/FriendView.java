@@ -18,6 +18,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         @Override
         public void paint(Graphics g){
             g.setFont(new Font("Serif",Font.BOLD,friendViewModel.getFontSize()));
+            g.setColor(friendViewModel.getFriendPageFontColour());
             g.drawString(userName, width/friendViewModel.getUserNameWidthRatio(),
                     height/friendViewModel.getUserNameHeightRatio());
             g.drawLine(0,friendViewModel.getFirstLineYcoordinate(),width,friendViewModel.getFirstLineYcoordinate());
@@ -38,12 +39,14 @@ public class FriendView extends JFrame implements PropertyChangeListener {
     private void initializeJLayeredPane(){
         this.JLayeredPane = new JLayeredPane();
         this.JLayeredPane.setBounds(0,0,width,height);
+        this.JLayeredPane.setBackground(friendViewModel.getFriendPageBackgroundColour());
+        this.JLayeredPane.setOpaque(true);
         this.JLayeredPane.add(this.canvas,0);
         this.JlayeredPane_1 = new JLayeredPane();
         this.JlayeredPane_1.setBounds(0,friendViewModel.getFirstLineYcoordinate()+ 1,width,
-                friendViewModel.getSecondLineYcoordinate() - friendViewModel.getFirstLineYcoordinate());
-        //this.JlayeredPane_1.setBackground(Color.PINK);
-        //this.JlayeredPane_1.setForeground(Color.BLUE);
+                (friendViewModel.getSecondLineYcoordinate() - friendViewModel.getFirstLineYcoordinate())-1);
+        //Have to add one to the start Y value and minus one from the end Y value in order to show the lines.
+        this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
         this.JlayeredPane_1.setOpaque(true);
         this.JLayeredPane.add(JlayeredPane_1,0);
     }

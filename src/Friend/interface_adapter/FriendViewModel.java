@@ -1,5 +1,6 @@
 package Friend.interface_adapter;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -12,6 +13,9 @@ public class FriendViewModel extends ViewModel {
     private final int userNameHeightRatio = 23;
     private final int firstLineYcoordinate = height/16;
     private final int secondLineYcoordinate = height - (height/8);
+    private Color friendPageBackgroundColour = Color.BLACK;
+    private Color friendListPageBackgroundColour = Color.GRAY;
+    private Color friendPageFontColour = Color.WHITE;
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public FriendViewModel(String viewName) {
         super(viewName);
@@ -50,5 +54,14 @@ public class FriendViewModel extends ViewModel {
     }
     public int getSecondLineYcoordinate(){
         return this.secondLineYcoordinate;
+    }
+    public Color getFriendPageBackgroundColour(){
+        return this.friendPageBackgroundColour;
+    }
+    public Color getFriendListPageBackgroundColour(){
+        return this.friendListPageBackgroundColour;
+    }
+    public Color getFriendPageFontColour(){
+        return this.friendPageFontColour;
     }
 }
