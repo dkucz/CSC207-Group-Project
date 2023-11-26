@@ -1,8 +1,11 @@
 package Friend.view;
 
+import Friend.app.ShowFriendInfoUseCaseFactory;
+import Friend.interface_adapter.FriendViewManagerModel;
 import Friend.interface_adapter.FriendViewModel;
+import Friend.interface_adapter.ShowFriendInfoViewModel;
 import entity.User;
-
+import entity.Friend;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +16,8 @@ import java.util.ArrayList;
 
 public class FriendView extends JFrame implements PropertyChangeListener {
     private String userName;
-    private ArrayList<User> friendList;
+    private ArrayList<Friend> friendList;
+    private FriendViewManager friendViewManager;
     private FriendViewModel friendViewModel;
     private JLayeredPane JLayeredPane;
     private JLayeredPane JlayeredPane_1; // Second JlayeredPane to contain all the buttons(Friends.).
@@ -38,16 +42,20 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.height = this.friendViewModel.getHeight();
         friendViewModel.addPropertyChangeListener(this);
         this.setSize(width,height);
-        this.setLocationRelativeTo(null);
         initializeButtons();
         initializeCanvas();
         initializeJLayeredPane();
         this.add(JLayeredPane);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+
     }
     private void initializeButtons(){
         this.addFriend = new JButton(friendViewModel.getAddFriendButtonLabel());
-        this.addFriend.setBounds(this.width, friendViewModel.getSecondLineYcoordinate()+ 20,
-                (int)(width * 0.75), 20);
+        this.addFriend.setBounds(friendViewModel.getAddFriendButtonXValue(),
+                friendViewModel.getAddFriendButtonYValue(),
+                friendViewModel.getAddFriendButtonWidth(),
+                friendViewModel.getAddFriendButtonHeight() );
         this.addFriend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,8 +79,6 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         int numOfButtons = this.friendList.size();
         this.JlayeredPane_1.setPreferredSize(new Dimension(0,
                 (numOfButtons + 1) * friendViewModel.getFriendButtonHeight()));
-
-
         //Have to plus one in order to show the last button.
         this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
         this.JlayeredPane_1.setOpaque(true);
@@ -83,7 +89,9 @@ public class FriendView extends JFrame implements PropertyChangeListener {
             return new JScrollPane();
         }
         for(int i = 0; i < friendList.size();i ++){
-            JButton button = new JButton(friendList.get(i).getUsername());
+            String friendUsername = friendList.get(i).getUsername();
+            String friendGmail = friendList.get(i).getGmail();
+            JButton button = new JButton(friendUsername);
             int buttonYCoordinate = (friendViewModel.getFirstLineYcoordinate() - 35)// Just to make it looks better.
                     + i * (friendViewModel.getFriendButtonHeight() + friendViewModel.getFriendButtonGap());
             button.setBounds(10,buttonYCoordinate,
@@ -92,7 +100,12 @@ public class FriendView extends JFrame implements PropertyChangeListener {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    ShowFriendInfoViewModel showFriendInfoViewModel = friendViewManager.
+                            getShowFriendInfoView().getShowFriendInfoViewModel();
 
+                    ShowFriendInfoUseCaseFactory.create(showFriendInfoViewModel,
+                            friendViewManager.getFriendViewManagerModel()).
+                            execute(friendUsername,friendGmail);
                 }
             });
             JLayeredPane.add(button,0);
@@ -109,7 +122,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         if(evt.getPropertyName().equals("friendViewPropertyChange")){
             ArrayList<Object> outputDataList = (ArrayList<Object>) evt.getNewValue();
             this.userName = (String) outputDataList.get(0);
-            this.friendList = (ArrayList<User>) outputDataList.get(1);
+            this.friendList = (ArrayList<Friend>) outputDataList.get(1);
+            this.friendViewManager = (FriendViewManager) outputDataList.get(2);
             updateFriendList();
         }
     }

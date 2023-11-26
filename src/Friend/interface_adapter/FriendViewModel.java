@@ -24,6 +24,10 @@ public class FriendViewModel extends ViewModel {
     private final int friendButtonHeight = secondJlayeredPaneHeight/5;
     private final int friendButtonGap = 10;
     private final String addFriendButtonLabel = "Add Friend";
+    private final int addFriendButtonXValue = (int)(this.width * 0.105);
+    private final int addFriendButtonYValue = secondLineYcoordinate + firstLineYcoordinate/4;
+    private final int addFriendButtonWidth = (int)(this.width * 0.75);
+    private final int addFriendButtonHeight = (int)(firstLineYcoordinate * 0.72);
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public FriendViewModel(String viewName) {
         super(viewName);
@@ -35,6 +39,9 @@ public class FriendViewModel extends ViewModel {
     @Override
     public void addPropertyChangeListener(PropertyChangeListener x) {
         this.support.addPropertyChangeListener(x);
+    }
+    public void setOutputDataList(ArrayList<Object> outputDataList){
+        this.outputDataList = outputDataList;
     }
     public int getWidth(){
         return this.width;
@@ -66,9 +73,6 @@ public class FriendViewModel extends ViewModel {
     public Color getFriendPageFontColour(){
         return this.friendPageFontColour;
     }
-    public void setOutputDataList(ArrayList<Object> outputDataList){
-        this.outputDataList = outputDataList;
-    }
     public int getSecondJlayeredPaneHeight(){
         return this.secondJlayeredPaneHeight;
     }
@@ -83,5 +87,18 @@ public class FriendViewModel extends ViewModel {
     }
     public String getAddFriendButtonLabel(){
         return this.addFriendButtonLabel;
+    }
+
+    public int getAddFriendButtonXValue() {
+        return this.addFriendButtonXValue;
+    }
+    public int getAddFriendButtonYValue(){
+        return this.addFriendButtonYValue;
+    }
+    public int getAddFriendButtonWidth(){
+        return this.addFriendButtonWidth;
+    }
+    public int getAddFriendButtonHeight(){
+        return this.addFriendButtonHeight;
     }
 }

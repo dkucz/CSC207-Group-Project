@@ -11,7 +11,7 @@ public class FriendViewManager implements PropertyChangeListener {
     private final FriendViewManagerModel friendViewManagerModel;
     private ArrayList<JFrame> views = new ArrayList<>();
         // Views[0] -> Friend List Page.
-        // Views[1] -> Add Friend Page.
+        // Views[1] -> Friend Info Page.
     public FriendViewManager(FriendViewManagerModel friendViewManagerModel){
         this.friendViewManagerModel = friendViewManagerModel;
         friendViewManagerModel.addPropertyChangeListener(this);
@@ -19,11 +19,19 @@ public class FriendViewManager implements PropertyChangeListener {
     public void addView(JFrame jFrame){
         this.views.add(jFrame);
     }
+    public FriendViewManagerModel getFriendViewManagerModel(){
+        return this.friendViewManagerModel;
+    }
+    public ShowFriendInfoView getShowFriendInfoView(){
+        return (ShowFriendInfoView) this.views.get(1);
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("view")){
-            if(evt.getNewValue().equals("FRIEND")){
+            if(evt.getNewValue().equals("Friend")){
                 this.views.get(0).setVisible(true);
+            }else if(evt.getNewValue().equals("ShowFriendInfoView")){
+                this.views.get(1).setVisible(true);
             }
         }
     }
