@@ -5,7 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class ShowFriendInfoViewModel extends ViewModel{
-    private ArrayList<String> outputDataList = new ArrayList<>();
+    private ArrayList<Object> outputDataList = new ArrayList<>();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private int xValue = 0;
     private int yValue = 0;
@@ -87,7 +87,7 @@ public class ShowFriendInfoViewModel extends ViewModel{
     public void addPropertyChangeListener(PropertyChangeListener x) {
         this.support.addPropertyChangeListener(x);
     }
-    public void setOutputDataList(ArrayList<String> outputDataList){
+    public void setOutputDataList(ArrayList<Object> outputDataList){
         this.outputDataList = outputDataList;
     }
 }

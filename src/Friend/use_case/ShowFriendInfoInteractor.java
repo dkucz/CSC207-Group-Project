@@ -1,5 +1,7 @@
 package Friend.use_case;
 
+import Friend.view.FriendViewManager;
+
 public class ShowFriendInfoInteractor implements ShowFriendInfoInputBoundary{
     private final ShowFriendInfoOutputBoundary showFriendInfoPresenter;
     public ShowFriendInfoInteractor(ShowFriendInfoOutputBoundary showFriendInfoPresenter){
@@ -10,7 +12,8 @@ public class ShowFriendInfoInteractor implements ShowFriendInfoInputBoundary{
         String currentUserName = showFriendInfoInputData.getCurrentUserName();
         String friendUsername = showFriendInfoInputData.getFriendUsername();
         String friendGmail = showFriendInfoInputData.getFriendGmail();
-        ShowFriendInfoOutputData showFriendInfoOutputData = new ShowFriendInfoOutputData(currentUserName,friendUsername,friendGmail);
+        FriendViewManager friendViewManager = this.showFriendInfoPresenter.getFriendViewManager();
+        ShowFriendInfoOutputData showFriendInfoOutputData = new ShowFriendInfoOutputData(currentUserName,friendUsername,friendGmail,friendViewManager);
 
         this.showFriendInfoPresenter.prepareSuccessView(showFriendInfoOutputData);
     }

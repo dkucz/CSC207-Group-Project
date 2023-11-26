@@ -14,8 +14,10 @@ public class ShowFriendInfoView extends JFrame implements PropertyChangeListener
     private final ShowFriendInfoViewModel showFriendInfoViewModel;
     private final int width;
     private final int height;
+    private String currentUserName;
     private String friendUsername;
     private String friendGmail;
+    private FriendViewManager friendViewManager;
     private JLayeredPane jLayeredPane;
     private JButton deleteFriend;
     private Canvas canvas = new Canvas(){
@@ -69,6 +71,8 @@ public class ShowFriendInfoView extends JFrame implements PropertyChangeListener
         this.deleteFriend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
             }
         });
     }
@@ -89,9 +93,11 @@ public class ShowFriendInfoView extends JFrame implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("ShowFriendInfoViewPropertyChange")){
-            ArrayList<String> outputDataList = (ArrayList<String>) evt.getNewValue();
-           this.friendUsername = outputDataList.get(1);
-            this.friendGmail = outputDataList.get(2);
+            ArrayList<Object> outputDataList = (ArrayList<Object>) evt.getNewValue();
+            this.currentUserName = (String) outputDataList.get(0);
+            this.friendUsername = (String) outputDataList.get(1);
+            this.friendGmail = (String) outputDataList.get(2);
+            this.friendViewManager = (FriendViewManager) outputDataList.get(3);
             update();
         }else if(evt.getPropertyName().equals("ShowFriendInfoViewXYValueChange")){
             this.setBounds(showFriendInfoViewModel.getxValue(),showFriendInfoViewModel.getyValue(),width,height);
