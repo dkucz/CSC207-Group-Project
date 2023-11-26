@@ -23,7 +23,6 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.*;
 
-
 public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUserDataAccessInterface {
     private final File csvFile;
 
@@ -32,6 +31,8 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
     private final Map<String, User> accounts = new HashMap<>();
 
     private UserFactory userFactory;
+
+    private final String fitnessCalendarID = "Fitness Tracker";
 
     public GoogleCalendarDAO(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
@@ -231,11 +232,6 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         getCredentials(HTTP_TRANSPORT);
     }
 
-    @Override
-    public String getCalendarID() throws GeneralSecurityException, IOException {
-        return null;
-    }
-
     private void save()
     {
         BufferedWriter writer;
@@ -286,7 +282,6 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
 
     }
 
-    @Override
     public void createAccessControlRule(String gmail) throws IOException, GeneralSecurityException {
 
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -299,7 +294,7 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         scope.setType("default").setValue(gmail);
         rule.setScope(scope).setRole("writer");
 
-        String calendarID = getCalendarID();
+        String calendarID = findIdByName(fitnessCalendarID);
 
         AclRule createdRule = service.acl().insert(calendarID, rule).execute();
         System.out.println(createdRule.getId());

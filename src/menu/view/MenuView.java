@@ -6,6 +6,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import java.awt.*;
+
+import entity.User;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 
@@ -21,11 +23,14 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.menuViewModel = menuViewModel;
         this.menuViewModel.addPropertyChangeListener(this);
 
+
+
         JLabel title = new JLabel("Main Menu");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel calendar = new JLabel("Calendar");
         calendar.setAlignmentX(Component.LEFT_ALIGNMENT);
+        calendar.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
         friends = new JButton(menuViewModel.FRIENDS_BUTTON_LABEL);
@@ -38,6 +43,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         friends.addActionListener(this);
         modifyEvent.addActionListener(this);
         modifyEvent.addActionListener(this);
+
+        buttons.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         this.add(title);
         this.add(calendar);
@@ -55,4 +62,12 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         MenuState state = (MenuState)e.getNewValue();
     }
 
+    public void setUser(User u){
+        this.menuViewModel.getState().setUser(u);
+        if (this.menuViewModel.getState().getCurrentUser() != null) {
+            JLabel user = new JLabel("User" + this.menuViewModel.getState().getUsername());
+            user.setAlignmentY(Component.TOP_ALIGNMENT);
+            user.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        }
+    }
 }

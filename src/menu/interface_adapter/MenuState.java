@@ -16,6 +16,10 @@ public class MenuState
         this.currentUser = u;
     }
 
+    public User getCurrentUser(){
+        return this.currentUser;
+    }
+
     public String getGmail(){
         return this.currentUser.getGmail();
     }
