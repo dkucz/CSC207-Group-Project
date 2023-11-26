@@ -12,13 +12,15 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 public class FriendView extends JFrame implements PropertyChangeListener {
+    private String userName;
+    private ArrayList<User> friendList;
     private FriendViewModel friendViewModel;
     private JLayeredPane JLayeredPane;
     private JLayeredPane JlayeredPane_1; // Second JlayeredPane to contain all the buttons(Friends.).
     private int width;
     private int height;
-    private String userName;
-    private ArrayList<User> friendList;
+    private JButton addFriend;
+
     private final Canvas canvas = new Canvas(){
         @Override
         public void paint(Graphics g){
@@ -37,9 +39,21 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         friendViewModel.addPropertyChangeListener(this);
         this.setSize(width,height);
         this.setLocationRelativeTo(null);
+        initializeButtons();
         initializeCanvas();
         initializeJLayeredPane();
         this.add(JLayeredPane);
+    }
+    private void initializeButtons(){
+        this.addFriend = new JButton(friendViewModel.getAddFriendButtonLabel());
+        this.addFriend.setBounds(this.width, friendViewModel.getSecondLineYcoordinate()+ 20,
+                (int)(width * 0.75), 20);
+        this.addFriend.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
     private void initializeJLayeredPane(){
         this.JLayeredPane = new JLayeredPane();
@@ -47,6 +61,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.JLayeredPane.setBackground(friendViewModel.getFriendPageBackgroundColour());
         this.JLayeredPane.setOpaque(true);
         this.JLayeredPane.add(this.canvas,0);
+        this.JLayeredPane.add(this.addFriend,0);
     }
     private void initializeCanvas(){
         this.canvas.setBounds(0,0,width,height);
@@ -87,7 +102,6 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         scrollPane.setBounds(0,friendViewModel.getFirstLineYcoordinate() + 1,width - 20, // Have to minus 20 in
                 friendViewModel.getSecondJlayeredPaneHeight());                          // order to show the bar.
         return scrollPane;
-
     }
 
     @Override

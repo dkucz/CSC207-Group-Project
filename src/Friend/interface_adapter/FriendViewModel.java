@@ -23,6 +23,7 @@ public class FriendViewModel extends ViewModel {
     private final int friendButtonWidth = (int) (width * 0.83) ;
     private final int friendButtonHeight = secondJlayeredPaneHeight/5;
     private final int friendButtonGap = 10;
+    private final String addFriendButtonLabel = "Add Friend";
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public FriendViewModel(String viewName) {
         super(viewName);
@@ -79,5 +80,8 @@ public class FriendViewModel extends ViewModel {
     }
     public int getFriendButtonGap(){
         return this.friendButtonGap;
+    }
+    public String getAddFriendButtonLabel(){
+        return this.addFriendButtonLabel;
     }
 }
