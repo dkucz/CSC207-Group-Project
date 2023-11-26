@@ -4,7 +4,6 @@ import Friend.app.ShowFriendInfoUseCaseFactory;
 import Friend.interface_adapter.FriendViewManagerModel;
 import Friend.interface_adapter.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfoViewModel;
-import entity.User;
 import entity.Friend;
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +23,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
     private int width;
     private int height;
     private JButton addFriend;
+    private final int xValue; // Those two values exist to make the ShowFriendInfoView looks better.
+    private final int yValue;
 
     private final Canvas canvas = new Canvas(){
         @Override
@@ -47,6 +48,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         initializeJLayeredPane();
         this.add(JLayeredPane);
         this.setLocationRelativeTo(null);
+        this.xValue = this.getLocation().x;
+        this.yValue = this.getLocation().y;
         this.setResizable(false);
 
     }
@@ -78,7 +81,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.JlayeredPane_1 = new JLayeredPane();
         int numOfButtons = this.friendList.size();
         this.JlayeredPane_1.setPreferredSize(new Dimension(0,
-                (numOfButtons + 1) * friendViewModel.getFriendButtonHeight()));
+                ((numOfButtons + 1) * friendViewModel.getFriendButtonHeight()) -
+                        friendViewModel.getFriendButtonHeight()/2)); // Just to make it looks better.
         //Have to plus one in order to show the last button.
         this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
         this.JlayeredPane_1.setOpaque(true);
@@ -88,6 +92,11 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         if(this.friendList == null){
             return new JScrollPane();
         }
+        ShowFriendInfoViewModel showFriendInfoViewModel = friendViewManager.
+                getShowFriendInfoView().getShowFriendInfoViewModel();
+        showFriendInfoViewModel.setxValue(xValue + width);
+        showFriendInfoViewModel.setyValue(yValue);
+
         for(int i = 0; i < friendList.size();i ++){
             String friendUsername = friendList.get(i).getUsername();
             String friendGmail = friendList.get(i).getGmail();
@@ -100,9 +109,6 @@ public class FriendView extends JFrame implements PropertyChangeListener {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ShowFriendInfoViewModel showFriendInfoViewModel = friendViewManager.
-                            getShowFriendInfoView().getShowFriendInfoViewModel();
-
                     ShowFriendInfoUseCaseFactory.create(showFriendInfoViewModel,
                             friendViewManager.getFriendViewManagerModel()).
                             execute(friendUsername,friendGmail);

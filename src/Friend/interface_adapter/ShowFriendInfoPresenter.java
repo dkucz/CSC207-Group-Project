@@ -12,7 +12,7 @@ public class ShowFriendInfoPresenter implements ShowFriendInfoOutputBoundary {
     }
     @Override
     public void prepareSuccessView(ShowFriendInfoOutputData showFriendInfoOutputData) {
-        this.friendViewManagerModel.setActiveView("ShowFriendInfoView");
+        this.friendViewManagerModel.setActiveView("showFriendInfoView");
         this.friendViewManagerModel.firePropertyChanged();
         this.showFriendInfoViewModel.setOutputDataList(showFriendInfoOutputData.getOutputDataAsAList());
         this.showFriendInfoViewModel.firePropertyChanged();

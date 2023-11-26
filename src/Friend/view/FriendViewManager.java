@@ -28,9 +28,9 @@ public class FriendViewManager implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("view")){
-            if(evt.getNewValue().equals("Friend")){
+            if(evt.getNewValue().equals("friendView")){
                 this.views.get(0).setVisible(true);
-            }else if(evt.getNewValue().equals("ShowFriendInfoView")){
+            }else if(evt.getNewValue().equals("showFriendInfoView")){
                 this.views.get(1).setVisible(true);
             }
         }

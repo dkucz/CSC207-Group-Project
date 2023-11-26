@@ -20,7 +20,7 @@ public class FriendPresenter implements FriendOutputBoundary {
 
     @Override
     public void prepareSuccessView(FriendOutputData outputData) {
-        this.friendViewManagerModel.setActiveView("Friend");
+        this.friendViewManagerModel.setActiveView("friendView");
         this.friendViewManagerModel.firePropertyChanged();
         friendViewModel.setOutputDataList(outputData.getOutputDataAsAList());
         friendViewModel.firePropertyChanged();
