@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ShowFriendInfoViewModel extends ViewModel{
     private ArrayList<String> outputDataList = new ArrayList<>();
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private int xValue = 0;
     private int yValue = 0;
     private final int width = 410;

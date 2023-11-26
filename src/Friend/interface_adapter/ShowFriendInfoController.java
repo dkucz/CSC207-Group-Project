@@ -8,8 +8,8 @@ public class ShowFriendInfoController {
     public ShowFriendInfoController(ShowFriendInfoInputBoundary showFriendInfoInteractor){
         this.showFriendInfoInteractor = showFriendInfoInteractor;
     }
-    public void execute(String friendUsername, String friendGmail) {
-        ShowFriendInfoInputData showFriendInfoInputData= new ShowFriendInfoInputData(friendUsername,friendGmail);
+    public void execute(String currentUserName,String friendUsername, String friendGmail) {
+        ShowFriendInfoInputData showFriendInfoInputData= new ShowFriendInfoInputData(currentUserName,friendUsername,friendGmail);
         this.showFriendInfoInteractor.execute(showFriendInfoInputData);
     }
 }

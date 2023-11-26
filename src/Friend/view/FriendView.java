@@ -1,7 +1,5 @@
 package Friend.view;
-
 import Friend.app.ShowFriendInfoUseCaseFactory;
-import Friend.interface_adapter.FriendViewManagerModel;
 import Friend.interface_adapter.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfoViewModel;
 import entity.Friend;
@@ -98,6 +96,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         showFriendInfoViewModel.setyValue(yValue);
 
         for(int i = 0; i < friendList.size();i ++){
+            String currentUserName = this.userName;
             String friendUsername = friendList.get(i).getUsername();
             String friendGmail = friendList.get(i).getGmail();
             JButton button = new JButton(friendUsername);
@@ -110,8 +109,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ShowFriendInfoUseCaseFactory.create(showFriendInfoViewModel,
-                            friendViewManager.getFriendViewManagerModel()).
-                            execute(friendUsername,friendGmail);
+                            friendViewManager).
+                            execute(currentUserName,friendUsername,friendGmail);
                 }
             });
             JLayeredPane.add(button,0);
