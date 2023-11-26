@@ -11,11 +11,13 @@ import java.util.concurrent.ExecutionException;
 public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAccessInterface {
     private final FirestoreDAO firestoreDAO;
     private final GoogleCalendarDAO googleCalendarDAO;
+    private final ExercisesDAO exercisesDAO;
 
-    public FacadeDAO(FirestoreDAO firestoreDAO, GoogleCalendarDAO googleCalendarDAO)
+    public FacadeDAO(FirestoreDAO firestoreDAO, GoogleCalendarDAO googleCalendarDAO, ExercisesDAO exercisesDAO)
     {
         this.firestoreDAO = firestoreDAO;
         this.googleCalendarDAO = googleCalendarDAO;
+        this.exercisesDAO = exercisesDAO;
     }
 
     @Override
