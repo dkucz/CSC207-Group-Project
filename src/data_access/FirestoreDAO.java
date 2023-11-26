@@ -6,20 +6,25 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import entity.Friend;
 import entity.User;
 import signup.data_access.SignupUserDataAccessInterface;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-public class FirestoreDAO implements SignupUserDataAccessInterface {
+public class FirestoreDAO {
 
     private final Firestore database;
     private final String userCollectionID = "users";
+    private final String friendCollectionID = "friends";
+    private final String userString = "username";
+    private final String passwordString = "password";
+    private final String gmailString = "gmail";
+    private final CollectionReference userCollection;
 
     public FirestoreDAO() throws IOException {
         InputStream serviceAccount = new FileInputStream("./serviceaccount.json");
@@ -28,40 +33,103 @@ public class FirestoreDAO implements SignupUserDataAccessInterface {
                 .build();
         FirebaseApp.initializeApp(options);
         database = FirestoreClient.getFirestore();
+        userCollection = database.collection(userCollectionID);
     }
 
-    @Override
     public void save(User user) throws ExecutionException, InterruptedException {
         // Create a new user document and set the userID as documentID
         DocumentReference newUserRef = database.collection(userCollectionID).document();
-        String userID = newUserRef.getId();
 
-        Map<String, Object> userData = _getUserData(user);
+        Map<String, Object> userData = getUserData(user);
 
         ApiFuture<WriteResult> writeResult = newUserRef.set(userData);
-        System.out.println("user created with ID: " + userID);
 
         writeResult.get();
     }
 
-    private Map<String, Object> _getUserData(User user)
-    {
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("username", user.getUsername());
-        userData.put("password", user.getPassword());
-        return userData;
+    public boolean existsByName(String username) throws ExecutionException, InterruptedException {
+        return userExists(userCollection, username);
     }
 
-    @Override
-    public boolean existsByName(String username) throws ExecutionException, InterruptedException {
-        CollectionReference userCollection = database.collection(userCollectionID);
+    public boolean existsByNameInFriendsCollection(String username, String friendUsername)
+            throws ExecutionException, InterruptedException {
+        CollectionReference friendCollection = userCollection.document(username).collection(friendCollectionID);
+        return userExists(friendCollection, friendUsername);
+    }
 
-        Query query = userCollection.whereEqualTo("username", username);
+    public void addFriend(User user, Friend friend) throws ExecutionException, InterruptedException {
+        CollectionReference friendsCollection = database.collection(userCollectionID).document(user.getUsername())
+                .collection(friendCollectionID);
+
+        DocumentReference friendDocumentReference = friendsCollection.document(friend.getUsername());
+
+        Map<String, Object> friendData = getUserData(friend);
+
+        ApiFuture<WriteResult> writeResult = friendDocumentReference.set(friendData);
+
+        writeResult.get();
+    }
+
+    public List<Friend> getFriendsAsList(String username) throws ExecutionException, InterruptedException {
+        List<Friend> friendsList = new ArrayList<>();
+
+        CollectionReference friendCollection = userCollection.document(username).collection(friendCollectionID);
+        ApiFuture<QuerySnapshot> friendQuery = friendCollection.get();
+
+        for (QueryDocumentSnapshot friendDocument : friendQuery.get().getDocuments())
+        {
+            Friend friend = friendDocument.toObject(Friend.class);
+            friendsList.add(friend);
+        }
+        return friendsList;
+    }
+
+    public User get(String username) throws ExecutionException, InterruptedException {
+        return getUserFromName(username);
+    }
+
+    public User getUserFromName(String username) throws ExecutionException, InterruptedException {
+        Query query = userCollection.whereEqualTo(userString, username);
+
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        DocumentSnapshot userDocument = querySnapshot.get().getDocuments().get(0);
+        return userDocument.toObject(User.class);
+    }
+
+    public Friend getFriendFromName(String username, String friendUsername) throws ExecutionException, InterruptedException {
+        CollectionReference friendCollection = userCollection.document(username).collection(friendCollectionID);
+        Query query = friendCollection.whereEqualTo(userString, friendUsername);
+        
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        DocumentSnapshot friendDocument = querySnapshot.get().getDocuments().get(0);
+        return friendDocument.toObject(Friend.class);
+    }
+
+    private boolean userExists(CollectionReference collectionReference, String username)
+            throws ExecutionException, InterruptedException {
+        Query query = collectionReference.whereEqualTo(userString, username);
 
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
-        boolean userExists =  !querySnapshot.get().isEmpty();
+        boolean userExists = !querySnapshot.get().isEmpty();
 
         return userExists;
+    }
+
+    private Map<String, Object> getUserData(User user)
+    {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put(userString, user.getUsername());
+        userData.put(passwordString, user.getPassword());
+        userData.put(gmailString, user.getGmail());
+        return userData;
+    }
+
+    private Map<String, Object> getUserData(Friend friend)
+    {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put(userString, friend.getUsername());
+        userData.put(gmailString, friend.getGmail());
+        return userData;
     }
 }

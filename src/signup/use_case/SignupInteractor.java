@@ -5,6 +5,7 @@ import entity.User;
 import signup.data_access.SignupUserDataAccessInterface;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 
 public class SignupInteractor implements SignupInputBoundary {
     final SignupUserDataAccessInterface signupDataAccess;
@@ -20,7 +21,7 @@ public class SignupInteractor implements SignupInputBoundary {
     }
 
     @Override
-    public void execute(SignupInputData signupInputData) {
+    public void execute(SignupInputData signupInputData) throws ExecutionException, InterruptedException {
         if (signupDataAccess.existsByName(signupInputData.getUsername())) {
             signupPresenter.prepareFailView("User already exists.");
         } else if (signupInputData.getUsername().equals("") ||
