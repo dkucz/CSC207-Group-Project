@@ -17,6 +17,11 @@ public class ShowFriendInfoViewModel extends ViewModel{
     private final int friendUsernameYValueRatio = 8;
     private final String fontName = "Apple LiGothic";
     private final int gmailHeightValue = height/2 - 5;
+    private final String deleteFriendButtonLabel = "Delete Friend";
+    private final int deleteFriendButtonXValue = (int)(width*0.22);
+    private final int deleteFriendButtonYValue = secondLineHeightValue + 10;
+    private final int deleteFriendButtonWidth = width/2;
+    private final int deleteFriendButtonHeight = (int)(firstLineHeightValue*0.65);
     public ShowFriendInfoViewModel(String View_Name) {
         super(View_Name);
     }
@@ -55,6 +60,21 @@ public class ShowFriendInfoViewModel extends ViewModel{
     }
     public int getGmailHeightValue(){
         return this.gmailHeightValue;
+    }
+    public String getDeleteFriendButtonLabel(){
+        return this.deleteFriendButtonLabel;
+    }
+    public int getDeleteFriendButtonXValue(){
+        return this.deleteFriendButtonXValue;
+    }
+    public int getDeleteFriendButtonYValue(){
+        return this.deleteFriendButtonYValue;
+    }
+    public int getDeleteFriendButtonWidth(){
+        return this.deleteFriendButtonWidth;
+    }
+    public int getDeleteFriendButtonHeight(){
+        return this.deleteFriendButtonHeight;
     }
     @Override
     public void firePropertyChanged() {
