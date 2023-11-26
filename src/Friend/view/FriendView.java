@@ -56,6 +56,8 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         int numOfButtons = this.friendList.size();
         this.JlayeredPane_1.setPreferredSize(new Dimension(0,
                 (numOfButtons + 1) * friendViewModel.getFriendButtonHeight()));
+
+
         //Have to plus one in order to show the last button.
         this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
         this.JlayeredPane_1.setOpaque(true);
@@ -87,6 +89,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         return scrollPane;
 
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals("friendViewPropertyChange")){

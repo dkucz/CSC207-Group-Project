@@ -21,12 +21,12 @@ public class FriendInteractor implements FriendInputBoundary {
         // The following codes exist only because of the missing method of fireStoreDAO.
         // If the DAO is implemented then the following codes will be replaced by one line code.
         UserFactory F0 = new UserFactory();
-        User U0 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
-        User U1 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
-        User U2 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
-        User U3 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
-        User U4 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
-        User U5 = F0.create("Pranky","Pranky1247","Pranky1247@gmail.com");
+        User U0 = F0.create("Pranky55","Pranky1247","Pranky1247@gmail.com");
+        User U1 = F0.create("Pranky00","Pranky1247","Pranky1247@gmail.com");
+        User U2 = F0.create("Pranky11","Pranky1247","Pranky1247@gmail.com");
+        User U3 = F0.create("Pranky22","Pranky1247","Pranky1247@gmail.com");
+        User U4 = F0.create("Pranky33","Pranky1247","Pranky1247@gmail.com");
+        User U5 = F0.create("Pranky44","Pranky1247","Pranky1247@gmail.com");
         friendList.add(U0);
         friendList.add(U1);
         friendList.add(U2);
