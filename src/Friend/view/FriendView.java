@@ -69,6 +69,12 @@ public class FriendView extends JFrame implements PropertyChangeListener {
             }
         });
     }
+    public ArrayList<Friend> getFriendList(){
+        return this.friendList;
+    }
+    public FriendViewModel getFriendViewModel(){
+        return this.friendViewModel;
+    }
     private void initializeJLayeredPane(){
         this.JLayeredPane = new JLayeredPane();
         this.JLayeredPane.setBounds(0,0,width,height);

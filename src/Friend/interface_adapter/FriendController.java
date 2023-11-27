@@ -3,10 +3,7 @@ package Friend.interface_adapter;
 import Friend.app.FriendUseCaseFactory;
 import Friend.use_case.FriendInputBoundary;
 import Friend.use_case.FriendInputData;
-import Friend.view.AddFriendView;
-import Friend.view.FriendView;
-import Friend.view.FriendViewManager;
-import Friend.view.ShowFriendInfoView;
+import Friend.view.*;
 import data_access.FirestoreDAO;
 
 import java.io.IOException;
@@ -35,9 +32,13 @@ public class FriendController {
         AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
         AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
 
+        AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
+        AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
+
         friendViewManager.addView(friendView);
         friendViewManager.addView(showFriendInfoView);
         friendViewManager.addView(addFriendView);
+        friendViewManager.addView(addFriendFailedView);
 
         FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
         friendController.execute("Pranky124777");

@@ -13,6 +13,7 @@ public class FriendViewManager implements PropertyChangeListener {
         // Views[0] -> Friend List Page.
         // Views[1] -> Friend Info Page.
         // Views[2] -> AddFriend Page.
+        // Views[3] -> AddFriendFailed Page.
     public FriendViewManager(FriendViewManagerModel friendViewManagerModel){
         this.friendViewManagerModel = friendViewManagerModel;
         friendViewManagerModel.addPropertyChangeListener(this);
@@ -23,11 +24,17 @@ public class FriendViewManager implements PropertyChangeListener {
     public FriendViewManagerModel getFriendViewManagerModel(){
         return this.friendViewManagerModel;
     }
+    public FriendView getFriendView(){
+        return (FriendView) this.views.get(0);
+    }
     public ShowFriendInfoView getShowFriendInfoView(){
         return (ShowFriendInfoView) this.views.get(1);
     }
     public AddFriendView getAddFriendView(){
         return (AddFriendView) this.views.get(2);
+    }
+    public AddFriendFailedView getAddFriendFailedView(){
+        return (AddFriendFailedView) this.views.get(3);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -37,9 +44,9 @@ public class FriendViewManager implements PropertyChangeListener {
             }else if(evt.getNewValue().equals("showFriendInfoView")){
                 this.views.get(1).setVisible(true);
             }else  if(evt.getNewValue().equals("addFriendView")){
-                // this.views.get(0).setVisible(false);
-                // this.views.get(1).setVisible(false);
                 this.views.get(2).setVisible(true);
+            }else  if(evt.getNewValue().equals("addFriendFailedView")){
+                this.views.get(3).setVisible(true);
             }
         }
     }

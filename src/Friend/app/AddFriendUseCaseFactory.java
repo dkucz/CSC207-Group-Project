@@ -10,8 +10,9 @@ import data_access.FirestoreDAO;
 
 public class AddFriendUseCaseFactory {
     public AddFriendUseCaseFactory(){};
-    public static AddFriendController create(AddFriendViewModel addFriendViewModel, FriendViewManager friendViewManager){
-        AddFriendPresenter addFriendPresenter = new AddFriendPresenter(addFriendViewModel, friendViewManager);
+    public static AddFriendController create(FriendViewManager friendViewManager){
+
+        AddFriendPresenter addFriendPresenter = new AddFriendPresenter(friendViewManager);
 
         String firestoreDao = ""; //4700: FirestoreDAO firestoreDAO = new FirestoreDAO();
 

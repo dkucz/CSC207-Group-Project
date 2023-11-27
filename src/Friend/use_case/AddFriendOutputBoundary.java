@@ -4,6 +4,6 @@ import Friend.view.FriendViewManager;
 
 public interface AddFriendOutputBoundary {
     void prepareSuccessView(AddFriendOutputData addFriendOutputData);
-    void prepareFailedView();
+    void prepareFailedView(AddFriendOutputData addFriendOutputData);
     FriendViewManager getFriendViewManager();
 }
