@@ -39,7 +39,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
             // TBI.
         }else if(friendAlreadyInList){
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().
-                    setErrorMessage("He/She is already in your friend list.");
+                    setErrorMessage("Already in your friend list.");
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().firePropertyChanged();
             this.friendViewManager.getFriendViewManagerModel().setActiveView("addFriendFailedView");
             this.friendViewManager.getFriendViewManagerModel().firePropertyChanged();

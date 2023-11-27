@@ -18,7 +18,7 @@ public class AddFriendFailedViewModel extends ViewModel{
     }
     @Override
     public void firePropertyChanged() {
-        support.firePropertyChange("AddFriendFailedViewPropertyChange",null,this.errorMessage);
+        support.firePropertyChange("errorMessage",null,this.errorMessage);
     }
     public void setErrorMessage(String errorMessage){
         this.errorMessage = errorMessage;

@@ -27,7 +27,6 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         for(Friend i: friendList){
             if(i.getUsername().equals(wantToAddFriendUsername)){
                 friendAlreadyInList = true;
-                System.out.println("Exists.");
             }
         }
         AddFriendOutputData outputData = new AddFriendOutputData(currentUsername,
@@ -40,7 +39,5 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         }else {
             this.addFriendPresenter.prepareSuccessView(outputData);
         }
-
-
     }
 }

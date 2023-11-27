@@ -16,13 +16,20 @@ public class AddFriendFailedView extends JFrame implements PropertyChangeListene
     private Canvas canvas = new Canvas(){
         @Override
         public void paint(Graphics g){
-            g.drawString(errorMessage, 200,200);
+            g.setFont(new Font("Safari", Font.BOLD,15));
+            g.drawString(errorMessage, width/7,(int)(height * 0.41));
         }
     };
     public AddFriendFailedView(AddFriendFailedViewModel addFriendFailedViewModel){
         this.addFriendFailedViewModel = addFriendFailedViewModel;
         addFriendFailedViewModel.addPropertyChangeListener(this);
-        this.setSize(addFriendFailedViewModel.getWidth(),addFriendFailedViewModel.getHeight());
+        this.width = addFriendFailedViewModel.getWidth();
+        this.height = addFriendFailedViewModel.getHeight();
+        this.setSize(width,height);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.canvas.setBounds(0,0,width,height);
+        this.add(this.canvas);
     }
     public void update(){
         this.canvas.repaint();
