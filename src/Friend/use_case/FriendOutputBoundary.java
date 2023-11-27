@@ -7,3 +7,4 @@ public interface FriendOutputBoundary {
     void prepareSuccessView(FriendOutputData friendOutputData);
     FriendViewManager getFriendViewManager();
 }
+
