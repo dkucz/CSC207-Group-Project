@@ -5,3 +5,5 @@ and will change it back later.
 ## 4700 means replace the codes with the commented codes.
 FriendInteractor --> 4700s.
 FriendUseCaseFactory --> 4700s.
+AddFriendUseCaseFactory --> 4700s.
+AddFriendInteractor --> 4700s.

@@ -41,7 +41,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.height = this.friendViewModel.getHeight();
         friendViewModel.addPropertyChangeListener(this);
         this.setSize(width,height);
-        initializeButtons();
+        initializeAddFriendButtons();
         initializeCanvas();
         initializeJLayeredPane();
         this.add(JLayeredPane);
@@ -51,7 +51,7 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.setResizable(false);
 
     }
-    private void initializeButtons(){
+    private void initializeAddFriendButtons(){
         this.addFriend = new JButton(friendViewModel.getAddFriendButtonLabel());
         this.addFriend.setBounds(friendViewModel.getAddFriendButtonXValue(),
                 friendViewModel.getAddFriendButtonYValue(),
@@ -60,7 +60,12 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.addFriend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                friendViewManager.getAddFriendView().getAddFriendViewModel().setCurrentUsername(userName);
+                friendViewManager.getAddFriendView().getAddFriendViewModel().setFriendViewManager(friendViewManager);
+                friendViewManager.getAddFriendView().getAddFriendViewModel().setOutputDataList();
+                friendViewManager.getAddFriendView().getAddFriendViewModel().firePropertyChanged();
+                friendViewManager.getFriendViewManagerModel().setActiveView("addFriendView");
+                friendViewManager.getFriendViewManagerModel().firePropertyChanged();
             }
         });
     }
