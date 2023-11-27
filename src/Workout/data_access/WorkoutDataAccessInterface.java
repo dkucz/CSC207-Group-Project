@@ -1,6 +1,7 @@
 package Workout.data_access;
 
 import entity.User;
+import entity.Workout;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -13,9 +14,12 @@ public interface WorkoutDataAccessInterface {
 
     boolean existsByDifficulty(String type);
 
-    void save(User user);
 
-    User get(String username);
+    void GetExercisesInfo(String muscle);
 
-    void createStoredCredentials() throws GeneralSecurityException, IOException;
+    void FindOfType(String type);
+
+    void ExercisesOnDifficulty(String difficulty);
+
+    Workout get(String workout);
 }

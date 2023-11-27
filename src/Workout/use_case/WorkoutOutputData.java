@@ -1,21 +1,21 @@
 package Workout.use_case;
 
-import entity.User;
+import entity.Workout;
 
 public class WorkoutOutputData {
-    private final String username;
-    private final User user;
+    private final String exercise;
+    private final Workout workout;
     private boolean useCaseFailed;
 
-    public WorkoutOutputData(String username, User user, boolean useCaseFailed) {
-        this.username = username;
+    public WorkoutOutputData(String exercise, Workout workout, boolean useCaseFailed) {
+        this.exercise = exercise;
         this.useCaseFailed = useCaseFailed;
-        this.user = user;
+        this.workout = workout;
     }
 
-    public String getUsername() {
-        return username;
+    public String getExercise() {
+        return exercise;
     }
 
-    public User getUser() { return this.user; }
+    public Workout getWorkout() { return this.workout; }
 }
