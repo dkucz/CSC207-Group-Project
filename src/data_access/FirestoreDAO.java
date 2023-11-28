@@ -29,7 +29,7 @@ public class FirestoreDAO {
     private final CollectionReference userCollection;
 
     public FirestoreDAO() throws IOException {
-        InputStream serviceAccount = new FileInputStream("csc207-group-project-firebase-adminsdk-kobwa-ee137a491b.json");
+        InputStream serviceAccount = new FileInputStream("./serviceaccount.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
@@ -65,18 +65,9 @@ public class FirestoreDAO {
     }
 
     public void addFriend(User user, Friend friend) throws ExecutionException, InterruptedException {
-        CollectionReference friendsCollection = database.collection(userCollectionID).document(user.getUsername())
-                .collection(friendCollectionID);
+        addToFriend(user.getUsername(), friend.getUsername(), getUserData(friend), user, friend);
 
-        DocumentReference friendDocumentReference = friendsCollection.document(friend.getUsername());
-
-        Map<String, Object> friendData = getUserData(friend);
-
-        ApiFuture<WriteResult> writeResult = friendDocumentReference.set(friendData);
-
-        writeResult.get();
-
-        // Also add User to Friend's User Document Friend Collection
+        addToFriend(friend.getUsername(), user.getUsername(), getUserData(user), user, friend);
     }
 
     public List<Friend> getFriendsAsList(String username) throws ExecutionException, InterruptedException {
@@ -117,6 +108,19 @@ public class FirestoreDAO {
     public void removeFriend(String username, String friendUsername) throws ExecutionException, InterruptedException {
         deleteFriendDocument(username, friendUsername);
         deleteFriendDocument(friendUsername, username);
+    }
+
+    private void addToFriend(String username, String username2, Map<String, Object> userData2, User user, Friend friend) throws InterruptedException, ExecutionException {
+        CollectionReference friendsCollectionOfFriend = database.collection(userCollectionID)
+                .document(username).collection(friendCollectionID);
+
+        DocumentReference friendDocReference = friendsCollectionOfFriend.document(username2);
+
+        Map<String, Object> userData = userData2;
+
+        ApiFuture<WriteResult> writeRes = friendDocReference.set(userData);
+
+        writeRes.get();
     }
 
     private void deleteFriendDocument(String username, String friendUsername) throws ExecutionException, InterruptedException {
