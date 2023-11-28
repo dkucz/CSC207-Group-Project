@@ -110,10 +110,6 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(calendar, BorderLayout.WEST);
 
         this.add(buttons, BorderLayout.EAST);
-
-
-
-
     }
     public void actionPerformed(ActionEvent evt){
         System.out.println("Click " + evt.getActionCommand());

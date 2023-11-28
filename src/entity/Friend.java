@@ -4,9 +4,8 @@ public class Friend implements CommonUser{
 
     public Friend(){}
 
-    public Friend(String username, String gmail) {
+    public Friend(String username) {
         this.username = username;
-        this.gmail = gmail;
     }
   
     private String username;

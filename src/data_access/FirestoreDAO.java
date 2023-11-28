@@ -114,6 +114,26 @@ public class FirestoreDAO {
         return friendDocument.toObject(Friend.class);
     }
 
+    public void removeFriend(String username, String friendUsername) throws ExecutionException, InterruptedException {
+        deleteFriendDocument(username, friendUsername);
+        deleteFriendDocument(friendUsername, username);
+    }
+
+    private void deleteFriendDocument(String username, String friendUsername) throws ExecutionException, InterruptedException {
+        CollectionReference friendCollection = userCollection.document(username).
+                collection(friendCollectionID);
+
+        Query query = friendCollection.whereEqualTo(userString, friendUsername);
+
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+
+        List<QueryDocumentSnapshot> friendDocuments = querySnapshot.get().getDocuments();
+        if (!friendDocuments.isEmpty())
+        {
+            friendDocuments.get(0).getReference().delete();
+        }
+    }
+
     private boolean userExists(CollectionReference collectionReference, String username)
             throws ExecutionException, InterruptedException {
         Query query = collectionReference.whereEqualTo(userString, username);
