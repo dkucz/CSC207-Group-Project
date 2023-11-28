@@ -18,9 +18,3 @@ public class FriendController {
         FriendInputData friendInputData = new FriendInputData(userName);
         friendInteractor.execute(friendInputData);
     }
-    public static void main(String[] args) throws IOException {
-        //The following codes should be moved to the actionPerformed method body of menu button "Friend".
-
-        //
-    }
-}
