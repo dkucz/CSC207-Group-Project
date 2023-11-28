@@ -47,12 +47,18 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         }else if(friendAlreadyInList){
             this.addFriendPresenter.prepareFailedView(outputData);
         }else {
+            String friendUsername = this.firestoreDAO.getUserFromName(wantToAddFriendUsername).getUsername();
 
             User currentUser = firestoreDAO.getUserFromName(currentUsername);
-            String friendUsername = this.firestoreDAO.getUserFromName(wantToAddFriendUsername).getUsername();
             Friend friend = new Friend(friendUsername);
+
+            User Friend = firestoreDAO.getUserFromName(friendUsername);
+            Friend User = new Friend(currentUsername);
+            User.setGmail(currentUser.getGmail());
             friend.setGmail(friendGmail);
+
             firestoreDAO.addFriend(currentUser,friend);
+            firestoreDAO.addFriend(Friend,User);
             this.addFriendPresenter.prepareSuccessView(outputData);
         }
     }

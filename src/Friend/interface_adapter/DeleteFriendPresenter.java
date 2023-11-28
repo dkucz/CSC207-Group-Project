@@ -15,7 +15,8 @@ public class DeleteFriendPresenter implements DeleteFriendOutputBoundary {
         this.friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setDeleteFriendCompleted(true);
         this.friendViewManager.getDeleteFriendView().
                 getDeleteFriendViewModel().setDeletedFriendUsername(deleteFriendOutputData.getDeletedFriendUsername());
-        this.friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setMessage(" is deleted.");
+        this.friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setMessage("is deleted.");
+        this.friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setOutputDataList();
         this.friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().firePropertyChanged();
     }
     public FriendViewManager getFriendViewManager() {

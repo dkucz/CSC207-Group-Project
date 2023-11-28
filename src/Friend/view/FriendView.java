@@ -82,24 +82,26 @@ public class FriendView extends JFrame implements PropertyChangeListener {
         this.JLayeredPane.setOpaque(true);
         this.JLayeredPane.add(this.canvas,0);
         this.JLayeredPane.add(this.addFriend,0);
+        this.JlayeredPane_1 = new JLayeredPane();//////////////////////////////////////////////////////////
+
+        //Have to plus one in order to show the last button.
+        this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
+        this.JlayeredPane_1.setOpaque(true);///////////////////////////////////////////////////////////////
     }
     private void initializeCanvas(){
         this.canvas.setBounds(0,0,width,height);
     }
     private void updateFriendList(){
-        this.JlayeredPane_1 = new JLayeredPane();
         int numOfButtons = this.friendList.size();
         this.JlayeredPane_1.setPreferredSize(new Dimension(0,
                 ((numOfButtons + 1) * friendViewModel.getFriendButtonHeight()) -
                         friendViewModel.getFriendButtonHeight()/2)); // Just to make it looks better.
-        //Have to plus one in order to show the last button.
-        this.JlayeredPane_1.setBackground(friendViewModel.getFriendListPageBackgroundColour());
-        this.JlayeredPane_1.setOpaque(true);
         this.JLayeredPane.add(addFriendsAsButtons(JlayeredPane_1),0);
     }
     private JScrollPane addFriendsAsButtons(JLayeredPane JLayeredPane){
+        this.JlayeredPane_1.removeAll();
         if(this.friendList == null){
-            return new JScrollPane();
+            return new JScrollPane(this.JlayeredPane_1);
         }
         ShowFriendInfoViewModel showFriendInfoViewModel = friendViewManager.
                 getShowFriendInfoView().getShowFriendInfoViewModel();

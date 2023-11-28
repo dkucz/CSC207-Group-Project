@@ -19,6 +19,7 @@ public class DeleteFriendInteractor implements DeleteFriendInputBoundary{
         String friendName = deleteFriendInputData.getFriendUsername();
         ArrayList<Object> outputDataList = new ArrayList<>();
         this.firestoreDAO.removeFriend(userName, friendName);
+        this.firestoreDAO.removeFriend(friendName,userName);
         ArrayList<Friend> friendList = this.deleteFriendPresenter.getFriendViewManager().
                 getFriendView().getFriendList();
         for(Friend i : friendList){
@@ -30,6 +31,7 @@ public class DeleteFriendInteractor implements DeleteFriendInputBoundary{
         outputDataList.add(userName);
         outputDataList.add(friendList);
         outputDataList.add(this.deleteFriendPresenter.getFriendViewManager());
+
         this.deleteFriendPresenter.getFriendViewManager().getFriendView().
                 getFriendViewModel().setOutputDataList(outputDataList);
         this.deleteFriendPresenter.getFriendViewManager().getFriendView().getFriendViewModel().firePropertyChanged();

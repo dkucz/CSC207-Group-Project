@@ -25,36 +25,6 @@ public class FriendController {
     }
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        // Copy and paste the following codes.
-        FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
-        FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
-
-        FriendViewModel friendviewModel = new FriendViewModel("FriendView");
-        FriendView friendView = new FriendView(friendviewModel);
-
-        ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
-        ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
-
-        AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
-        AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
-
-        AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
-        AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
-
-        DeleteFriendViewModel deleteFriendViewModel = new DeleteFriendViewModel("DeleteFriendView");
-        DeleteFriendView deleteFriendView = new DeleteFriendView(deleteFriendViewModel);
-
-        friendViewManager.addView(friendView);
-        friendViewManager.addView(showFriendInfoView);
-        friendViewManager.addView(addFriendView);
-        friendViewManager.addView(addFriendFailedView);
-        friendViewManager.addView(deleteFriendView);
-
-        FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
-        //
-
-
-        // For Testing.
 //        FirestoreDAO firestoreDAO = new FirestoreDAO();
 //        User U0 = new User("Pranky0", "Password0", "Pranky12470");
 //        User U1 = new User("Pranky1", "Password1", "Pranky12471");
@@ -69,6 +39,30 @@ public class FriendController {
 //        firestoreDAO.save(U4);
 //        firestoreDAO.save(U5);
 
-        friendController.execute("Pranky1");
+
+        // Copy and paste the following codes.
+        FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
+        FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
+        FriendViewModel friendviewModel = new FriendViewModel("FriendView");
+        FriendView friendView = new FriendView(friendviewModel);
+        ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
+        ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
+        AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
+        AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+        AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
+        AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
+        DeleteFriendViewModel deleteFriendViewModel = new DeleteFriendViewModel("DeleteFriendView");
+        DeleteFriendView deleteFriendView = new DeleteFriendView(deleteFriendViewModel);
+        friendViewManager.addView(friendView);
+        friendViewManager.addView(showFriendInfoView);
+        friendViewManager.addView(addFriendView);
+        friendViewManager.addView(addFriendFailedView);
+        friendViewManager.addView(deleteFriendView);
+        FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
+        friendController.execute("Pranky2");
+        //
+
+
+
     }
 }

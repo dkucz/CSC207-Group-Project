@@ -78,7 +78,7 @@ public class ShowFriendInfoView extends JFrame implements PropertyChangeListener
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setMessage("Really? - -.");
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setDeleteFriendCompleted(false);
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setFriendViewManager(friendViewManager);
-                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setDeletedFriendUsername("");
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setDeletedFriendUsername(friendUsername);
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setCurrentUsername(currentUserName);
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setOutputDataList();
                 friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().firePropertyChanged();

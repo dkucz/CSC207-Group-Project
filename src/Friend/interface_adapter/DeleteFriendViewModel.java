@@ -16,6 +16,7 @@ public class DeleteFriendViewModel extends ViewModel{
     private FriendViewManager friendViewManager;
     private String deletedFriendUsername;
     private String currentUsername;
+    private int fontSize = 32;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
     public DeleteFriendViewModel(String viewName){
         super(viewName);
@@ -23,6 +24,9 @@ public class DeleteFriendViewModel extends ViewModel{
     @Override
     public void firePropertyChanged () {
         this.support.firePropertyChange("outputData",null, this.outputDataList);
+    }
+    public int getFontSize(){
+        return this.fontSize;
     }
 
     public void setWidth(int width){
@@ -55,6 +59,7 @@ public class DeleteFriendViewModel extends ViewModel{
         this.outputDataList.add(this.deleteFriendCompleted);
         this.outputDataList.add(this.friendViewManager);
         this.outputDataList.add(this.deletedFriendUsername);
+        this.outputDataList.add(this.currentUsername);
 
     }
     @Override
