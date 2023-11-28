@@ -1,9 +1,10 @@
 package entity;
 public class User implements CommonUser{
     /* User Class, each User is instantiated using their Google credentials*/
-    private final String username;
-    private final String password;
-    private final String gmail;
+    private String username;
+    private String password;
+    private String gmail;
+    public User(){}
 
     //hehe
     public User(String uname, String pass, String gmail){

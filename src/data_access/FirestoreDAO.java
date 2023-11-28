@@ -27,11 +27,15 @@ public class FirestoreDAO {
     private final CollectionReference userCollection;
 
     public FirestoreDAO() throws IOException {
-        InputStream serviceAccount = new FileInputStream("./serviceaccount.json");
+        InputStream serviceAccount = new FileInputStream("csc207-group-project-firebase-adminsdk-kobwa-ee137a491b.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
-        FirebaseApp.initializeApp(options);
+        //FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            FirebaseApp.initializeApp(options);
+        }
+
         database = FirestoreClient.getFirestore();
         userCollection = database.collection(userCollectionID);
     }

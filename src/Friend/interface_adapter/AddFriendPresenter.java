@@ -3,9 +3,12 @@ package Friend.interface_adapter;
 import Friend.use_case.AddFriendOutputBoundary;
 import Friend.use_case.AddFriendOutputData;
 import Friend.view.FriendViewManager;
+import data_access.FirestoreDAO;
 import entity.Friend;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddFriendPresenter implements AddFriendOutputBoundary {
     private final FriendViewManagerModel friendViewManagerModel;
@@ -15,7 +18,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         this.friendViewManagerModel = friendViewManager.getFriendViewManagerModel();
     }
     @Override
-    public void prepareSuccessView(AddFriendOutputData addFriendOutputData) {
+    public void prepareSuccessView(AddFriendOutputData addFriendOutputData) throws IOException, ExecutionException, InterruptedException {
         ArrayList<Object> outputDataList = new ArrayList<>();
         ArrayList<Friend> friendList = this.friendViewManager.getFriendView().getFriendList();
         String currentUsername = addFriendOutputData.getCurrentUserName();
@@ -36,14 +39,16 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         boolean friendDoesNotExist = outputData.isFriendDoesNotExist();
         boolean friendAlreadyInList = outputData.isFriendAlreadyInList();
         if(friendDoesNotExist){
-            // TBI.
+            this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().
+                    setErrorMessage("No such user.");
+            this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().firePropertyChanged();
         }else if(friendAlreadyInList){
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().
                     setErrorMessage("Already in your friend list.");
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().firePropertyChanged();
-            this.friendViewManager.getFriendViewManagerModel().setActiveView("addFriendFailedView");
-            this.friendViewManager.getFriendViewManagerModel().firePropertyChanged();
         }
+        this.friendViewManager.getFriendViewManagerModel().setActiveView("addFriendFailedView");
+        this.friendViewManager.getFriendViewManagerModel().firePropertyChanged();
     }
 
     @Override

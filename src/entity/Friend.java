@@ -2,11 +2,10 @@ package entity;
 
 public class Friend implements CommonUser{
 
-    private final String username;
+    private String username;
     private String gmail;
-
-    public Friend(String username)
-    {
+    public Friend(){}
+    public Friend(String username) {
         this.username = username;
     }
 
