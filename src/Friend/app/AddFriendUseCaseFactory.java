@@ -8,15 +8,17 @@ import Friend.use_case.AddFriendInteractor;
 import Friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 
+import java.io.IOException;
+
 public class AddFriendUseCaseFactory {
     public AddFriendUseCaseFactory(){};
-    public static AddFriendController create(FriendViewManager friendViewManager){
+    public static AddFriendController create(FriendViewManager friendViewManager) throws IOException {
 
         AddFriendPresenter addFriendPresenter = new AddFriendPresenter(friendViewManager);
 
-        String firestoreDao = ""; //4700: FirestoreDAO firestoreDAO = new FirestoreDAO();
+        FirestoreDAO firestoreDAO = new FirestoreDAO();
 
-        AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(addFriendPresenter, firestoreDao);
+        AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(addFriendPresenter, firestoreDAO);
         return new AddFriendController(addFriendInteractor);
     }
 }

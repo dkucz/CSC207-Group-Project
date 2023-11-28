@@ -5,9 +5,11 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 import Friend.app.FriendUseCaseFactory;
 import Friend.interface_adapter.*;
@@ -31,25 +33,22 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.menuViewModel = menuViewModel;
         this.menuViewModel.addPropertyChangeListener(this);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
 
         JLabel title = new JLabel("Main Menu");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setAlignmentY(Component.TOP_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel calendar = new JLabel("Calendar");
-        calendar.setAlignmentX(Component.LEFT_ALIGNMENT);
-        calendar.setAlignmentY(Component.CENTER_ALIGNMENT);
+        calendar.setHorizontalAlignment(SwingConstants.LEFT);
 
         JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+        buttons.add(Box.createVerticalStrut(20));
         friends = new JButton(menuViewModel.FRIENDS_BUTTON_LABEL);
-        friends.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttons.add(friends);
         createEvent = new JButton(menuViewModel.CREATE_EVENT_BUTTON_LABEL);
-        createEvent.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttons.add(createEvent);
         modifyEvent = new JButton(menuViewModel.MODIFY_EVENT_BUTTON_LABEL);
-        modifyEvent.setAlignmentX(Component.RIGHT_ALIGNMENT);
         buttons.add(modifyEvent);
 
 
@@ -67,53 +66,50 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
         friends.addActionListener(
-                new ActionListener() {
+                new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
-                        FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
 
-                        FriendViewModel friendviewModel = new FriendViewModel("FriendView");
-                        FriendView friendView = new FriendView(friendviewModel);
-
-                        ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
-                        ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
-
-                        AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
-                        AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
-
-                        AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
-                        AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
-
-                        friendViewManager.addView(friendView);
-                        friendViewManager.addView(showFriendInfoView);
-                        friendViewManager.addView(addFriendView);
-                        friendViewManager.addView(addFriendFailedView);
-
-                        FriendController friendController = null;
                         try {
-                            friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
-                        } catch (IOException ex) {
+                            FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
+                            FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
+
+                            FriendViewModel friendviewModel = new FriendViewModel("FriendView");
+                            FriendView friendView = new FriendView(friendviewModel);
+
+                            ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
+                            ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
+
+                            AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
+                            AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+
+                            AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
+                            AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
+
+                            friendViewManager.addView(friendView);
+                            friendViewManager.addView(showFriendInfoView);
+                            friendViewManager.addView(addFriendView);
+                            friendViewManager.addView(addFriendFailedView);
+
+                            FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
+                            friendController.execute(MenuView.this.currentUser.getUsername());
+
+                        } catch (IOException ex){
+                            throw new RuntimeException(ex);
+                        } catch (ExecutionException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
-                        friendController.execute(MenuView.this.currentUser.getUsername());
                     }
                 }
         );
         modifyEvent.addActionListener(this);
+        this.add(title, BorderLayout.NORTH);
 
+        this.add(calendar, BorderLayout.WEST);
 
-        this.add(title);
-        add(Box.createVerticalStrut(10)); // Adds some vertical space
-
-        this.add(calendar);
-        add(Box.createVerticalStrut(10)); // Adds some vertical space
-
-        this.add(buttons);
-
-
-
-
+        this.add(buttons, BorderLayout.EAST);
     }
     public void actionPerformed(ActionEvent evt){
         System.out.println("Click " + evt.getActionCommand());
@@ -129,9 +125,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.currentUser = u;
         if (this.currentUser != null) {
             JLabel user = new JLabel("User: " + this.currentUser.getUsername());
-            user.setAlignmentY(Component.TOP_ALIGNMENT);
-            user.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            this.add(user);
+            user.setHorizontalAlignment(SwingConstants.CENTER);
+            this.add(user, BorderLayout.SOUTH);
         }
     }
 }

@@ -4,17 +4,14 @@ public class User implements CommonUser{
     private String username;
     private String password;
     private String gmail;
+  
+    public User(){}
 
     public User(String username, String pass, String gmail){
         this.username = username;
         this.password = pass;
         this.gmail = gmail;
         //TODO: Update UserFactory to include gmail String
-    }
-
-    public User()
-    {
-
     }
 
     //Getters
