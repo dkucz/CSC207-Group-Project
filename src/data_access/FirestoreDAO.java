@@ -8,12 +8,14 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import entity.Friend;
 import entity.User;
-import signup.data_access.SignupUserDataAccessInterface;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreDAO {
@@ -40,9 +42,10 @@ public class FirestoreDAO {
         userCollection = database.collection(userCollectionID);
     }
 
-    public void save(User user) throws ExecutionException, InterruptedException {
+    public void save(User user) throws ExecutionException, InterruptedException
+    {
         // Create a new user document and set the userID as documentID
-        DocumentReference newUserRef = database.collection(userCollectionID).document();
+        DocumentReference newUserRef = database.collection(userCollectionID).document(user.getUsername());
 
         Map<String, Object> userData = getUserData(user);
 
@@ -72,6 +75,8 @@ public class FirestoreDAO {
         ApiFuture<WriteResult> writeResult = friendDocumentReference.set(friendData);
 
         writeResult.get();
+
+        // Also add User to Friend's User Document Friend Collection
     }
 
     public List<Friend> getFriendsAsList(String username) throws ExecutionException, InterruptedException {

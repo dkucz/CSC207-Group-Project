@@ -2,12 +2,15 @@ package entity;
 
 public class Friend implements CommonUser{
 
+    public Friend(){}
+
+    public Friend(String username, String gmail) {
+        this.username = username;
+        this.gmail = gmail;
+    }
+  
     private String username;
     private String gmail;
-    public Friend(){}
-    public Friend(String username) {
-        this.username = username;
-    }
 
     //Setter for gmail. Should only ever be called once.
     public void setGmail(String gmail)

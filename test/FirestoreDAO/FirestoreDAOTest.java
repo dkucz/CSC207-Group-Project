@@ -43,8 +43,8 @@ public class FirestoreDAOTest {
     @Test
     public void testAddFriend() throws ExecutionException, InterruptedException {
         // Create two test users
-        User user1 = new User("User1", "user1@gmail.com", "password1");
-        User user2 = new User("User2", "user2@gmail.com", "password2");
+        User user1 = new User("User1", "password1", "user1@gmail.com");
+        User user2 = new User("User2", "password2", "user2@gmail.com");
         Friend friend = new Friend("User2");
         friend.setGmail("user2@gmail.com");
 
@@ -66,6 +66,20 @@ public class FirestoreDAOTest {
         Friend nonExistingFriend = new Friend("NonExistingFriend");
         nonExistingFriend.setGmail("nonexisting@gmail.com");
         assertFalse(userExistsInFriendsCollection(user1, nonExistingFriend));
+    }
+
+    @Test
+    public void testGetFriend() throws ExecutionException, InterruptedException {
+        User user1 = new User("User1", "password1", "user1@gmail.com");
+        User user2 = new User("User2", "password2", "user2@gmail.com");
+        Friend friend = new Friend("User2");
+        friend.setGmail("user2@gmail.com");
+        firestoreDAO.save(user1);
+        firestoreDAO.save(user2);
+        firestoreDAO.addFriend(user1, friend);
+        Friend friend2 = firestoreDAO.getFriendFromName("User1", "User2");
+        assertEquals("user2@gmail.com", friend2.getGmail());
+        System.out.println(friend2.getGmail());
     }
 
     private boolean userExistsInFriendsCollection(User user, Friend friend) {
