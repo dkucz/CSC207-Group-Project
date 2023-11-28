@@ -71,8 +71,17 @@ public class ShowFriendInfoView extends JFrame implements PropertyChangeListener
         this.deleteFriend.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().
+                        setWidth((int)(showFriendInfoViewModel.getWidth() * 0.81));
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().
+                        setHeight((int)(showFriendInfoViewModel.getHeight() * 0.81));
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setMessage("Really? - -.");
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setDeleteFriendCompleted(false);
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().setOutputDataList();
+                friendViewManager.getDeleteFriendView().getDeleteFriendViewModel().firePropertyChanged();
+                friendViewManager.getDeleteFriendView().setLocationRelativeTo(friendViewManager.getShowFriendInfoView());
+                friendViewManager.getFriendViewManagerModel().setActiveView("deleteFriendView");
+                friendViewManager.getFriendViewManagerModel().firePropertyChanged();
             }
         });
     }

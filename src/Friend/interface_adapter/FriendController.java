@@ -41,10 +41,14 @@ public class FriendController {
         AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
         AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
 
+        DeleteFriendViewModel deleteFriendViewModel = new DeleteFriendViewModel("DeleteFriendView");
+        DeleteFriendView deleteFriendView = new DeleteFriendView(deleteFriendViewModel);
+
         friendViewManager.addView(friendView);
         friendViewManager.addView(showFriendInfoView);
         friendViewManager.addView(addFriendView);
         friendViewManager.addView(addFriendFailedView);
+        friendViewManager.addView(deleteFriendView);
 
         FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
         //
