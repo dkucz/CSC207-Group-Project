@@ -4,6 +4,9 @@ import Friend.interface_adapter.AddFriendPresenter;
 import Friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 import entity.Friend;
+import entity.User;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -15,7 +18,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         this.firestoreDAO = firestoreDAO;
     }
     @Override
-    public void execute(AddFriendInputData addFriendInputData) throws ExecutionException, InterruptedException {
+    public void execute(AddFriendInputData addFriendInputData) throws ExecutionException, InterruptedException, IOException {
         String currentUsername = addFriendInputData.getCurrentUsername();
         String wantToAddFriendUsername = addFriendInputData.wantToAddFriendUsername;
         boolean friendDoesNotExist = !(this.firestoreDAO.existsByName(wantToAddFriendUsername));
@@ -44,6 +47,12 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         }else if(friendAlreadyInList){
             this.addFriendPresenter.prepareFailedView(outputData);
         }else {
+
+            User currentUser = firestoreDAO.getUserFromName(currentUsername);
+            String friendUsername = this.firestoreDAO.getUserFromName(wantToAddFriendUsername).getUsername();
+            Friend friend = new Friend(friendUsername);
+            friend.setGmail(friendGmail);
+            firestoreDAO.addFriend(currentUser,friend);
             this.addFriendPresenter.prepareSuccessView(outputData);
         }
     }
