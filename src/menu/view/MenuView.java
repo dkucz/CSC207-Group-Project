@@ -9,6 +9,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import Friend.app.FriendUseCaseFactory;
+import Friend.interface_adapter.*;
+import Friend.view.*;
 import entity.User;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
@@ -63,7 +66,40 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
-        friends.addActionListener(this);
+        friends.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
+                        FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
+
+                        FriendViewModel friendviewModel = new FriendViewModel("FriendView");
+                        FriendView friendView = new FriendView(friendviewModel);
+
+                        ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
+                        ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
+
+                        AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
+                        AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+
+                        AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
+                        AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
+
+                        friendViewManager.addView(friendView);
+                        friendViewManager.addView(showFriendInfoView);
+                        friendViewManager.addView(addFriendView);
+                        friendViewManager.addView(addFriendFailedView);
+
+                        FriendController friendController = null;
+                        try {
+                            friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        friendController.execute(MenuView.this.currentUser.getUsername());
+                    }
+                }
+        );
         modifyEvent.addActionListener(this);
 
 
