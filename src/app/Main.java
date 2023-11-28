@@ -4,7 +4,6 @@ import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
-import entity.UserFactory;
 import login.interface_adapter.LoginViewModel;
 import login.view.LoginView;
 import login.view.ViewManager;
@@ -57,7 +56,6 @@ public class Main {
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
-
 
         application.pack();
         application.setVisible(true);

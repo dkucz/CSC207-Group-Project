@@ -1,16 +1,20 @@
 package entity;
 public class User implements CommonUser{
     /* User Class, each User is instantiated using their Google credentials*/
-    private final String username;
-    private final String password;
-    private final String gmail;
+    private String username;
+    private String password;
+    private String gmail;
 
-    //hehe
-    public User(String uname, String pass, String gmail){
-        this.username = uname;
+    public User(String username, String pass, String gmail){
+        this.username = username;
         this.password = pass;
         this.gmail = gmail;
         //TODO: Update UserFactory to include gmail String
+    }
+
+    public User()
+    {
+
     }
 
     //Getters
@@ -19,5 +23,4 @@ public class User implements CommonUser{
     }
     public String getPassword(){return this.password;}
     public String getGmail(){return this.gmail;}
-
 }
