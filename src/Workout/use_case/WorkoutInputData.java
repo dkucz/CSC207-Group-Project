@@ -9,16 +9,19 @@ public class WorkoutInputData {
 
     public WorkoutInputData(String workout, String muscle)
     {
+        this.workout = workout;
         this.muscle = muscle;
 
     }
     public WorkoutInputData(String workout, String muscle, String type)
     {
+        this.workout = workout;
         this.muscle = muscle;
         this.type = type;
     }
     public WorkoutInputData(String workout, String muscle, String type, String difficulty)
     {
+        this.workout = workout;
         this.muscle = muscle;
         this.type = type;
         this.difficulty = difficulty;
