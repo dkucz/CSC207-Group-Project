@@ -5,25 +5,29 @@ import Friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 import entity.Friend;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
     AddFriendOutputBoundary addFriendPresenter;
-    String firestoreDAO; //4700: FirestoreDAO firestoreDAO;
-    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, String firestoreDAO){ //4700: public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, FirestoreDAO firestoreDAO){
+    FirestoreDAO firestoreDAO;
+    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, FirestoreDAO firestoreDAO){
         this.addFriendPresenter = addFriendPresenter;
         this.firestoreDAO = firestoreDAO;
     }
     @Override
-    public void execute(AddFriendInputData addFriendInputData) {
-        // 4701: I need a functional database to check weather this friend is already in this user's friend list or doesn't even exist to prepare a failedView.
-        // Now I only prepare success view here.
+    public void execute(AddFriendInputData addFriendInputData) throws ExecutionException, InterruptedException {
         String currentUsername = addFriendInputData.getCurrentUsername();
         String wantToAddFriendUsername = addFriendInputData.wantToAddFriendUsername;
-        String friendGmail = "123123@gmail.cccom"; // This gmail should be from the database.
+        boolean friendDoesNotExist = !(this.firestoreDAO.existsByName(wantToAddFriendUsername));
+        boolean friendAlreadyInList = false;
+        String friendGmail = "";
+        if(friendDoesNotExist){
+            friendGmail = "NO SUCH USER.";
+        }else{
+            friendGmail = firestoreDAO.getUserFromName(wantToAddFriendUsername).getGmail();
+        }
         FriendViewManager friendViewManager = this.addFriendPresenter.getFriendViewManager();
         ArrayList<Friend> friendList = friendViewManager.getFriendView().getFriendList();
-        boolean friendDoesNotExist = false; // Need to access the database to check this.
-        boolean friendAlreadyInList = false;
         for(Friend i: friendList){
             if(i.getUsername().equals(wantToAddFriendUsername)){
                 friendAlreadyInList = true;
@@ -32,9 +36,12 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
         AddFriendOutputData outputData = new AddFriendOutputData(currentUsername,
                 wantToAddFriendUsername,
                 friendGmail,
-                false,
+                friendDoesNotExist,
                 friendAlreadyInList );
-        if(friendAlreadyInList){
+
+        if(friendDoesNotExist){
+            this.addFriendPresenter.prepareFailedView(outputData);
+        }else if(friendAlreadyInList){
             this.addFriendPresenter.prepareFailedView(outputData);
         }else {
             this.addFriendPresenter.prepareSuccessView(outputData);

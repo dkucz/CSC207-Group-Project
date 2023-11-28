@@ -9,7 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class AddFriendView extends JFrame implements PropertyChangeListener {
     private String currentUsername;
@@ -67,7 +69,15 @@ public class AddFriendView extends JFrame implements PropertyChangeListener {
                 String wantToAddFriendUsername = wantToAddFriendUsernameTextField.getText();
                 wantToAddFriendUsernameTextField.setText("");
                 friendViewManager.getAddFriendView().setVisible(false);
-                AddFriendUseCaseFactory.create(friendViewManager).execute(currentUsername,wantToAddFriendUsername);
+                try {
+                    AddFriendUseCaseFactory.create(friendViewManager).execute(currentUsername,wantToAddFriendUsername);
+                } catch (ExecutionException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 import Friend.app.FriendUseCaseFactory;
 import Friend.interface_adapter.*;
@@ -95,14 +96,15 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
                         } catch (IOException ex){
                             throw new RuntimeException(ex);
+                        } catch (ExecutionException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
                         }
                     }
                 }
         );
-
         modifyEvent.addActionListener(this);
-
-
         this.add(title, BorderLayout.NORTH);
 
         this.add(calendar, BorderLayout.WEST);

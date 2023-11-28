@@ -36,14 +36,16 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         boolean friendDoesNotExist = outputData.isFriendDoesNotExist();
         boolean friendAlreadyInList = outputData.isFriendAlreadyInList();
         if(friendDoesNotExist){
-            // TBI.
+            this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().
+                    setErrorMessage("No such user.");
+            this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().firePropertyChanged();
         }else if(friendAlreadyInList){
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().
                     setErrorMessage("Already in your friend list.");
             this.friendViewManager.getAddFriendFailedView().getAddFriendFailedViewModel().firePropertyChanged();
-            this.friendViewManager.getFriendViewManagerModel().setActiveView("addFriendFailedView");
-            this.friendViewManager.getFriendViewManagerModel().firePropertyChanged();
         }
+        this.friendViewManager.getFriendViewManagerModel().setActiveView("addFriendFailedView");
+        this.friendViewManager.getFriendViewManagerModel().firePropertyChanged();
     }
 
     @Override
