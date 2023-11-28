@@ -19,6 +19,7 @@ import entity.User;
 import login.data_access.LoginUserDataAccessInterface;
 import signup.data_access.SignupUserDataAccessInterface;
 
+import javax.swing.*;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.*;
@@ -107,7 +108,8 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
         return credential;
     }
 
-    public void getCalendarList() throws GeneralSecurityException, IOException {
+    public DefaultListModel<String> getCalendarList() throws GeneralSecurityException, IOException {
+        DefaultListModel<String> eventListModel = new DefaultListModel<>();
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Credential credentials = getCredentials(HTTP_TRANSPORT);
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
@@ -120,10 +122,11 @@ public class GoogleCalendarDAO implements LoginUserDataAccessInterface, SignupUs
             List<CalendarListEntry> items = calendarList.getItems();
 
             for (CalendarListEntry calendarListEntry : items) {
-                System.out.println(calendarListEntry.getSummary());
+                eventListModel.addElement(calendarListEntry.getSummary());
             }
             pageToken = calendarList.getNextPageToken();
         } while (pageToken != null);
+        return eventListModel;
     }
 
     public void createCalendar() throws GeneralSecurityException, IOException

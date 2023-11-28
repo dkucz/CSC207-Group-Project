@@ -1,9 +1,9 @@
 In order to implement the functionalities without fireStore being fully implemented and friend entity. I have to make some changes here
 and will change it back later.
-Friend.app.FriendUseCaseFactory --> Line15.
-Friend.use_case.FriendInteractor --> Line8, Line9.
-Friend.FriendOutputData --> Line9, Line11.
-Friend.FriendInteractor --> Line18.
-Friend.FriendInteractor --> Execute method body.
 
 
+## 4700 means replace the codes with the commented codes.
+FriendInteractor --> 4700s.
+FriendUseCaseFactory --> 4700s.
+AddFriendUseCaseFactory --> 4700s.
+AddFriendInteractor --> 4700s.
