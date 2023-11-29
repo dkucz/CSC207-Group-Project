@@ -29,7 +29,7 @@ public class FirestoreDAO {
     private final CollectionReference userCollection;
 
     public FirestoreDAO() throws IOException {
-        InputStream serviceAccount = new FileInputStream("serviceaccount.json");
+        InputStream serviceAccount = new FileInputStream("./serviceaccount.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
