@@ -31,7 +31,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     //placeholders blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-    public final String viewName = "Workout";
+    public final String viewName = "Workout Creator";
 
     private final WorkoutViewModel workoutViewModel;
 
@@ -58,7 +58,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         database.add("Ruby");
 
             // Create the main frame
-        JFrame frame = new JFrame("Database Search App");
+        JFrame frame = new JFrame("Workout Creator");
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -69,7 +69,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             // search bar panel
         JPanel searchPanel = new JPanel();
         searchField = new JTextField(20);
-        JButton searchButton = new JButton("Search");
+        JButton searchButton = new JButton(WorkoutViewModel.SEARCH_LABEL);
 
             // Create a result area panel
         JPanel resultPanel = new JPanel();
