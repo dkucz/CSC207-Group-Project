@@ -1,8 +1,10 @@
 package Workout.interface_adapter;
 
 import app.ViewModel;
+import login.interface_adapter.LoginState;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class WorkoutViewModel extends ViewModel {
 
@@ -21,13 +23,11 @@ public class WorkoutViewModel extends ViewModel {
         return state;
     }
 
-    @Override
-    public void firePropertyChanged() {
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    public void firePropertyChanged(){support.firePropertyChange("state", null, this.state);}
 
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        support.addPropertyChangeListener(listener);
     }
 
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-    }
 }

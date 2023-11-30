@@ -1,12 +1,26 @@
 package Workout.interface_adapter;
 
 public class WorkoutState {
-    public Object getUsername() {
-        return null;
+
+    private String workout = "";
+    private String muscle = "";
+    private String type = "";
+    private String difficulty = "";
+
+    public String getWorkout() {
+        return workout;
     }
 
-    public Object getPassword() {
-        return null;
+    public String getMuscle() {
+        return muscle;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
     }
 
     public void setPassword(String s) {

@@ -11,7 +11,7 @@ public class WorkoutController {
 
     final WorkoutInputBoundary workoutUseCaseInteractor;
 
-    public WorkoutController(WorkoutInputBoundary workoutInputBoundary, WorkoutInputBoundary workoutUseCaseInteractor) {
+    public WorkoutController(WorkoutInputBoundary workoutUseCaseInteractor) {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
     }
 
@@ -21,6 +21,27 @@ public class WorkoutController {
                 workout, muscle, type, difficulty);
 
         workoutUseCaseInteractor.execute(workoutInputData);
+        System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getDifficulty());
+    }
+
+
+    public void execute(String workout, String muscle, String type) throws GeneralSecurityException,
+            IOException {
+        WorkoutInputData workoutInputData = new WorkoutInputData(
+                workout, muscle, type);
+
+        workoutUseCaseInteractor.execute(workoutInputData);
+        System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getType());
+    }
+
+    public void execute(String workout, String muscle) throws GeneralSecurityException,
+            IOException {
+        WorkoutInputData workoutInputData = new WorkoutInputData(
+                workout, muscle);
+
+        workoutUseCaseInteractor.execute(workoutInputData);
         System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getMuscle());
     }
 }
+
+
