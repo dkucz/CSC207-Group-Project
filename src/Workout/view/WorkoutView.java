@@ -210,13 +210,13 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         MenuViewModel menuViewModel = new MenuViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
         ExercisesDAO appDAO = new ExercisesDAO();
-        WorkoutController workoutView = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
                 workoutViewModel, menuViewModel, appDAO);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutView, workoutViewModel);
+                new WorkoutView(workoutController, workoutViewModel);
             }
         });
     }
