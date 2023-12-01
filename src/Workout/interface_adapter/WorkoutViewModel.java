@@ -1,7 +1,6 @@
 package Workout.interface_adapter;
 
 import app.ViewModel;
-import login.interface_adapter.LoginState;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

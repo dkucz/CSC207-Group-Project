@@ -96,15 +96,16 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Call the search method when the button is clicked
-                    WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
+                    //WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
                     System.out.println(searchField.getText());
-                    workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
+                    //workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
 
                     //change the way this works so appropriate conditions allow execute 2, 3, or 4 arugmenets
                     WorkoutState workoutState = workoutViewModel.getState();
                     try {
                         //workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
                         workoutController.execute(workoutState.getWorkout(), searchField.getText());
+                        resultArea.setText(workoutState.getExercises());
                     } catch (GeneralSecurityException ex) {
                         throw new RuntimeException(ex);
                     } catch (IOException ex) {

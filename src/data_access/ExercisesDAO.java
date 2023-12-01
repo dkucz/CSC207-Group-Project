@@ -24,7 +24,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 //        //owa.FindOfType("strongman");
 //    }
 
-    public void GetExercisesInfo(String muscle) {
+    public void GetExercisesInfo(Workout workout, String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
 
         OkHttpClient client = new OkHttpClient();
@@ -41,7 +41,6 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             //System.out.println(response);
-            Workout workout = new Workout();
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this muscle");
                 workout.SetExercisesInfo("No exercises found for this muscle");
@@ -55,7 +54,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         }
     }
 
-    public void FindOfType(String type) {
+    public void FindOfType(Workout workout, String type) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -70,7 +69,6 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             //System.out.println(response);
-            Workout workout = new Workout();
             workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
@@ -84,7 +82,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
 
-    public void ExercisesOnDifficulty(String difficulty) {
+    public void ExercisesOnDifficulty(Workout workout, String difficulty) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -100,7 +98,6 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            Workout workout = new Workout();
             workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("Not a valid difficulty");
@@ -120,6 +117,18 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public boolean existsByName(String identifer) {
+        String[] validMuscles = {
+                "abdominals", "abductors", "adductors", "biceps", "calves",
+                "chest", "forearms", "glutes", "hamstrings", "lats",
+                "lower_back", "middle_back", "neck", "quadriceps", "traps", "triceps"
+        };
+
+        for (String muscle : validMuscles) {
+            if (muscle.equalsIgnoreCase(identifer)) {
+                return true; // Input matches a valid muscle
+            }
+        }
+
         return false;
     }
 

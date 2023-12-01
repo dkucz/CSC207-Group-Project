@@ -9,26 +9,28 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class WorkoutInteractor implements WorkoutInputBoundary {
-    final WorkoutDataAccessInterface userDAO;
+    final WorkoutDataAccessInterface workoutDAO;
     final WorkoutOutputBoundary workoutPresenter;
 
-    public WorkoutInteractor(WorkoutDataAccessInterface userDAO, WorkoutOutputBoundary workoutPresenter)
+    public WorkoutInteractor(WorkoutDataAccessInterface workoutDAO, WorkoutOutputBoundary workoutPresenter)
     {
-        this.userDAO = userDAO;
+        this.workoutDAO = workoutDAO;
         this.workoutPresenter = workoutPresenter;
     }
 
     public void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException {
         Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
-        if (!userDAO.existsByName(muscle))
+        //fix this condition cause its always returning false
+        if (!workoutDAO.existsByName(muscle))
         {
             workoutPresenter.prepareFailView(muscle + " is not a valid muscle");
         } else
         {
-                WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
-                workoutPresenter.prepareSuccessView(workoutOutputData);
-                System.out.println("working Interactor");
+            workoutDAO.GetExercisesInfo(workout, muscle);
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
+            workoutPresenter.prepareSuccessView(workoutOutputData);
+            System.out.println("working Interactor");
 
         }
     }
@@ -37,12 +39,12 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         String muscle = workoutInputData.getMuscle();
         String type = workoutInputData.getType();
 
-        if (!userDAO.existsByName(muscle)) {
+        if (!workoutDAO.existsByName(muscle)) {
             workoutPresenter.prepareFailView(muscle + ": is not valid");
             return;
         }
 
-        if (!userDAO.existsByType(type)) {
+        if (!workoutDAO.existsByType(type)) {
             workoutPresenter.prepareFailView("Not a valid type");
             return;
         }
@@ -60,17 +62,17 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         String type = workoutInputData.getType();
         String difficulty = workoutInputData.getDifficulty();
 
-        if (!userDAO.existsByName(muscle)) {
+        if (!workoutDAO.existsByName(muscle)) {
             workoutPresenter.prepareFailView(muscle + ": is not valid");
             return;
         }
 
-        if (!userDAO.existsByType(type)) {
+        if (!workoutDAO.existsByType(type)) {
             workoutPresenter.prepareFailView("Not a valid type");
             return;
         }
 
-        if (!userDAO.existsByDifficulty(difficulty)) {
+        if (!workoutDAO.existsByDifficulty(difficulty)) {
             workoutPresenter.prepareFailView("Not a valid difficulty");
             return;
         }

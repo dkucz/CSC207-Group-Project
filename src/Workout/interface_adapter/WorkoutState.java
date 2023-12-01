@@ -4,11 +4,10 @@ import entity.Workout;
 
 public class WorkoutState {
 
-    private Workout workout;
+    private Workout workout = new Workout();
     private String exercises = "";
 //    private String type = "";
 //    private String difficulty = "";
-
 
     public Workout getWorkout() {
         return workout;

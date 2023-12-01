@@ -15,11 +15,11 @@ public interface WorkoutDataAccessInterface {
     boolean existsByDifficulty(String type);
 
 
-    void GetExercisesInfo(String muscle);
+    void GetExercisesInfo(Workout workout, String muscle);
 
-    void FindOfType(String type);
+    void FindOfType(Workout workout, String type);
 
-    void ExercisesOnDifficulty(String difficulty);
+    void ExercisesOnDifficulty(Workout workout, String difficulty);
 
     Workout get(String workout);
 }
