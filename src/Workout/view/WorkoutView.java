@@ -59,7 +59,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
             // Create the main frame
         JFrame frame = new JFrame("Workout Creator");
-        frame.setSize(400, 300);
+        frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // panel to hold components with a BoxLayout
@@ -78,7 +78,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         JPanel buttons = new JPanel();
         addExercise = new JButton(WorkoutViewModel.MAKE_WORKOUT_LABEL);
-        searchPanel.add(addExercise);
+        buttons.add(addExercise);
         saveWorkout = new JButton(WorkoutViewModel.SAVE_LABEL);
         buttons.add(saveWorkout);
         exitWorkout = new JButton(WorkoutViewModel.CANCEL_BUTTON_LABEL);
@@ -94,6 +94,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         mainPanel.add(searchPanel);
         mainPanel.add(resultPanel);
+        mainPanel.add(buttons);
         frame.add(mainPanel);
 
             // Set the frame visibility to true
@@ -105,7 +106,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                 public void actionPerformed(ActionEvent e) {
                     // Call the search method when the button is clicked
                     WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
-                    workoutDataAccessInterface.GetExercisesInfo(searchInputField.getText());
+                    System.out.println(searchField.getText());
+                    workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
                 }
             });
 

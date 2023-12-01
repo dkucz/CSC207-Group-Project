@@ -14,15 +14,15 @@ import java.security.GeneralSecurityException;
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     //documentation: https://www.api-ninjas.com/api/exercises
-    public static void main(String[] args){
-
-        ExercisesDAO owa = new ExercisesDAO();
-
-        //owa.GetExercisesInfo("chest");
-        //owa.GetExercisesInfo("balls");
-        //owa.ExercisesOnDifficulty("hard");
-        //owa.FindOfType("strongman");
-    }
+//    public static void main(String[] args){
+//
+//        ExercisesDAO owa = new ExercisesDAO();
+//
+//        //owa.GetExercisesInfo("chest");
+//        //owa.GetExercisesInfo("balls");
+//        //owa.ExercisesOnDifficulty("hard");
+//        //owa.FindOfType("strongman");
+//    }
 
     public void GetExercisesInfo(String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
