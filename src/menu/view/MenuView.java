@@ -39,6 +39,9 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     final JButton friends;
     final JButton createEvent;
     final JButton modifyEvent;
+    final JLabel user;
+
+    final JPanel calendarPanel;
 
     final JButton signout;
     private User currentUser;
@@ -48,6 +51,18 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.menuViewModel.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
+
+
+        calendarPanel = new JPanel();
+        calendarPanel.setLayout(new BorderLayout());
+        calendarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        this.add(calendarPanel, BorderLayout.CENTER);
+
+
+        user = new JLabel();
+        user.setHorizontalAlignment(SwingConstants.CENTER);
+        this.add(user, BorderLayout.SOUTH);
 
         JLabel title = new JLabel("Main Menu");
         title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,9 +170,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
         if (this.currentUser != null) {
 
-            JLabel user = new JLabel("User: " + this.currentUser.getUsername());
-            user.setHorizontalAlignment(SwingConstants.CENTER);
-            this.add(user, BorderLayout.SOUTH);
+            this.user.setText("User: " + this.currentUser.getUsername());
+
 
         }
 
@@ -166,11 +180,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         JList<String> eventList = new JList<>(events);
         JScrollPane scrollPane = new JScrollPane(eventList);
 
-        JPanel calendarPanel = new JPanel();
-        calendarPanel.setLayout(new BorderLayout());
-        calendarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        calendarPanel.add(scrollPane, BorderLayout.CENTER);
-        this.add(calendarPanel, BorderLayout.CENTER);
+        this.calendarPanel.removeAll();
+        this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
 
 
     }
