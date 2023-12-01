@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import Friend.app.FriendUseCaseFactory;
 import Friend.interface_adapter.*;
 import Friend.view.*;
+import data_access.GoogleCalendarDAO;
 import entity.User;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
@@ -121,12 +122,25 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
 
 
-    public void setUser(User u){
+    public void setUser(User u) throws GeneralSecurityException, IOException {
         this.currentUser = u;
         if (this.currentUser != null) {
             JLabel user = new JLabel("User: " + this.currentUser.getUsername());
             user.setHorizontalAlignment(SwingConstants.CENTER);
             this.add(user, BorderLayout.SOUTH);
         }
+
+        GoogleCalendarDAO cal = new GoogleCalendarDAO();
+        DefaultListModel<String> events = cal.getCalendarList();
+        JList<String> eventList = new JList<>(events);
+        JScrollPane scrollPane = new JScrollPane(eventList);
+
+        JPanel calendarPanel = new JPanel();
+        calendarPanel.setLayout(new BorderLayout());
+        calendarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        calendarPanel.add(scrollPane, BorderLayout.CENTER);
+        this.add(calendarPanel, BorderLayout.CENTER);
+
+
     }
 }
