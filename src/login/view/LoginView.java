@@ -1,8 +1,8 @@
 package login.view;
 
 import login.interface_adapter.LoginController;
-import login.interface_adapter.LoginViewModel;
 import login.interface_adapter.LoginState;
+import login.interface_adapter.LoginViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +14,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewName = "log in";
     private final LoginViewModel loginViewModel;
 
+    public LoginViewModel getLoginViewModel(){
+        return this.loginViewModel;
+    }
     /**
      * The username chosen by the user
      */
@@ -62,9 +66,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                         LoginState loginState = loginViewModel.getState();
                         try {
                             loginController.execute(loginState.getUsername(), loginState.getPassword());
-                        } catch (GeneralSecurityException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (IOException ex) {
+                        } catch (GeneralSecurityException | IOException | ExecutionException | InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
                     }

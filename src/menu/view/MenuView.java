@@ -5,9 +5,29 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
+import Friend.app.FriendUseCaseFactory;
+import Friend.interface_adapter.*;
+import Friend.interface_adapter.AddFriend.AddFriendFailedViewModel;
+import Friend.interface_adapter.AddFriend.AddFriendViewModel;
+import Friend.interface_adapter.DeleteFriend.DeleteFriendViewModel;
+import Friend.interface_adapter.FriendPage.FriendController;
+import Friend.interface_adapter.FriendPage.FriendViewModel;
+import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
+import Friend.view.*;
+import Friend.view.DeleteFriend.DeleteFriendView;
+import data_access.GoogleCalendarDAO;
+import Friend.view.AddFriend.AddFriendFailedView;
+import Friend.view.AddFriend.AddFriendView;
+import Friend.view.FriendPage.FriendView;
+import Friend.view.ShowFriendInfo.ShowFriendInfoView;
 import entity.User;
+import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 
@@ -19,20 +39,23 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     final JButton createEvent;
     final JButton modifyEvent;
 
+    private User currentUser;
+
     public MenuView(MenuViewModel menuViewModel){
         this.menuViewModel = menuViewModel;
         this.menuViewModel.addPropertyChangeListener(this);
 
-
+        setLayout(new BorderLayout());
 
         JLabel title = new JLabel("Main Menu");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel calendar = new JLabel("Calendar");
-        calendar.setAlignmentX(Component.LEFT_ALIGNMENT);
-        calendar.setAlignmentY(Component.CENTER_ALIGNMENT);
+        calendar.setHorizontalAlignment(SwingConstants.LEFT);
 
         JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+        buttons.add(Box.createVerticalStrut(20));
         friends = new JButton(menuViewModel.FRIENDS_BUTTON_LABEL);
         buttons.add(friends);
         createEvent = new JButton(menuViewModel.CREATE_EVENT_BUTTON_LABEL);
@@ -40,19 +63,58 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         modifyEvent = new JButton(menuViewModel.MODIFY_EVENT_BUTTON_LABEL);
         buttons.add(modifyEvent);
 
-        friends.addActionListener(this);
+
+        createEvent.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            CreateEventController createEventController = new CreateEventController();
+                            createEventController.execute();
+                        } catch (GeneralSecurityException | IOException ex){
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+        );
+        friends.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        try {
+                            FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
+                            FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
+                            FriendViewModel friendviewModel = new FriendViewModel("FriendView");
+                            FriendView friendView = new FriendView(friendviewModel);
+                            ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
+                            ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
+                            AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
+                            AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
+                            AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
+                            AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
+                            DeleteFriendViewModel deleteFriendViewModel = new DeleteFriendViewModel("DeleteFriendView");
+                            DeleteFriendView deleteFriendView = new DeleteFriendView(deleteFriendViewModel);
+                            friendViewManager.addView(friendView);
+                            friendViewManager.addView(showFriendInfoView);
+                            friendViewManager.addView(addFriendView);
+                            friendViewManager.addView(addFriendFailedView);
+                            friendViewManager.addView(deleteFriendView);
+                            FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
+                            friendController.execute(MenuView.this.currentUser.getUsername());
+
+                        } catch (IOException | InterruptedException | ExecutionException ex){
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+        );
         modifyEvent.addActionListener(this);
-        modifyEvent.addActionListener(this);
+        this.add(title, BorderLayout.NORTH);
 
-        buttons.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        this.add(calendar, BorderLayout.WEST);
 
-        this.add(title);
-        this.add(calendar);
-        this.add(buttons);
-
-
-
-
+        this.add(buttons, BorderLayout.EAST);
     }
     public void actionPerformed(ActionEvent evt){
         System.out.println("Click " + evt.getActionCommand());
@@ -62,12 +124,27 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         MenuState state = (MenuState)e.getNewValue();
     }
 
-    public void setUser(User u){
-        this.menuViewModel.getState().setUser(u);
-        if (this.menuViewModel.getState().getCurrentUser() != null) {
-            JLabel user = new JLabel("User" + this.menuViewModel.getState().getUsername());
-            user.setAlignmentY(Component.TOP_ALIGNMENT);
-            user.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+
+    public void setUser(User u) throws GeneralSecurityException, IOException {
+        this.currentUser = u;
+        if (this.currentUser != null) {
+            JLabel user = new JLabel("User: " + this.currentUser.getUsername());
+            user.setHorizontalAlignment(SwingConstants.CENTER);
+            this.add(user, BorderLayout.SOUTH);
         }
+
+        GoogleCalendarDAO cal = new GoogleCalendarDAO();
+        DefaultListModel<String> events = cal.getCalendarList();
+        JList<String> eventList = new JList<>(events);
+        JScrollPane scrollPane = new JScrollPane(eventList);
+
+        JPanel calendarPanel = new JPanel();
+        calendarPanel.setLayout(new BorderLayout());
+        calendarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        calendarPanel.add(scrollPane, BorderLayout.CENTER);
+        this.add(calendarPanel, BorderLayout.CENTER);
+
+
     }
 }

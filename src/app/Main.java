@@ -1,7 +1,9 @@
 package app;
 
+import data_access.ExercisesDAO;
+import data_access.FacadeDAO;
+import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
-import entity.UserFactory;
 import login.interface_adapter.LoginViewModel;
 import login.view.LoginView;
 import login.view.ViewManager;
@@ -33,8 +35,11 @@ public class Main {
         SignupViewModel signupViewModel = new SignupViewModel();
         MenuViewModel menuViewModel = new MenuViewModel();
 
-        UserFactory userFactory = new UserFactory();
-        GoogleCalendarDAO appDAO = new GoogleCalendarDAO("./accounts.csv", userFactory);
+        GoogleCalendarDAO googleDAO = new GoogleCalendarDAO();
+        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        ExercisesDAO exercisesDAO = new ExercisesDAO();
+
+        FacadeDAO appDAO = new FacadeDAO(firestoreDAO, googleDAO, exercisesDAO);
 
         SignupView signupView = SignupUseCaseFactory.create(viewManagerModel,
                 loginViewModel, signupViewModel, appDAO);
@@ -44,12 +49,13 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
+
         MenuView menuView = new MenuView(menuViewModel);
         views.add(menuView, menuView.viewname);
+        loginView.getLoginViewModel().setMenuView(menuView);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
-
 
         application.pack();
         application.setVisible(true);

@@ -1,13 +1,14 @@
 package login.interface_adapter;
 
 import app.ViewManagerModel;
-import loggedin.interface_adapter.LoggedInState;
-import loggedin.interface_adapter.LoggedInViewModel;
 import login.use_case.LoginOutputBoundary;
 import login.use_case.LoginOutputData;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
 import signup.interface_adapter.SignupViewModel;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class LoginPresenter implements LoginOutputBoundary {
 
@@ -26,8 +27,11 @@ public class LoginPresenter implements LoginOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(LoginOutputData response) {
+    public void prepareSuccessView(LoginOutputData response) throws GeneralSecurityException, IOException {
         // On success, switch to the logged in view.
+
+        // Get Menu View and update it
+        this.loginViewModel.menuView.setUser(response.getUser());
 
         MenuState menuState = menuViewModel.getState();
         menuState.setUsername(response.getUsername());
@@ -35,7 +39,10 @@ public class LoginPresenter implements LoginOutputBoundary {
         this.menuViewModel.setState(menuState);
         this.menuViewModel.firePropertyChanged();
 
+
+
         this.viewManagerModel.setActiveView(menuViewModel.getViewName());
+
         this.viewManagerModel.firePropertyChanged();
     }
 

@@ -1,5 +1,6 @@
 package login.interface_adapter;
 import app.ViewModel;
+import menu.view.MenuView;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -10,6 +11,11 @@ public class LoginViewModel extends ViewModel {
     public final String LOGIN_BUTTON_LABEL = "Log in";
     public final String CANCEL_BUTTON_LABEL = "Cancel";
     private LoginState state = new LoginState();
+    public MenuView menuView;
+
+    public void setMenuView(MenuView m){
+        this.menuView = m;
+    }
 
     public LoginViewModel(){super("log in");}
 

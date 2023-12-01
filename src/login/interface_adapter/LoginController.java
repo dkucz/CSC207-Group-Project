@@ -5,6 +5,7 @@ import login.use_case.LoginInputData;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public class LoginController {
     final LoginInputBoundary loginUseCaseInteractor;
@@ -13,12 +14,11 @@ public class LoginController {
     }
 
 
-    public void execute(String username, String password) throws GeneralSecurityException, IOException {
+    public void execute(String username, String password) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
         LoginInputData loginInputData = new LoginInputData(
                 username, password);
 
         loginUseCaseInteractor.execute(loginInputData);
-        System.out.println(loginInputData.getUsername() + " " + loginInputData.getPassword());
     }
 
     public void execute()
