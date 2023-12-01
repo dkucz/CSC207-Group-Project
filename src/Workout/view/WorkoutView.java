@@ -103,7 +103,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     //change the way this works so appropriate conditions allow execute 2, 3, or 4 arugmenets
                     WorkoutState workoutState = workoutViewModel.getState();
                     try {
-                        workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
+                        //workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
+                        workoutController.execute(workoutState.getWorkout(), searchField.getText());
                     } catch (GeneralSecurityException ex) {
                         throw new RuntimeException(ex);
                     } catch (IOException ex) {

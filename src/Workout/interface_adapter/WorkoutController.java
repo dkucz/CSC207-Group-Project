@@ -16,32 +16,31 @@ public class WorkoutController {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
     }
 
-    public void execute(Workout workout, String muscle, String type, String difficulty) throws GeneralSecurityException,
-            IOException {
-        WorkoutInputData workoutInputData = new WorkoutInputData(
-                workout, muscle, type, difficulty);
+    public void execute(Workout workout, String inputText) throws GeneralSecurityException, IOException {
+        String[] params = inputText.split(";", 3); // Split the input muscle into up to three parts
 
-        workoutUseCaseInteractor.execute(workoutInputData);
-        System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getDifficulty());
-    }
+        // Assign the split muscles to muscle1, muscle2, and muscle3
+        if (params.length > 0) {
+            String muscle = params[0];
+            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle);
+            workoutUseCaseInteractor.execute(workoutInputData);
+        }
 
+        if (params.length > 1) {
+            String muscle = params[0];
+            String type = params[1];
+            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle, type);
+            workoutUseCaseInteractor.execute(workoutInputData);
+        }
 
-    public void execute(Workout workout, String muscle, String type) throws GeneralSecurityException,
-            IOException {
-        WorkoutInputData workoutInputData = new WorkoutInputData(
-                 workout, muscle, type);
-
-        workoutUseCaseInteractor.execute(workoutInputData);
-        System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getType());
-    }
-
-    public void execute(Workout workout, String muscle) throws GeneralSecurityException,
-            IOException {
-        WorkoutInputData workoutInputData = new WorkoutInputData(
-                workout, muscle);
-
-        workoutUseCaseInteractor.execute(workoutInputData);
-        System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getMuscle());
+        if (params.length > 2) {
+            String muscle = params[0];
+            String type = params[1];
+            String difficulty = params[2];
+            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle, type, difficulty);
+            workoutUseCaseInteractor.execute(workoutInputData);
+            System.out.println("I gave a " + muscle + ", a " + type + ", and a " + difficulty);
+        }
     }
 }
 
