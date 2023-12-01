@@ -19,7 +19,6 @@ public class LoginController {
                 username, password);
 
         loginUseCaseInteractor.execute(loginInputData);
-        System.out.println(loginInputData.getUsername() + " " + loginInputData.getPassword());
     }
 
     public void execute()
