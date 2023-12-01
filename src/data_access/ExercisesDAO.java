@@ -96,6 +96,8 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
             if (responseBody.equals("[]")) {
+                Workout workout = new Workout();
+                workout.SetExercisesInfo(responseBody);
                 System.out.println("Not a valid difficulty");
                 return;
             }
