@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -14,10 +15,13 @@ import Friend.app.FriendUseCaseFactory;
 import Friend.interface_adapter.*;
 import Friend.interface_adapter.AddFriend.AddFriendFailedViewModel;
 import Friend.interface_adapter.AddFriend.AddFriendViewModel;
+import Friend.interface_adapter.DeleteFriend.DeleteFriendViewModel;
 import Friend.interface_adapter.FriendPage.FriendController;
 import Friend.interface_adapter.FriendPage.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
 import Friend.view.*;
+import Friend.view.DeleteFriend.DeleteFriendView;
+import data_access.GoogleCalendarDAO;
 import Friend.view.AddFriend.AddFriendFailedView;
 import Friend.view.AddFriend.AddFriendView;
 import Friend.view.FriendPage.FriendView;
@@ -81,32 +85,25 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                         try {
                             FriendViewManagerModel friendViewManagerModel = new FriendViewManagerModel();
                             FriendViewManager friendViewManager = new FriendViewManager(friendViewManagerModel);
-
                             FriendViewModel friendviewModel = new FriendViewModel("FriendView");
                             FriendView friendView = new FriendView(friendviewModel);
-
                             ShowFriendInfoViewModel showFriendInfoViewModel= new ShowFriendInfoViewModel("ShowFriendInfoView");
                             ShowFriendInfoView showFriendInfoView = new ShowFriendInfoView(showFriendInfoViewModel);
-
                             AddFriendViewModel addFriendViewModel = new AddFriendViewModel("AddFriendView");
                             AddFriendView addFriendView = new AddFriendView(addFriendViewModel);
-
                             AddFriendFailedViewModel addFriendFailedViewModel= new AddFriendFailedViewModel("AddFriendFailedView");
                             AddFriendFailedView addFriendFailedView= new AddFriendFailedView(addFriendFailedViewModel);
-
+                            DeleteFriendViewModel deleteFriendViewModel = new DeleteFriendViewModel("DeleteFriendView");
+                            DeleteFriendView deleteFriendView = new DeleteFriendView(deleteFriendViewModel);
                             friendViewManager.addView(friendView);
                             friendViewManager.addView(showFriendInfoView);
                             friendViewManager.addView(addFriendView);
                             friendViewManager.addView(addFriendFailedView);
-
+                            friendViewManager.addView(deleteFriendView);
                             FriendController friendController = FriendUseCaseFactory.create(friendviewModel,friendViewManager);
                             friendController.execute(MenuView.this.currentUser.getUsername());
 
-                        } catch (IOException ex){
-                            throw new RuntimeException(ex);
-                        } catch (ExecutionException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (InterruptedException ex) {
+                        } catch (IOException | InterruptedException | ExecutionException ex){
                             throw new RuntimeException(ex);
                         }
                     }
@@ -129,12 +126,25 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
 
 
-    public void setUser(User u){
+    public void setUser(User u) throws GeneralSecurityException, IOException {
         this.currentUser = u;
         if (this.currentUser != null) {
             JLabel user = new JLabel("User: " + this.currentUser.getUsername());
             user.setHorizontalAlignment(SwingConstants.CENTER);
             this.add(user, BorderLayout.SOUTH);
         }
+
+        GoogleCalendarDAO cal = new GoogleCalendarDAO();
+        DefaultListModel<String> events = cal.getCalendarList();
+        JList<String> eventList = new JList<>(events);
+        JScrollPane scrollPane = new JScrollPane(eventList);
+
+        JPanel calendarPanel = new JPanel();
+        calendarPanel.setLayout(new BorderLayout());
+        calendarPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        calendarPanel.add(scrollPane, BorderLayout.CENTER);
+        this.add(calendarPanel, BorderLayout.CENTER);
+
+
     }
 }
