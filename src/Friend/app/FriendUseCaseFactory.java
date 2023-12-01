@@ -1,10 +1,9 @@
 package Friend.app;
-import Friend.interface_adapter.FriendController;
-import Friend.interface_adapter.FriendPresenter;
-import Friend.interface_adapter.FriendViewManagerModel;
-import Friend.interface_adapter.FriendViewModel;
-import Friend.use_case.FriendInputBoundary;
-import Friend.use_case.FriendInteractor;
+import Friend.interface_adapter.FriendPage.FriendController;
+import Friend.interface_adapter.FriendPage.FriendPresenter;
+import Friend.interface_adapter.FriendPage.FriendViewModel;
+import Friend.use_case.FriendPage.FriendInputBoundary;
+import Friend.use_case.FriendPage.FriendInteractor;
 import Friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 

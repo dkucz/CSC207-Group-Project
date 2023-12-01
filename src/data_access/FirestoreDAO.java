@@ -37,7 +37,6 @@ public class FirestoreDAO {
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }
-
         database = FirestoreClient.getFirestore();
         userCollection = database.collection(userCollectionID);
     }

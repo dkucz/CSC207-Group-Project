@@ -1,11 +1,10 @@
 package Friend.app;
-import Friend.interface_adapter.FriendViewManagerModel;
-import Friend.interface_adapter.ShowFriendInfoController;
-import Friend.interface_adapter.ShowFriendInfoPresenter;
-import Friend.interface_adapter.ShowFriendInfoViewModel;
-import Friend.use_case.ShowFriendInfoInputBoundary;
-import Friend.use_case.ShowFriendInfoInteractor;
-import Friend.use_case.ShowFriendInfoOutputBoundary;
+import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoController;
+import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoPresenter;
+import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
+import Friend.use_case.ShowFriendInfo.ShowFriendInfoInputBoundary;
+import Friend.use_case.ShowFriendInfo.ShowFriendInfoInteractor;
+import Friend.use_case.ShowFriendInfo.ShowFriendInfoOutputBoundary;
 import Friend.view.FriendViewManager;
 
 public class ShowFriendInfoUseCaseFactory {
