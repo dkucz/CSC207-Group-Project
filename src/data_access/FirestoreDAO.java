@@ -37,7 +37,6 @@ public class FirestoreDAO {
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }
-
         database = FirestoreClient.getFirestore();
         userCollection = database.collection(userCollectionID);
     }
@@ -65,9 +64,16 @@ public class FirestoreDAO {
     }
 
     public void addFriend(User user, Friend friend) throws ExecutionException, InterruptedException {
-        addToFriend(user.getUsername(), friend.getUsername(), getUserData(friend), user, friend);
+        CollectionReference friendsCollection = database.collection(userCollectionID)
+                .document(user.getUsername()).collection(friendCollectionID);
 
-        addToFriend(friend.getUsername(), user.getUsername(), getUserData(user), user, friend);
+        DocumentReference friendDocReference = friendsCollection.document(friend.getUsername());
+
+        Map<String, Object> friendData = getUserData(friend);
+
+        ApiFuture<WriteResult> writeRes = friendDocReference.set(friendData);
+
+        writeRes.get();
     }
 
     public List<Friend> getFriendsAsList(String username) throws ExecutionException, InterruptedException {
@@ -108,19 +114,6 @@ public class FirestoreDAO {
     public void removeFriend(String username, String friendUsername) throws ExecutionException, InterruptedException {
         deleteFriendDocument(username, friendUsername);
         deleteFriendDocument(friendUsername, username);
-    }
-
-    private void addToFriend(String username, String username2, Map<String, Object> userData2, User user, Friend friend) throws InterruptedException, ExecutionException {
-        CollectionReference friendsCollectionOfFriend = database.collection(userCollectionID)
-                .document(username).collection(friendCollectionID);
-
-        DocumentReference friendDocReference = friendsCollectionOfFriend.document(username2);
-
-        Map<String, Object> userData = userData2;
-
-        ApiFuture<WriteResult> writeRes = friendDocReference.set(userData);
-
-        writeRes.get();
     }
 
     private void deleteFriendDocument(String username, String friendUsername) throws ExecutionException, InterruptedException {

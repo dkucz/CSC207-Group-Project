@@ -13,8 +13,17 @@ import java.util.concurrent.ExecutionException;
 
 import Friend.app.FriendUseCaseFactory;
 import Friend.interface_adapter.*;
+import Friend.interface_adapter.AddFriend.AddFriendFailedViewModel;
+import Friend.interface_adapter.AddFriend.AddFriendViewModel;
+import Friend.interface_adapter.FriendPage.FriendController;
+import Friend.interface_adapter.FriendPage.FriendViewModel;
+import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
 import Friend.view.*;
 import data_access.GoogleCalendarDAO;
+import Friend.view.AddFriend.AddFriendFailedView;
+import Friend.view.AddFriend.AddFriendView;
+import Friend.view.FriendPage.FriendView;
+import Friend.view.ShowFriendInfo.ShowFriendInfoView;
 import entity.User;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
