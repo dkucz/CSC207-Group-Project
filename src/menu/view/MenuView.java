@@ -30,6 +30,7 @@ import entity.User;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
+import menu.interface_adapter.SignoutController;
 
 public class MenuView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewname = "menu";
@@ -39,9 +40,10 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     final JButton createEvent;
     final JButton modifyEvent;
 
+    final JButton signout;
     private User currentUser;
 
-    public MenuView(MenuViewModel menuViewModel){
+    public MenuView(SignoutController signoutController, MenuViewModel menuViewModel){
         this.menuViewModel = menuViewModel;
         this.menuViewModel.addPropertyChangeListener(this);
 
@@ -56,12 +58,27 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         JPanel buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
         buttons.add(Box.createVerticalStrut(20));
+
         friends = new JButton(menuViewModel.FRIENDS_BUTTON_LABEL);
         buttons.add(friends);
+
         createEvent = new JButton(menuViewModel.CREATE_EVENT_BUTTON_LABEL);
         buttons.add(createEvent);
+
         modifyEvent = new JButton(menuViewModel.MODIFY_EVENT_BUTTON_LABEL);
         buttons.add(modifyEvent);
+
+        signout = new JButton(menuViewModel.SIGNOUT_BUTTON_LABEL);
+        buttons.add(signout);
+
+        signout.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        signoutController.execute();
+                    }
+                }
+        );
 
 
         createEvent.addActionListener(
@@ -77,6 +94,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
+
         friends.addActionListener(
                 new ActionListener(){
                     @Override
@@ -109,6 +127,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                     }
                 }
         );
+
         modifyEvent.addActionListener(this);
         this.add(title, BorderLayout.NORTH);
 
@@ -117,21 +136,29 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.add(buttons, BorderLayout.EAST);
     }
     public void actionPerformed(ActionEvent evt){
+
         System.out.println("Click " + evt.getActionCommand());
+
     }
     @Override
     public void propertyChange(PropertyChangeEvent e){
+
         MenuState state = (MenuState)e.getNewValue();
+
     }
 
 
 
     public void setUser(User u) throws GeneralSecurityException, IOException {
+
         this.currentUser = u;
+
         if (this.currentUser != null) {
+
             JLabel user = new JLabel("User: " + this.currentUser.getUsername());
             user.setHorizontalAlignment(SwingConstants.CENTER);
             this.add(user, BorderLayout.SOUTH);
+
         }
 
         GoogleCalendarDAO cal = new GoogleCalendarDAO();
