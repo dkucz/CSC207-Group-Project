@@ -108,6 +108,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
                     System.out.println(searchField.getText());
                     workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
+
+                    StringBuilder resultText = new StringBuilder();
+                    resultArea.setText(resultText.toString());
+
                 }
             });
 
