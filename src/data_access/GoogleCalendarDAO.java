@@ -181,7 +181,7 @@ public class GoogleCalendarDAO {
         getCredentials(HTTP_TRANSPORT);
     }
 
-    public void CREATEEvent(String googleCalendarId, String eventName, String eventDescription, String startDate,
+    public void createEvent(String googleCalendarId, String eventName, String eventDescription, String startDate,
                             String endDate) throws IOException, GeneralSecurityException {
         //appDAO.createEvent("77a9a99e76145bf103054637889ea83e78dd424d9395229f707a46de5550ccac@group.calendar.google.com", "Fuck", "my life", "2023-11-21T10:00:00", "2023-11-21T11:00:00");
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -204,6 +204,10 @@ public class GoogleCalendarDAO {
                 .setDateTime(endDateTime)
                 .setTimeZone("America/New_York");
         event.setEnd(end);
+
+        System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+        service.events().insert(googleCalendarId, event).execute();
 
 
     }

@@ -2,11 +2,14 @@ package entity;
 
 public class Workout {
     /* Workout class (TBD if abstract) */
-    private String name;
+    private String exercise;
     private String difficulty;
 
     public String GetExercisesInfo() {
-        return null;
+        return exercise;
+    }
+    public void SetExercisesInfo(String exercise) {
+        this.exercise = exercise;
     }
 
     public String FindOfType() {
