@@ -3,6 +3,7 @@ package Workout.interface_adapter;
 import Workout.use_case.WorkoutOutputBoundary;
 import Workout.use_case.WorkoutOutputData;
 import app.ViewManagerModel;
+import com.google.gson.Gson;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
 
@@ -26,6 +27,7 @@ public class WorkoutPresenter implements WorkoutOutputBoundary {
         workoutState.setWorkout(data.getWorkout());
         this.workoutViewModel.setState(workoutState);
         this.workoutViewModel.firePropertyChanged();
+
 
 
 

@@ -7,7 +7,8 @@ import Workout.interface_adapter.WorkoutViewModel;
 import app.ViewManagerModel;
 import app.WorkoutUseCaseFactory;
 import data_access.ExercisesDAO;
-import login.view.LabelTextPanel;
+import com.google.gson.Gson;
+import entity.Exercise;
 import menu.interface_adapter.MenuViewModel;
 import signup.interface_adapter.SignupViewModel;
 
@@ -21,6 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -43,6 +45,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private final JTextField searchInputField = new JTextField(15);
     //final JButton addExercise;
+    private List<Exercise> exerciseList;
 
     public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
         this.workoutViewModel = workoutViewModel;
@@ -105,15 +108,36 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     try {
                         //workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
                         workoutController.execute(workoutState.getWorkout(), searchField.getText());
-                        resultArea.setText(workoutState.getExercises());
+
+
+                        //resultArea.setText(workoutState.getExercises());
                     } catch (GeneralSecurityException ex) {
                         throw new RuntimeException(ex);
+
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
 
+                    Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
+                    exerciseList = Arrays.asList(exercises);
+                    displayNames();
+
                 }
             });
+
+
+        resultArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int offset = resultArea.viewToModel(evt.getPoint());
+                for (Exercise exercise : exerciseList) {
+                    if (offset >= exercise.getName().indexOf(exercise.getName()) &&
+                            offset <= exercise.getName().indexOf(exercise.getName()) + exercise.getName().length()) {
+                        displayFullEntry(exercise);
+                        break;
+                    }
+                }
+            }
+        });
 
 
 
@@ -122,7 +146,24 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
+    private void displayNames() {
+        StringBuilder resultText = new StringBuilder();
+        for (Exercise exercise : exerciseList) {
+            resultText.append(exercise.getName()).append("\n");
+            System.out.println(exercise.getName());
+        }
+        resultArea.setText(resultText.toString());
+    }
 
+
+    private void displayFullEntry(Exercise exercise) {
+        resultArea.setText(exercise.toString() + "\n\n" +
+                "Type: " + exercise.getType() + "\n" +
+                "Muscle: " + exercise.getMuscle() + "\n" +
+                "Equipment: " + exercise.getEquipment() + "\n" +
+                "Difficulty: " + exercise.getDifficulty() + "\n" +
+                "Instructions: " + exercise.getInstructions());
+    }
 //    public void DatabaseSearchApp() {
 //        this.workoutViewModel = workoutViewModel;
 //        this.workoutViewModel.addPropertyChangeListener(this);
