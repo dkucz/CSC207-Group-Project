@@ -3,6 +3,7 @@ package Workout.interface_adapter;
 import Workout.use_case.WorkoutInputBoundary;
 import Workout.use_case.WorkoutInputData;
 import login.use_case.LoginInputData;
+import entity.Workout;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -15,7 +16,7 @@ public class WorkoutController {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
     }
 
-    public void execute(String workout, String muscle, String type, String difficulty) throws GeneralSecurityException,
+    public void execute(Workout workout, String muscle, String type, String difficulty) throws GeneralSecurityException,
             IOException {
         WorkoutInputData workoutInputData = new WorkoutInputData(
                 workout, muscle, type, difficulty);
@@ -25,16 +26,16 @@ public class WorkoutController {
     }
 
 
-    public void execute(String workout, String muscle, String type) throws GeneralSecurityException,
+    public void execute(Workout workout, String muscle, String type) throws GeneralSecurityException,
             IOException {
         WorkoutInputData workoutInputData = new WorkoutInputData(
-                workout, muscle, type);
+                 workout, muscle, type);
 
         workoutUseCaseInteractor.execute(workoutInputData);
         System.out.println(workoutInputData.getWorkout() + " " + workoutInputData.getType());
     }
 
-    public void execute(String workout, String muscle) throws GeneralSecurityException,
+    public void execute(Workout workout, String muscle) throws GeneralSecurityException,
             IOException {
         WorkoutInputData workoutInputData = new WorkoutInputData(
                 workout, muscle);

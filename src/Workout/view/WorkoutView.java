@@ -48,15 +48,6 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
-
-            // Initialize the database with some sample data
-        database = new ArrayList<>();
-        database.add("Java");
-        database.add("Python");
-        database.add("C++");
-        database.add("JavaScript");
-        database.add("Ruby");
-
             // Create the main frame
         JFrame frame = new JFrame("Workout Creator");
         frame.setSize(500, 400);
@@ -109,8 +100,15 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     System.out.println(searchField.getText());
                     workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
 
-                    StringBuilder resultText = new StringBuilder();
-                    resultArea.setText(resultText.toString());
+                    //change the way this works so appropriate conditions allow execute 2, 3, or 4 arugmenets
+                    WorkoutState workoutState = workoutViewModel.getState();
+                    try {
+                        workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
+                    } catch (GeneralSecurityException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
                 }
             });

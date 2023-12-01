@@ -40,11 +40,14 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         try {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
-            System.out.println(response);
+            //System.out.println(response);
+            Workout workout = new Workout();
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this muscle");
+                workout.SetExercisesInfo("No exercises found for this muscle");
                 return;
             }
+            workout.SetExercisesInfo(responseBody);
             System.out.println(responseBody);
 
         } catch (IOException e) {
@@ -66,7 +69,9 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         try {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
-            System.out.println(response);
+            //System.out.println(response);
+            Workout workout = new Workout();
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
                 return;
@@ -95,9 +100,9 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
+            Workout workout = new Workout();
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
-                Workout workout = new Workout();
-                workout.SetExercisesInfo(responseBody);
                 System.out.println("Not a valid difficulty");
                 return;
             }

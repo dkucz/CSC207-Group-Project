@@ -1,29 +1,33 @@
 package Workout.interface_adapter;
 
+import entity.Workout;
+
 public class WorkoutState {
 
-    private String workout = "";
-    private String muscle = "";
-    private String type = "";
-    private String difficulty = "";
+    private Workout workout;
+    private String exercises = "";
+//    private String type = "";
+//    private String difficulty = "";
 
-    public String getWorkout() {
+
+    public Workout getWorkout() {
         return workout;
     }
 
-    public String getMuscle() {
-        return muscle;
+    public String getExercises() {
+        return exercises;
     }
-    public void setMuscle(String muscle) {this.muscle = muscle;}
+    public void setWorkout(Workout workout) {this.workout = workout;}
+    public void setExercises(String exercises) {this.exercises = exercises;}
 
-    public String getType() {
-        return type;
-    }
-    public void setType(String muscle) {this.type = muscle;}
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-    public void setDifficulty(String muscle) {this.difficulty = muscle;}
+//    public String getType() {
+//        return type;
+//    }
+//    public void setType(String muscle) {this.type = muscle;}
+//
+//    public String getDifficulty() {
+//        return difficulty;
+//    }
+//    public void setDifficulty(String muscle) {this.difficulty = muscle;}
 
 }

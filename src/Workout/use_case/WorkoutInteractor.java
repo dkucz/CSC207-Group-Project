@@ -19,21 +19,21 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
     }
 
     public void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException {
-        String workoutName = workoutInputData.getWorkout();
+        Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         if (!userDAO.existsByName(muscle))
         {
             workoutPresenter.prepareFailView(muscle + " is not a valid muscle");
         } else
         {
-                Workout workout = userDAO.get(workoutName);
                 WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
                 workoutPresenter.prepareSuccessView(workoutOutputData);
+                System.out.println("working Interactor");
 
         }
     }
     public void execute2(WorkoutInputData workoutInputData) {
-        String workoutName = workoutInputData.getWorkout();
+        Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         String type = workoutInputData.getType();
 
@@ -48,15 +48,14 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         }
 
         try {
-            Workout workout = userDAO.get(workoutName);
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.FindOfType(), workout, false);
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
         } catch (Exception e) {
             System.out.println("Doesn't have type parameter");
         }
     }
     public void execute3(WorkoutInputData workoutInputData) {
-        String workoutName = workoutInputData.getWorkout();
+        Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         String type = workoutInputData.getType();
         String difficulty = workoutInputData.getDifficulty();
@@ -76,8 +75,7 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
             return;
         }
         try {
-            Workout workout = userDAO.get(workoutName);
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.ExercisesOnDifficulty(), workout,
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout,
                     false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
         } catch (Exception e) {
