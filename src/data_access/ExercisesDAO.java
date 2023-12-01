@@ -1,12 +1,17 @@
 package data_access;
 
+import Workout.data_access.WorkoutDataAccessInterface;
+import entity.User;
+import entity.Workout;
+import login.data_access.LoginUserDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
-public class ExercisesDAO {
+public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     //documentation: https://www.api-ninjas.com/api/exercises
     public static void main(String[] args){
@@ -100,4 +105,25 @@ public class ExercisesDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Workout get(String muscle) {
+        return null;
+    }
+
+    @Override
+    public boolean existsByName(String identifer) {
+        return false;
+    }
+
+    @Override
+    public boolean existsByType(String type){
+        return false;
+    }
+
+    @Override
+    public boolean existsByDifficulty(String difficulty) {
+        return false;
+    }
+
 }
