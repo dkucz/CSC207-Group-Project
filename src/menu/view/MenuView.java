@@ -100,12 +100,11 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        try {
-                            CreateEventController createEventController = new CreateEventController();
-                            createEventController.execute();
+                        /*try {
+                            createEventController.execute(MenuView.this.currentUser);
                         } catch (GeneralSecurityException | IOException ex){
                             throw new RuntimeException(ex);
-                        }
+                        }*/
                     }
                 }
         );
