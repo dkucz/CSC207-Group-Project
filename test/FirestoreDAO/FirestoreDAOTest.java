@@ -48,15 +48,12 @@ public class FirestoreDAOTest {
         if (!firestoreDAO.existsByName("testUser"))
         {
             User testUser = new User("testUser", "test@gmail.com", "testPassword");
+            firestoreDAO.save(testUser);
         }
         firestoreDAO.addExerciseToSchedule("testUser", 0, "pull ups");
         firestoreDAO.addExerciseToSchedule("testUser", 0, "push ups");
-        firestoreDAO.addExerciseToSchedule("testUser", 1, "push ups");
         firestoreDAO.addExerciseToSchedule("testUser", 2, "push ups");
-        firestoreDAO.addExerciseToSchedule("testUser", 3, "push ups");
-        firestoreDAO.addExerciseToSchedule("testUser", 4, "push ups");
-        firestoreDAO.addExerciseToSchedule("testUser", 5, "push ups");
-        firestoreDAO.addExerciseToSchedule("testUser", 6, "push ups");
+        System.out.println(firestoreDAO.getExerciseSchedule("testUser"));
         Assertions.assertNotNull(firestoreDAO.getExerciseSchedule("testUser"));
     }
 

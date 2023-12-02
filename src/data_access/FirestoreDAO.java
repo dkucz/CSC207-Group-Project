@@ -132,14 +132,19 @@ public class FirestoreDAO {
         ApiFuture<QuerySnapshot> snapshot = exerciseCollection.get();
         List<QueryDocumentSnapshot> exercises = snapshot.get().getDocuments();
 
-        for (QueryDocumentSnapshot exerciseDoc : exercises)
-        {
+        for (int day = 0; day <= 6; day++) {
+            DocumentReference exerciseDocument = exerciseCollection.document(String.valueOf(day));
 
-            List<String> exerciseList = (List<String>) exerciseDoc.get("exercises");
+            ApiFuture<DocumentSnapshot> documentSnapshotFuture = exerciseDocument.get();
+            DocumentSnapshot exerciseDoc = documentSnapshotFuture.get();
 
-            exerciseSchedule.add(new ArrayList<>(exerciseList));
+            if (exerciseDoc.exists() && exerciseDoc.contains("exercises")) {
+                List<String> exerciseList = (List<String>) exerciseDoc.get("exercises");
+                exerciseSchedule.add(new ArrayList<>(exerciseList));
+            } else {
+                exerciseSchedule.add(new ArrayList<>());
+            }
         }
-
         return exerciseSchedule;
     }
 
