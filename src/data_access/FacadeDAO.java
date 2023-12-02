@@ -74,6 +74,6 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
 
     public void addExercise(String userName, String exerciseName, int day)
     {
-        //do stuff;
+        System.out.println("userName");//do stuff;
     }
 }

@@ -14,6 +14,7 @@ import data_access.GoogleCalendarDAO;
 import entity.Exercise;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
+import menu.view.MenuView;
 import signup.interface_adapter.SignupViewModel;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
     //final JButton addExercise;
     private List<Exercise> exerciseList;
 
-    private  Exercise standby;
+    private Exercise standby;
 
     public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
         this.workoutViewModel = workoutViewModel;
@@ -130,7 +131,11 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
                     Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
                     exerciseList = Arrays.asList(exercises);
+                    buttonPanel.removeAll();
+                    buttonPanel.revalidate();
+                    buttonPanel.repaint();
                     addButtons();
+
 
                 }
             });
@@ -138,8 +143,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         addExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MenuState menu = new MenuState();
-                workoutController.export(menu.getCurrentUser().getUsername(), standby.getName(), 2);
+                //workoutController.export(MenuState.getCurrentUser(), standby.getName(), 2);
             }
         });
 
@@ -158,7 +162,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                 public void actionPerformed(ActionEvent e) {
                     displayFullEntry(exercise);
                     standby = exercise;
-                    System.out.println("frick");
+                    System.out.println(standby);
                 }
             });
             button.setBorderPainted(false); // Remove the button border

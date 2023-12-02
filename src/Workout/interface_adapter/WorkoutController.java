@@ -1,5 +1,6 @@
 package Workout.interface_adapter;
 
+import Friend.use_case.FriendPage.FriendInputData;
 import Workout.use_case.WorkoutInputBoundary;
 import Workout.use_case.WorkoutInputData;
 import entity.User;
@@ -18,6 +19,9 @@ public class WorkoutController {
 
     public WorkoutController(WorkoutInputBoundary workoutUseCaseInteractor) {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
+    }
+    public void execute(String userName) throws ExecutionException, InterruptedException {
+        FriendInputData friendInputData = new FriendInputData(userName);
     }
 
     public void execute(Workout workout, String inputText) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {

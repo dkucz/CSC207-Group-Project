@@ -131,11 +131,34 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public boolean existsByType(String type){
+
+
+        String[] validTypes = {
+            "cardio", "olympic_weightlifting", "plyometrics", "powerlifting",
+            "strength", "stretching", "strongman"
+        };
+
+        for (String muscle : validTypes) {
+        if (muscle.equalsIgnoreCase(type)) {
+            return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public boolean existsByDifficulty(String difficulty) {
+        String[] validMuscles = {
+                "beginner", "intermediate", "expert"
+        };
+
+        for (String muscle : validMuscles) {
+            if (muscle.equalsIgnoreCase(difficulty)) {
+                return true;
+            }
+        }
+
         return false;
     }
 

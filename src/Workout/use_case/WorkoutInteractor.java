@@ -26,69 +26,35 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
     public void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
         Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
+        String type = workoutInputData.getType();
+        String difficulty = workoutInputData.getDifficulty();
         //fix this condition cause its always returning false
-        if (!workoutDAO.existsByMuscle(muscle))
+        if(workoutDAO.existsByDifficulty(difficulty))
         {
+            workoutDAO.ExercisesOnDifficulty(workout, difficulty);
+            System.out.println("difficulty activated");
+        }
+        else if(workoutDAO.existsByType(type))
+        {
+            workoutDAO.FindOfType(workout, type);
+            System.out.println("type activated");
+        }
+        else if (!workoutDAO.existsByMuscle(muscle))
+        {
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData("Input was invalid", workout, false);
             workoutPresenter.prepareFailView(muscle + " is not a valid muscle");
+            return;
         } else
         {
             workoutDAO.GetExercisesInfo(workout, muscle);
+            System.out.println("muscle activated");
+        }
+
             WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
             System.out.println("working Interactor");
-
-        }
     }
-    public void execute2(WorkoutInputData workoutInputData) throws ExecutionException, InterruptedException {
-        Workout workout = workoutInputData.getWorkout();
-        String muscle = workoutInputData.getMuscle();
-        String type = workoutInputData.getType();
 
-        if (!workoutDAO.existsByMuscle(muscle)) {
-            workoutPresenter.prepareFailView(muscle + ": is not valid");
-            return;
-        }
-
-        if (!workoutDAO.existsByType(type)) {
-            workoutPresenter.prepareFailView("Not a valid type");
-            return;
-        }
-
-        try {
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
-            workoutPresenter.prepareSuccessView(workoutOutputData);
-        } catch (Exception e) {
-            System.out.println("Doesn't have type parameter");
-        }
-    }
-    public void execute3(WorkoutInputData workoutInputData) throws ExecutionException, InterruptedException {
-        Workout workout = workoutInputData.getWorkout();
-        String muscle = workoutInputData.getMuscle();
-        String type = workoutInputData.getType();
-        String difficulty = workoutInputData.getDifficulty();
-
-        if (!workoutDAO.existsByMuscle(muscle)) {
-            workoutPresenter.prepareFailView(muscle + ": is not valid");
-            return;
-        }
-
-        if (!workoutDAO.existsByType(type)) {
-            workoutPresenter.prepareFailView("Not a valid type");
-            return;
-        }
-
-        if (!workoutDAO.existsByDifficulty(difficulty)) {
-            workoutPresenter.prepareFailView("Not a valid difficulty");
-            return;
-        }
-        try {
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout,
-                    false);
-            workoutPresenter.prepareSuccessView(workoutOutputData);
-        } catch (Exception e) {
-            System.out.println("Error fetching workout data: " + e.getMessage());
-        }
-    }
 
 
     public void execute()
