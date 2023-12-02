@@ -100,12 +100,11 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        try {
-                            CreateEventController createEventController = new CreateEventController();
-                            createEventController.execute();
+                        /*try {
+                            createEventController.execute(MenuView.this.currentUser);
                         } catch (GeneralSecurityException | IOException ex){
                             throw new RuntimeException(ex);
-                        }
+                        }*/
                     }
                 }
         );
@@ -163,6 +162,9 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     }
 
 
+    public User getCurrentUser(){
+        return this.currentUser;
+    }
 
     public void setUser(User u) throws GeneralSecurityException, IOException {
 

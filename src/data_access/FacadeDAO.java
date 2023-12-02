@@ -24,7 +24,7 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
 
     @Override
     public User get(String username) throws ExecutionException, InterruptedException {
-        return firestoreDAO.get(username);
+        return firestoreDAO.getUserFromName(username);
     }
 
     @Override
