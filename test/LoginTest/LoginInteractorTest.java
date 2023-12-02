@@ -101,7 +101,6 @@ public class LoginInteractorTest {
 
         loginInteractor.execute();
 
-
-        verify(loginPresenter, times(1));
+        verify(loginPresenter, times(1)).prepareSuccessView();
     }
 }

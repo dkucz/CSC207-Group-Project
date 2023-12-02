@@ -15,6 +15,7 @@ public class SignupState {
         usernameError = copy.usernameError;
         password = copy.password;
         passwordError = copy.passwordError;
+        gmail = copy.gmail;
         repeatPassword = copy.repeatPassword;
         repeatPasswordError = copy.repeatPasswordError;
     }
