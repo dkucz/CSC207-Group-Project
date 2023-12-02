@@ -34,12 +34,9 @@ public class WorkoutUseCaseFactory {
                                                                        WorkoutDataAccessInterface exerciseDAO) throws IOException, GeneralSecurityException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        WorkoutOutputBoundary workoutOutputBoundary = new WorkoutPresenter(viewManagerModel, menuViewModel, workoutViewModel);
-
-        //UserFactory userFactory = new UserFactory();
-
+        WorkoutOutputBoundary presenter = new WorkoutPresenter(viewManagerModel, menuViewModel, workoutViewModel);
         WorkoutInputBoundary workoutInteractor = new WorkoutInteractor(
-                exerciseDAO, workoutOutputBoundary);
+                exerciseDAO, presenter);
 
         return new WorkoutController(workoutInteractor);
     }
