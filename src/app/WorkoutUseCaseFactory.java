@@ -8,6 +8,7 @@ import Workout.use_case.WorkoutInputBoundary;
 import Workout.use_case.WorkoutInteractor;
 import Workout.use_case.WorkoutOutputBoundary;
 import Workout.view.WorkoutView;
+import data_access.FacadeDAO;
 import data_access.GoogleCalendarDAO;
 import entity.UserFactory;
 import login.interface_adapter.LoginViewModel;
@@ -29,9 +30,9 @@ public class WorkoutUseCaseFactory {
     }
 
     public static WorkoutController createWorkoutUseCase(ViewManagerModel viewManagerModel,
-                                                                       WorkoutViewModel workoutViewModel,
-                                                                       MenuViewModel menuViewModel,
-                                                                       WorkoutDataAccessInterface exerciseDAO) throws IOException, GeneralSecurityException {
+                                                         WorkoutViewModel workoutViewModel,
+                                                         MenuViewModel menuViewModel,
+                                                         WorkoutDataAccessInterface exerciseDAO) throws IOException, GeneralSecurityException {
 
         // Notice how we pass this method's parameters to the Presenter.
         WorkoutOutputBoundary presenter = new WorkoutPresenter(viewManagerModel, menuViewModel, workoutViewModel);
