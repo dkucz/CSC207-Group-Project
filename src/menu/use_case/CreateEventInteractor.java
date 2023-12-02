@@ -1,14 +1,25 @@
 package menu.use_case;
 
+import com.google.api.services.storage.Storage;
+import entity.User;
 import menu.interface_adapter.CreateEventPresenter;
 
 public class CreateEventInteractor {
 
-    public CreateEventInteractor(){
+    private final CreateEventPresenter createEventPresenter;
+    public CreateEventInteractor(CreateEventPresenter c){
+        this.createEventPresenter = c;
 
     }
-    public void execute(){
-        CreateEventPresenter p = new CreateEventPresenter();
-        p.prepareSuccessView();
+
+
+
+    public void execute(User u){
+        this.createEventPresenter.prepareSuccessView(u);
     }
+
+
+
+
+
 }
