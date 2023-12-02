@@ -3,10 +3,13 @@ package FirestoreDAO;
 import data_access.FirestoreDAO;
 import entity.Friend;
 import entity.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +41,73 @@ public class FirestoreDAOTest {
 
         // Check if the user exists by a non-existing username
         assertFalse(firestoreDAO.existsByName("NonExistingUser"));
+    }
+
+    @Test
+    public void testAddExercise() throws ExecutionException, InterruptedException {
+        if (!firestoreDAO.existsByName("testUser"))
+        {
+            User testUser = new User("testUser", "test@gmail.com", "testPassword");
+        }
+        firestoreDAO.addExerciseToSchedule("testUser", 0, "pull ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 0, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 1, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 2, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 3, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 4, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 5, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser", 6, "push ups");
+        Assertions.assertNotNull(firestoreDAO.getExerciseSchedule("testUser"));
+    }
+
+    @Test
+    public void testFriendList() throws ExecutionException, InterruptedException {
+        List<Friend> friends = firestoreDAO.getFriendsAsList("User1");
+        assertEquals("User2", friends.get(0).getUsername());
+        assertEquals("user2@gmail.com", friends.get(0).getGmail());
+    }
+
+    @Test
+    public void testGetUser() throws ExecutionException, InterruptedException {
+        User user = firestoreDAO.getUserFromName("User1");
+        assertEquals("User1", user.getUsername());
+        assertEquals("user1@gmail.com", user.getGmail());
+        assertEquals("password1", user.getPassword());
+    }
+
+    @Test
+    public void testRemoveFriend() throws ExecutionException, InterruptedException{
+        User user1 = firestoreDAO.getUserFromName("User1");
+        Friend newFriend = new Friend("newFriend");
+        firestoreDAO.addFriend(user1, newFriend);
+        assertTrue(firestoreDAO.existsByNameInFriendsCollection("User1", "newFriend"));
+        firestoreDAO.removeFriend("User1", "newFriend");
+        assertTrue(!firestoreDAO.existsByNameInFriendsCollection("User1", "newFriend"));
+    }
+
+    @Test
+    public void testFiveExercises() throws ExecutionException, InterruptedException{
+        if (!firestoreDAO.existsByName("testUser2"))
+        {
+            User testUser = new User("testUser2", "test@gmail.com", "testPassword");
+            firestoreDAO.save(testUser);
+        }
+        firestoreDAO.addExerciseToSchedule("testUser2", 0, "pull ups");
+        firestoreDAO.addExerciseToSchedule("testUser2", 0, "push ups");
+        firestoreDAO.addExerciseToSchedule("testUser2", 0, "push");
+        firestoreDAO.addExerciseToSchedule("testUser2", 0, "push up");
+        firestoreDAO.addExerciseToSchedule("testUser2", 0, "stance");
+        assertTrue(firestoreDAO.hasFiveExercises("testUser2", 0));
+    }
+
+    @Test
+    public void testAddExerciseToEmpty() throws ExecutionException, InterruptedException {
+        if (!firestoreDAO.existsByName("testUser3"))
+        {
+            User testUser = new User("testUser3", "test@gmail.com", "testPassword");
+            firestoreDAO.save(testUser);
+        }
+        firestoreDAO.addExerciseToSchedule("testUser3", 0, "pushes");
     }
 
     @Test
@@ -90,5 +160,18 @@ public class FirestoreDAOTest {
             fail("Exception thrown while checking if user exists in friends collection: " + e.getMessage());
             return false;
         }
+    }
+
+    @Test
+    public void testExerciseScheduleExists() throws ExecutionException, InterruptedException {
+        if (!firestoreDAO.existsByName("testUser4"))
+        {
+            User testUser = new User("testUser4", "test@gmail.com", "testPassword");
+            firestoreDAO.save(testUser);
+        }
+        assertFalse(firestoreDAO.exerciseScheduleExists("testUser4"));
+        assertFalse(firestoreDAO.hasFiveExercises("testUser4", 0));
+        firestoreDAO.addExerciseToSchedule("testUser4", 0, "exer");
+        assertTrue(firestoreDAO.exerciseScheduleExists("testUser4"));
     }
 }

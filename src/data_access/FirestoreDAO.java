@@ -12,10 +12,7 @@ import entity.User;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreDAO {
@@ -26,6 +23,7 @@ public class FirestoreDAO {
     private final String userString = "username";
     private final String passwordString = "password";
     private final String gmailString = "gmail";
+    private final String exerciseScheduleID = "ExerciseSchedule";
     private final CollectionReference userCollection;
 
     public FirestoreDAO() throws IOException {
@@ -90,10 +88,6 @@ public class FirestoreDAO {
         return friendsList;
     }
 
-    public User get(String username) throws ExecutionException, InterruptedException {
-        return getUserFromName(username);
-    }
-
     public User getUserFromName(String username) throws ExecutionException, InterruptedException {
         Query query = userCollection.whereEqualTo(userString, username);
 
@@ -105,7 +99,7 @@ public class FirestoreDAO {
     public Friend getFriendFromName(String username, String friendUsername) throws ExecutionException, InterruptedException {
         CollectionReference friendCollection = userCollection.document(username).collection(friendCollectionID);
         Query query = friendCollection.whereEqualTo(userString, friendUsername);
-        
+
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
         DocumentSnapshot friendDocument = querySnapshot.get().getDocuments().get(0);
         return friendDocument.toObject(Friend.class);
@@ -114,6 +108,64 @@ public class FirestoreDAO {
     public void removeFriend(String username, String friendUsername) throws ExecutionException, InterruptedException {
         deleteFriendDocument(username, friendUsername);
         deleteFriendDocument(friendUsername, username);
+    }
+
+    public void addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
+        CollectionReference exerciseSchedule = userCollection.document(username).collection(exerciseScheduleID);
+        DocumentReference dayDocument = exerciseSchedule.document(String.valueOf(day));
+        DocumentSnapshot documentSnapshot = dayDocument.get().get();
+        if(!documentSnapshot.exists() || !documentSnapshot.contains("exercises"))
+        {
+            Map<String, Object> exerciseData = new HashMap<>();
+            exerciseData.put("exercises", Arrays.asList(exerciseName));
+            dayDocument.set(exerciseData);
+        }else{
+            dayDocument.update("exercises", FieldValue.arrayUnion(exerciseName));
+        }
+    }
+
+    public ArrayList<ArrayList<String>> getExerciseSchedule(String username) throws ExecutionException, InterruptedException {
+        ArrayList<ArrayList<String>> exerciseSchedule = new ArrayList<>();
+
+        CollectionReference exerciseCollection = userCollection.document(username).collection(exerciseScheduleID);
+
+        ApiFuture<QuerySnapshot> snapshot = exerciseCollection.get();
+        List<QueryDocumentSnapshot> exercises = snapshot.get().getDocuments();
+
+        for (QueryDocumentSnapshot exerciseDoc : exercises)
+        {
+
+            List<String> exerciseList = (List<String>) exerciseDoc.get("exercises");
+
+            exerciseSchedule.add(new ArrayList<>(exerciseList));
+        }
+
+        return exerciseSchedule;
+    }
+
+    public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
+        CollectionReference exerciseCollection = userCollection.document(username).collection(exerciseScheduleID);
+        QuerySnapshot querySnapshot = exerciseCollection.get().get();
+        if (!querySnapshot.isEmpty())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasFiveExercises(String username, int day) throws ExecutionException, InterruptedException {
+        DocumentReference exerciseDocument = userCollection.document(username)
+                .collection(exerciseScheduleID).document(String.valueOf(day));
+        DocumentSnapshot documentSnapshot = exerciseDocument.get().get();
+        if (!documentSnapshot.exists()) {
+            return false;
+        } else{
+            ArrayList<String> exerciseList = (ArrayList<String>) documentSnapshot.get("exercises");
+            if (exerciseList != null && exerciseList.size() == 5) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void deleteFriendDocument(String username, String friendUsername) throws ExecutionException, InterruptedException {
