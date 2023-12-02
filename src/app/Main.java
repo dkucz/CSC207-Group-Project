@@ -7,6 +7,7 @@ import data_access.GoogleCalendarDAO;
 import login.interface_adapter.LoginViewModel;
 import login.view.LoginView;
 import login.view.ViewManager;
+import menu.app.SignoutUseCaseFactory;
 import menu.interface_adapter.MenuViewModel;
 import menu.view.MenuView;
 import signup.interface_adapter.SignupViewModel;
@@ -50,7 +51,7 @@ public class Main {
         views.add(loginView, loginView.viewName);
 
 
-        MenuView menuView = new MenuView(menuViewModel);
+        MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(menuView, menuView.viewname);
         loginView.getLoginViewModel().setMenuView(menuView);
 
