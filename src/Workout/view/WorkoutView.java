@@ -7,7 +7,8 @@ import Workout.interface_adapter.WorkoutViewModel;
 import app.ViewManagerModel;
 import app.WorkoutUseCaseFactory;
 import data_access.ExercisesDAO;
-import login.view.LabelTextPanel;
+import com.google.gson.Gson;
+import entity.Exercise;
 import menu.interface_adapter.MenuViewModel;
 import signup.interface_adapter.SignupViewModel;
 
@@ -21,6 +22,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -43,23 +45,15 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private final JTextField searchInputField = new JTextField(15);
     //final JButton addExercise;
+    private List<Exercise> exerciseList;
 
     public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
-
-            // Initialize the database with some sample data
-        database = new ArrayList<>();
-        database.add("Java");
-        database.add("Python");
-        database.add("C++");
-        database.add("JavaScript");
-        database.add("Ruby");
-
             // Create the main frame
         JFrame frame = new JFrame("Workout Creator");
-        frame.setSize(400, 300);
+        frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             // panel to hold components with a BoxLayout
@@ -78,7 +72,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         JPanel buttons = new JPanel();
         addExercise = new JButton(WorkoutViewModel.MAKE_WORKOUT_LABEL);
-        searchPanel.add(addExercise);
+        buttons.add(addExercise);
         saveWorkout = new JButton(WorkoutViewModel.SAVE_LABEL);
         buttons.add(saveWorkout);
         exitWorkout = new JButton(WorkoutViewModel.CANCEL_BUTTON_LABEL);
@@ -94,6 +88,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         mainPanel.add(searchPanel);
         mainPanel.add(resultPanel);
+        mainPanel.add(buttons);
         frame.add(mainPanel);
 
             // Set the frame visibility to true
@@ -104,10 +99,45 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Call the search method when the button is clicked
-                    WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
-                    workoutDataAccessInterface.GetExercisesInfo(searchInputField.getText());
+                    //WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
+                    System.out.println(searchField.getText());
+                    //workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
+
+                    //change the way this works so appropriate conditions allow execute 2, 3, or 4 arugmenets
+                    WorkoutState workoutState = workoutViewModel.getState();
+                    try {
+                        //workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
+                        workoutController.execute(workoutState.getWorkout(), searchField.getText());
+
+
+                        //resultArea.setText(workoutState.getExercises());
+                    } catch (GeneralSecurityException ex) {
+                        throw new RuntimeException(ex);
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
+                    exerciseList = Arrays.asList(exercises);
+                    displayNames();
+
                 }
             });
+
+
+        resultArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int offset = resultArea.viewToModel(evt.getPoint());
+                for (Exercise exercise : exerciseList) {
+                    if (offset >= exercise.getName().indexOf(exercise.getName()) &&
+                            offset <= exercise.getName().indexOf(exercise.getName()) + exercise.getName().length()) {
+                        displayFullEntry(exercise);
+                        break;
+                    }
+                }
+            }
+        });
 
 
 
@@ -116,7 +146,24 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
+    private void displayNames() {
+        StringBuilder resultText = new StringBuilder();
+        for (Exercise exercise : exerciseList) {
+            resultText.append(exercise.getName()).append("\n");
+            System.out.println(exercise.getName());
+        }
+        resultArea.setText(resultText.toString());
+    }
 
+
+    private void displayFullEntry(Exercise exercise) {
+        resultArea.setText(exercise.toString() + "\n\n" +
+                "Type: " + exercise.getType() + "\n" +
+                "Muscle: " + exercise.getMuscle() + "\n" +
+                "Equipment: " + exercise.getEquipment() + "\n" +
+                "Difficulty: " + exercise.getDifficulty() + "\n" +
+                "Instructions: " + exercise.getInstructions());
+    }
 //    public void DatabaseSearchApp() {
 //        this.workoutViewModel = workoutViewModel;
 //        this.workoutViewModel.addPropertyChangeListener(this);

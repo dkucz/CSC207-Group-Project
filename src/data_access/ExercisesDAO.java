@@ -1,9 +1,7 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
-import entity.User;
 import entity.Workout;
-import login.data_access.LoginUserDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -14,17 +12,17 @@ import java.security.GeneralSecurityException;
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     //documentation: https://www.api-ninjas.com/api/exercises
-    public static void main(String[] args){
+//    public static void main(String[] args){
+//
+//        ExercisesDAO owa = new ExercisesDAO();
+//
+//        //owa.GetExercisesInfo("chest");
+//        //owa.GetExercisesInfo("balls");
+//        //owa.ExercisesOnDifficulty("hard");
+//        //owa.FindOfType("strongman");
+//    }
 
-        ExercisesDAO owa = new ExercisesDAO();
-
-        //owa.GetExercisesInfo("chest");
-        //owa.GetExercisesInfo("balls");
-        //owa.ExercisesOnDifficulty("hard");
-        //owa.FindOfType("strongman");
-    }
-
-    public void GetExercisesInfo(String muscle) {
+    public void GetExercisesInfo(Workout workout, String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
 
         OkHttpClient client = new OkHttpClient();
@@ -40,11 +38,13 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         try {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
-            System.out.println(response);
+            //System.out.println(response);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this muscle");
+                workout.SetExercisesInfo("No exercises found for this muscle");
                 return;
             }
+            workout.SetExercisesInfo(responseBody);
             System.out.println(responseBody);
 
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         }
     }
 
-    public void FindOfType(String type) {
+    public void FindOfType(Workout workout, String type) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -66,7 +66,8 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         try {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
-            System.out.println(response);
+            //System.out.println(response);
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
                 return;
@@ -79,7 +80,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
 
-    public void ExercisesOnDifficulty(String difficulty) {
+    public void ExercisesOnDifficulty(Workout workout, String difficulty) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -95,6 +96,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("Not a valid difficulty");
                 return;
@@ -113,6 +115,18 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public boolean existsByName(String identifer) {
+        String[] validMuscles = {
+                "abdominals", "abductors", "adductors", "biceps", "calves",
+                "chest", "forearms", "glutes", "hamstrings", "lats",
+                "lower_back", "middle_back", "neck", "quadriceps", "traps", "triceps"
+        };
+
+        for (String muscle : validMuscles) {
+            if (muscle.equalsIgnoreCase(identifer)) {
+                return true; // Input matches a valid muscle
+            }
+        }
+
         return false;
     }
 

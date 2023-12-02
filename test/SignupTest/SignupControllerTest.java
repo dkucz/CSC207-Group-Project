@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 class SignupControllerTest {
     @Test
-    void execute_Success() throws ExecutionException, InterruptedException {
+    void executeSuccess() throws ExecutionException, InterruptedException {
         SignupInputBoundary signupInteractor = new SignupInputBoundary() {
             @Override
             public void execute(SignupInputData inputData) {

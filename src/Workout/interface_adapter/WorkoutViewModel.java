@@ -1,7 +1,7 @@
 package Workout.interface_adapter;
 
 import app.ViewModel;
-import entity.User;
+
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
