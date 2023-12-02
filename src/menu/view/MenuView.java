@@ -162,6 +162,9 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     }
 
 
+    public User getCurrentUser(){
+        return this.currentUser;
+    }
 
     public void setUser(User u) throws GeneralSecurityException, IOException {
 
