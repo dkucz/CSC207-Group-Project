@@ -26,7 +26,7 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
 
         setTitle("Exercise Schedule");
         setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());

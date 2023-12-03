@@ -13,7 +13,7 @@ public class CreateEventUseCaseFactory {
     public static CreateEventController createEventUseCase(WorkoutViewManagerModel model, WorkoutViewManager workoutViewManager, WorkoutViewModel workoutViewModel){
         CreateEventPresenter createEventPresenter = new CreateEventPresenter(workoutViewManager, workoutViewModel);
         CreateEventInteractor createEventInteractor = new CreateEventInteractor(createEventPresenter);
-        return new CreateEventController(createEventInteractor, model);
+        return new CreateEventController(createEventInteractor);
     }
 
 

@@ -42,13 +42,11 @@ public class SignoutUseCaseFactory {
 
         public static MenuView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel,
                                       SignupViewModel signupViewModel, MenuViewModel menuViewModel,
-                                      WorkoutViewModel workoutViewModel, FacadeDAO appDAO) throws GeneralSecurityException, IOException {
+                                      LoginUserDataAccessInterface appDAO) throws GeneralSecurityException, IOException {
 
             SignoutController signoutController = createSignoutUseCase(viewManagerModel,
                     signupViewModel, loginViewModel, menuViewModel);
 
-            WorkoutView workoutView = WorkoutUseCaseFactory.create(viewManagerModel,
-                    workoutViewModel, menuViewModel, appDAO);
 
             return new MenuView(signoutController, menuViewModel);
         }

@@ -112,7 +112,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         frame.add(mainPanel);
 
-        //frame.setVisible(true);
+        frame.setVisible(true);
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
@@ -143,6 +143,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(), 2);
+                System.out.println(workoutViewModel.currentUser.getUsername());
             }
         });
 
@@ -159,8 +160,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         exitWorkout.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e){
-                workoutController.execute(workoutViewModel.currentUser);
-                System.out.println(workoutViewModel.currentUser.getUsername());
+//                workoutController.execute(workoutViewModel.currentUser);
+//                System.out.println(workoutViewModel.currentUser.getUsername());
+                frame.dispose();
             }
 
         });
@@ -206,25 +208,25 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        MenuViewModel menuViewModel = new MenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        ExercisesDAO appDAO = new ExercisesDAO();
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
-        GoogleCalendarDAO google = new GoogleCalendarDAO();
-        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
-        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
-                workoutViewModel, menuViewModel, DAO);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutController, workoutViewModel);
-            }
-        });
-    }
+//    public static void main(String[] args) throws GeneralSecurityException, IOException {
+//        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+//        SignupViewModel signupViewModel = new SignupViewModel();
+//        MenuViewModel menuViewModel = new MenuViewModel();
+//        ViewManagerModel viewManagerModel = new ViewManagerModel();
+//        ExercisesDAO appDAO = new ExercisesDAO();
+//        FirestoreDAO firestoreDAO = new FirestoreDAO();
+//        GoogleCalendarDAO google = new GoogleCalendarDAO();
+//        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+//        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+//                workoutViewModel, menuViewModel, DAO);
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                //new WorkoutView(workoutView, workoutViewModel);
+//                new WorkoutView(workoutController, workoutViewModel);
+//            }
+//        });
+//    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

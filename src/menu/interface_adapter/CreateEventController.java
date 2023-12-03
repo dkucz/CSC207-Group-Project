@@ -12,14 +12,12 @@ public class CreateEventController {
     private final CreateEventInteractor createEventInteractor;
     private WorkoutViewManagerModel viewManagerModel;
 
-    public CreateEventController(CreateEventInteractor i, WorkoutViewManagerModel b){
+    public CreateEventController(CreateEventInteractor i){
         this.createEventInteractor = i;
-        this.viewManagerModel = b;
     }
 
     public void execute(User u) throws GeneralSecurityException, IOException {
         this.createEventInteractor.execute(u);
-        this.viewManagerModel.setActiveView("Workout Creator");
     }
 
 
