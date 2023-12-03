@@ -21,7 +21,6 @@ public class WorkoutPresenter implements WorkoutOutputBoundary {
     }
     @Override
     public void prepareSuccessView(WorkoutOutputData data) {
-        //this.loginViewModel.menuView.setUser(data.getUser());
 
         WorkoutState workoutState = workoutViewModel.getState();
         workoutState.setExercises(data.getExercise());

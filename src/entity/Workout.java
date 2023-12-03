@@ -6,10 +6,10 @@ public class Workout {
     private String type;
     private String difficulty;
 
-    public String GetExercisesInfo() {
+    public String getExercisesInfo() {
         return exercise;
     }
-    public void SetExercisesInfo(String exercise) {
+    public void setExercisesInfo(String exercise) {
         this.exercise = exercise;
     }
 

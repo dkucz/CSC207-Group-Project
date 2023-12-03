@@ -13,4 +13,5 @@ public interface WorkoutInputBoundary {
 
     void execute(User user, int separator);
 
+    void check(String name, int i);
 }

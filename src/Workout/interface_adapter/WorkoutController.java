@@ -53,6 +53,9 @@ public class WorkoutController {
         workoutUseCaseInteractor.execute(user, 1);
     }
 
+    public void check(String name, int i) {
+        workoutUseCaseInteractor.check(name, i);
+    }
 }
 
 
