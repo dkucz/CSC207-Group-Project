@@ -16,7 +16,9 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     private final GoogleCalendarDAO googleCalendarDAO;
     private final ExercisesDAO exercisesDAO;
 
-    public FacadeDAO(FirestoreDAO firestoreDAO, GoogleCalendarDAO googleCalendarDAO, ExercisesDAO exercisesDAO)
+    public FacadeDAO(FirestoreDAO firestoreDAO,
+                     GoogleCalendarDAO googleCalendarDAO,
+                     ExercisesDAO exercisesDAO)
     {
         this.firestoreDAO = firestoreDAO;
         this.googleCalendarDAO = googleCalendarDAO;
