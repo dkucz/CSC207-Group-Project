@@ -11,7 +11,7 @@ import menu.interface_adapter.MenuViewModel;
 public class WorkoutPresenter implements WorkoutOutputBoundary {
 
     private MenuViewModel menuViewModel;
-    private ViewManagerModel viewManagerModel = null;
+    private ViewManagerModel viewManagerModel;
     private WorkoutViewModel workoutViewModel;
 
     public WorkoutPresenter(ViewManagerModel viewManagerModel, MenuViewModel menuViewModel, WorkoutViewModel workoutViewModel) {
