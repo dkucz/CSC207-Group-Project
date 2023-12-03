@@ -1,19 +1,20 @@
 package Workout.interface_adapter.ModifyWorkout;
 
 import Workout.interface_adapter.SearchWorkout.WorkoutState;
+import app.ViewModel;
 import entity.User;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ModifyWorkoutViewModel {
+public class ModifyWorkoutViewModel extends ViewModel {
 
     public User currentUser;
 
     private ModifyWorkoutState state = new ModifyWorkoutState();
 
     public ModifyWorkoutViewModel() {
-        super();
+        super("Schedule");
     }
     public void setState(ModifyWorkoutState state){this.state = state;}
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);

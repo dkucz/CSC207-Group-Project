@@ -17,23 +17,27 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
     private ModifyWorkoutViewModel viewModel;
     private JButton close;
     private String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-    private String[][] exercises;
-//    = {
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"}
-//    };
+    private String[][] exercises
+    = {
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"}
+    };
+
 
     public ScheduleView(ModifyWorkoutViewModel viewModel) {
-        //this.controller = controller;
         this.viewModel = viewModel;
 
-        ModifyWorkoutState state = viewModel.getState();
-        exercises = state.getSchedule();
+        try{
+            ModifyWorkoutState state = viewModel.getState();
+            exercises = state.getSchedule();
+        } catch (NullPointerException e) {
+            System.out.println("bruh, using starter values");
+        }
         setTitle("Exercise Schedule");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -45,6 +45,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private final WorkoutViewModel workoutViewModel;
 
+    private final ModifyWorkoutViewModel modWorkoutViewModel;
+
     final JButton saveWorkout;
     final JButton exitWorkout;
 
@@ -56,8 +58,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private Exercise standby;
 
-    public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
+    public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel, ModifyWorkoutController modController, ModifyWorkoutViewModel modWorkoutViewModel) {
         this.workoutViewModel = workoutViewModel;
+        this.modWorkoutViewModel = modWorkoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
 
@@ -152,9 +155,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ModifyWorkoutViewModel modifyWorkoutViewModel = new ModifyWorkoutViewModel();
-                    ModifyWorkoutController mcontroller = ScheduleUseCaseFactory.create(modifyWorkoutViewModel);
-                    mcontroller.export(workoutViewModel.currentUser, standby.getName(),
+
+                    modController.export(workoutViewModel.currentUser, standby.getName(),
                             Integer.parseInt(dayInput.getText()));
                     workoutController.export(workoutViewModel.currentUser, standby.getName(),
                             Integer.parseInt(dayInput.getText()));
@@ -164,7 +166,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                             "Select a valid number day and/or exercise",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                } catch (IOException ex) {
+                } catch (ExecutionException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
 
@@ -176,9 +180,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         saveWorkout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ModifyWorkoutViewModel modifyWorkoutViewModel = new ModifyWorkoutViewModel();
-                ScheduleView scheduleView = new ScheduleView(modifyWorkoutViewModel);
-                scheduleView.setVisible(true);
+                modController.execute();
+//                ScheduleView scheduleView = new ScheduleView(modWorkoutViewModel);
+//                scheduleView.setVisible(true);
             }
         });
 
@@ -234,25 +238,26 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        MenuViewModel menuViewModel = new MenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        ExercisesDAO appDAO = new ExercisesDAO();
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
-        GoogleCalendarDAO google = new GoogleCalendarDAO();
-        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
-        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
-                workoutViewModel, menuViewModel, DAO);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutController, workoutViewModel);
-            }
-        });
-    }
+//    public static void main(String[] args) throws GeneralSecurityException, IOException {
+//        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+//        SignupViewModel signupViewModel = new SignupViewModel();
+//        MenuViewModel menuViewModel = new MenuViewModel();
+//        ViewManagerModel viewManagerModel = new ViewManagerModel();
+//        ModifyWorkoutViewModel modviewModel = new ModifyWorkoutViewModel();
+//        ExercisesDAO appDAO = new ExercisesDAO();
+//        FirestoreDAO firestoreDAO = new FirestoreDAO();
+//        GoogleCalendarDAO google = new GoogleCalendarDAO();
+//        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+//        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+//                workoutViewModel, menuViewModel, DAO);
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                //new WorkoutView(workoutView, workoutViewModel);
+//                new WorkoutView(workoutController, workoutViewModel, modviewModel);
+//            }
+//        });
+//    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

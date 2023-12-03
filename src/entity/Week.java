@@ -4,17 +4,38 @@ import java.util.ArrayList;
 
 public class Week {
 
-    private ArrayList<ArrayList<String>> schedule = new ArrayList<>();
+    private ArrayList<ArrayList<String>> schedule;
 
-    private ArrayList<String> monday = new ArrayList<>();
-    private ArrayList<String> tuesday = new ArrayList<>();
-    private ArrayList<String> wednesday = new ArrayList<>();
-    private ArrayList<String> thursday = new ArrayList<>();
-    private ArrayList<String> friday = new ArrayList<>();
-    private ArrayList<String> saturday = new ArrayList<>();
-    private ArrayList<String> sunday = new ArrayList<>();
+    private ArrayList<String> monday;
+    private ArrayList<String> tuesday;
+    private ArrayList<String> wednesday;
+    private ArrayList<String> thursday;
+    private ArrayList<String> friday;
+    private ArrayList<String> saturday;
+    private ArrayList<String> sunday;
 
-    public Week(){}
+    public Week(){
+        this.monday = new ArrayList<>();
+        this.tuesday = new ArrayList<>();
+        this.wednesday = new ArrayList<>();
+        this.thursday = new ArrayList<>();
+        this.friday = new ArrayList<>();
+        this.saturday = new ArrayList<>();
+        this.sunday = new ArrayList<>();
+        this.schedule = new ArrayList<>();
+    }
+
+    public Week(ArrayList<ArrayList<String>> newSchedule){
+        this.schedule = newSchedule;
+        this.monday = newSchedule.get(0);
+        this.tuesday = newSchedule.get(1);
+        this.wednesday = newSchedule.get(2);
+        this.thursday = newSchedule.get(3);
+        this.friday = newSchedule.get(4);
+        this.saturday = newSchedule.get(5);
+        this.sunday = newSchedule.get(6);
+
+    };
 
     public void addMon(String exercise){
         this.monday.add(exercise);
@@ -69,9 +90,6 @@ public class Week {
         this.schedule.add(friday);
         this.schedule.add(saturday);
         this.schedule.add(sunday);
-    }
-    public ArrayList<String> getSunday(){
-        return this.sunday;
     }
 
 

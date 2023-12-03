@@ -6,15 +6,23 @@ import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
 import Workout.use_case.SearchWorkout.WorkoutOutputData;
 import entity.User;
 
+import java.util.concurrent.ExecutionException;
+
 public class ModifyWorkoutController {
     private ModifyWorkoutInputBoundary modInteractor;
 
     public ModifyWorkoutController(ModifyWorkoutInputBoundary modInteractor) {
         this.modInteractor = modInteractor;
     }
-    public void export(User user, String name, int day) {
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException {
+        System.out.println("Working");
         modInteractor.export(user, name, day);
         modInteractor.execute(user, name, day);
+        System.out.println("Bruh working");
         System.out.println("Exported " + name + " to " + day);
+    }
+
+    public void execute(){
+        modInteractor.execute();
     }
 }

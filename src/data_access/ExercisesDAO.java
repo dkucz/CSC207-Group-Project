@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
@@ -101,6 +102,11 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public void addExercise(String user, String exerciseName, int day) {}
+
+    @Override
+    public void save(User user) throws ExecutionException, InterruptedException {
+
+    }
 
 
     @Override

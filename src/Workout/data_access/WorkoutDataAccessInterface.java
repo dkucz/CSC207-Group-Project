@@ -24,4 +24,5 @@ public interface WorkoutDataAccessInterface {
     void exercisesOnDifficulty(Workout workout, String difficulty);
 
     void addExercise(String user, String exerciseName, int day);
+    public void save(User user) throws ExecutionException, InterruptedException;
 }

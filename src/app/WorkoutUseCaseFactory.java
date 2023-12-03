@@ -1,6 +1,8 @@
 package app;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
 import Workout.interface_adapter.SearchWorkout.WorkoutController;
 import Workout.interface_adapter.SearchWorkout.WorkoutPresenter;
 import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
@@ -14,10 +16,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class WorkoutUseCaseFactory {
-    public static WorkoutView create(ViewManagerModel viewManagerModel, WorkoutViewModel workoutViewModel, MenuViewModel menuViewModel, WorkoutDataAccessInterface appDAO) throws GeneralSecurityException, IOException {
+    public static WorkoutView create(ViewManagerModel viewManagerModel, WorkoutViewModel workoutViewModel, ModifyWorkoutViewModel modviewModel, ModifyWorkoutController modController, MenuViewModel menuViewModel, WorkoutDataAccessInterface appDAO) throws GeneralSecurityException, IOException {
         WorkoutController workoutController = createWorkoutUseCase(viewManagerModel,
                 workoutViewModel, menuViewModel, appDAO);
-        return new WorkoutView(workoutController, workoutViewModel);
+        return new WorkoutView(workoutController, workoutViewModel, modController, modviewModel);
     }
 
     public static WorkoutController createWorkoutUseCase(ViewManagerModel viewManagerModel,

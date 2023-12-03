@@ -8,7 +8,7 @@ public class User implements CommonUser{
     private String password;
     private String gmail;
 
-    public Week week = new Week();
+    public Week week= new Week();
 
     public User(){}
 
@@ -25,4 +25,8 @@ public class User implements CommonUser{
     }
     public String getPassword(){return this.password;}
     public String getGmail(){return this.gmail;}
+
+    public Week getWeek(){return this.week;}
+
+    public void setWeek(Week week){this.week = week;}
 }

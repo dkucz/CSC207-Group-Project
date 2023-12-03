@@ -2,8 +2,10 @@ package Workout.use_case.ModifyWorkout;
 
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
+import entity.Week;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
     final WorkoutDataAccessInterface workoutDAO;
@@ -15,50 +17,78 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
         this.modifyPresenter = modifyPresenter;
     }
 
-    public void execute(User user, String name, int day){
-
+    public void execute(User user, String name, int day) throws ExecutionException, InterruptedException {
+        System.out.println("1");
         if (day == 1){
+            System.out.println("This is " + user.week.getMon().size());
             if (canAdd(user.week.getMon())){
-                user.week.getMon().add(name);
-                user.week.updateSchedule();
+                System.out.println("this works");
+//                user.week.getMon().add(name);
+                Week week = user.getWeek();
+                week.getMon().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Monday"));
+                System.out.println("2");
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Monday"));
             }
             else{
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
+                System.out.println("2");
                 modifyPresenter.prepareFailView(new ModifyWorkoutOutputData(schedule, "You can only add 5 exercises to a day"));
             }
         }
         else if (day == 2){
             if (canAdd(user.week.getTues())){
-                user.week.getTues().add(name);
-                user.week.updateSchedule();
+//                user.week.getTues().add(name);
+//                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getTues().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Monday"));
+                System.out.println("2");
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Tuesday"));
             }
             else{
+                System.out.println("2");
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
                 modifyPresenter.prepareFailView(new ModifyWorkoutOutputData(schedule, "You can only add 5 exercises to a day"));
             }
         }
         else if (day == 3){
+
             if (canAdd(user.week.getWed())){
-                user.week.getWed().add(name);
-                user.week.updateSchedule();
+                System.out.println("2");
+//                user.week.getWed().add(name);
+//                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getWed().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Tuesday"));
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Wednesday"));
             }
             else{
+                System.out.println("2");
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
                 modifyPresenter.prepareFailView(new ModifyWorkoutOutputData(schedule, "You can only add 5 exercises to a day"));
             }
         }
         else if (day == 4){
             if (canAdd(user.week.getThur())){
-                user.week.getThur().add(name);
-                user.week.updateSchedule();
+//                user.week.getThur().add(name);
+//                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getThur().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Wednesday"));
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Thursday"));
             }
             else{
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
@@ -67,10 +97,13 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
         }
         else if (day == 5){
             if (canAdd(user.week.getFri())){
-                user.week.getFri().add(name);
-                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getFri().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Thursday"));
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Friday"));
             }
             else{
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
@@ -79,10 +112,15 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
         }
         else if (day == 6){
             if (canAdd(user.week.getSat())){
-                user.week.getSat().add(name);
-                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getSat().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+//                user.week.getSat().add(name);
+//                user.week.updateSchedule();
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Friday"));
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Saturday"));
             }
             else{
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
@@ -91,10 +129,13 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
         }
         else if (day == 7){
             if (canAdd(user.week.getSun())){
-                user.week.getSun().add(name);
-                user.week.updateSchedule();
+                Week week = user.getWeek();
+                week.getSun().add(name);
+                week.updateSchedule();
+                user.setWeek(week);
+                workoutDAO.save(user);
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
-                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, "Exercise added to Saturday"));
+                modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to Sunday"));
             }
             else{
                 ArrayList<ArrayList<String>> schedule = user.week.getSchedule();
@@ -104,7 +145,8 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
 
 
         else {
-            throw new NullPointerException("Day must be between 1 and 7");
+            //throw new NullPointerException("Day must be between 1 and 7");
+            System.out.println("Day must be between 1 and 7");
             //workoutDAO.addExercise(user, name, 1);
         }
     }
@@ -112,6 +154,11 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
     @Override
     public void export(User user, String name, int day) {
         workoutDAO.addExercise(user.getUsername(), name, day);
+    }
+
+    @Override
+    public void execute() {
+
     }
 
     public boolean canAdd(ArrayList<String> day){

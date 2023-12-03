@@ -11,13 +11,18 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
 
     public ModifyWorkoutPresenter(ModifyWorkoutViewModel modViewModel) {
         this.modViewModel = modViewModel;
+        //import ViewManager
+        //set ModState
+        //viewmodel set ModState
 
     }
     @Override
     public void prepareSuccessView(ModifyWorkoutOutputData outputData) {
         String[][] schedule = convertToNestedArray(outputData.getSchedule());
-        System.out.println(outputData.getExerciseAdded() + " added to " + outputData.getExerciseAdded());
+        System.out.println(outputData.getExerciseAdded());
+        System.out.println(convertToString(schedule));
         ModifyWorkoutState workoutState = modViewModel.getState();
+        //modviewModel is null
         workoutState.setSchedule(schedule);
         this.modViewModel.setState(workoutState);
         this.modViewModel.firePropertyChanged();
@@ -58,6 +63,33 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         }
 
         return nestedArray;
+    }
+    public String convertToString(String[][] nestedArray) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("{");
+
+        for (int i = 0; i < nestedArray.length; i++) {
+            result.append("{");
+
+            for (int j = 0; j < nestedArray[i].length; j++) {
+                result.append(nestedArray[i][j]);
+
+                if (j < nestedArray[i].length - 1) {
+                    result.append(", ");
+                }
+            }
+
+            result.append("}");
+
+            if (i < nestedArray.length - 1) {
+                result.append(", ");
+            }
+        }
+
+        result.append("}");
+
+        return result.toString();
     }
 }
 
