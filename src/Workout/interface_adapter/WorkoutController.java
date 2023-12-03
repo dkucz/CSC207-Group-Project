@@ -1,12 +1,9 @@
 package Workout.interface_adapter;
 
-import Friend.use_case.FriendPage.FriendInputData;
 import Workout.use_case.WorkoutInputBoundary;
 import Workout.use_case.WorkoutInputData;
 import entity.User;
-import login.use_case.LoginInputData;
 import entity.Workout;
-import menu.interface_adapter.MenuState;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -19,9 +16,6 @@ public class WorkoutController {
 
     public WorkoutController(WorkoutInputBoundary workoutUseCaseInteractor) {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
-    }
-    public void execute(String userName) throws ExecutionException, InterruptedException {
-        FriendInputData friendInputData = new FriendInputData(userName);
     }
 
     public void execute(Workout workout, String inputText) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
@@ -54,6 +48,11 @@ public class WorkoutController {
     public void export(String user, String name, int day) {
         workoutUseCaseInteractor.export(user, name, day);
     }
+
+    public void execute(User user) {
+        workoutUseCaseInteractor.execute(user, 1);
+    }
+
 }
 
 

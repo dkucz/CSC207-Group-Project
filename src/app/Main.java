@@ -1,5 +1,8 @@
 package app;
 
+import Workout.interface_adapter.WorkoutController;
+import Workout.interface_adapter.WorkoutViewModel;
+import Workout.view.WorkoutView;
 import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
@@ -35,6 +38,7 @@ public class Main {
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         MenuViewModel menuViewModel = new MenuViewModel();
+        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
 
         GoogleCalendarDAO googleDAO = new GoogleCalendarDAO();
         FirestoreDAO firestoreDAO = new FirestoreDAO();
@@ -50,6 +54,9 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
+        WorkoutView workoutView = WorkoutUseCaseFactory.create(viewManagerModel,
+                workoutViewModel, menuViewModel, appDAO);
+        views.add(workoutView, workoutView.viewname);
 
         MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(menuView, menuView.viewname);

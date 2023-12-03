@@ -25,8 +25,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class WorkoutUseCaseFactory {
-    public static WorkoutView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignupViewModel signupViewModel, GoogleCalendarDAO appDAO) {
-        return null;
+    public static WorkoutView create(ViewManagerModel viewManagerModel, WorkoutViewModel workoutViewModel, MenuViewModel menuViewModel, WorkoutDataAccessInterface appDAO) throws GeneralSecurityException, IOException {
+        WorkoutController workoutController = createWorkoutUseCase(viewManagerModel,
+                workoutViewModel, menuViewModel, appDAO);
+        return new WorkoutView(workoutController, workoutViewModel);
     }
 
     public static WorkoutController createWorkoutUseCase(ViewManagerModel viewManagerModel,
@@ -36,8 +38,7 @@ public class WorkoutUseCaseFactory {
 
         // Notice how we pass this method's parameters to the Presenter.
         WorkoutOutputBoundary presenter = new WorkoutPresenter(viewManagerModel, menuViewModel, workoutViewModel);
-        WorkoutInputBoundary workoutInteractor = new WorkoutInteractor(
-                exerciseDAO, presenter);
+        WorkoutInputBoundary workoutInteractor = new WorkoutInteractor(exerciseDAO, presenter);
 
         return new WorkoutController(workoutInteractor);
     }

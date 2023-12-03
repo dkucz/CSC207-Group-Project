@@ -33,14 +33,14 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
+
+    public final String viewname = "Workout View";
     private List<String> database; // Simulated database
 
     private JTextField searchField;
     private JTextArea resultArea;
 
     private JPanel buttonPanel;
-
-    //placeholders blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
     public final String viewName = "Workout Creator";
 
@@ -62,12 +62,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
-            // Create the main frame
         JFrame frame = new JFrame("Workout Creator");
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            // panel to hold components with a BoxLayout
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -82,8 +80,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         // Create a result area panel
         JPanel resultPanel = new JPanel();
         resultPanel.setVisible(false);
-        resultArea = new JTextArea(10, 30);
-        resultArea.setEditable(false); // Make it read-only
+        resultArea = new JTextArea(10, 30);// Make it read-only
 
         JPanel buttons = new JPanel();
         addExercise = new JButton(WorkoutViewModel.MAKE_WORKOUT_LABEL);
@@ -104,6 +101,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         // Add the scroll pane to the main panel
         mainPanel.add(searchPanel);
+        mainPanel.add(resultPanel);
         mainPanel.add(scrollPane);
         //mainPanel.add(resultPanel);
         mainPanel.add(buttons);
@@ -111,14 +109,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         frame.add(mainPanel);
 
-            // Set the frame visibility to true
-        frame.setVisible(true);
-
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    resultPanel.setVisible(false);
                     System.out.println(searchField.getText());
                     WorkoutState workoutState = workoutViewModel.getState();
                     try {
@@ -130,6 +124,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     }
 
                     Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
+                    System.out.println(exercises.toString());
                     exerciseList = Arrays.asList(exercises);
                     buttonPanel.removeAll();
                     buttonPanel.revalidate();
@@ -143,13 +138,19 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         addExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //workoutController.export(MenuState.getCurrentUser(), standby.getName(), 2);
+                workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(), 2);
             }
         });
 
 
+        exitWorkout.addActionListener(new ActionListener() {
 
+            public void actionPerformed(ActionEvent e){
+                workoutController.execute(workoutViewModel.currentUser);
+                System.out.println(workoutViewModel.currentUser.getUsername());
+            }
 
+        });
 
 
     }
@@ -177,32 +178,14 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
 
     private void displayFullEntry(Exercise exercise) {
-        resultArea.setText(exercise.toString() + "\n\n" +
+        String totalInfo = exercise.toString() + "\n\n" +
                 "Type: " + exercise.getType() + "\n" +
                 "Muscle: " + exercise.getMuscle() + "\n" +
                 "Equipment: " + exercise.getEquipment() + "\n" +
                 "Difficulty: " + exercise.getDifficulty() + "\n" +
-                "Instructions: " + exercise.getInstructions());
-    }
-
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        MenuViewModel menuViewModel = new MenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        ExercisesDAO appDAO = new ExercisesDAO();
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
-        GoogleCalendarDAO google = new GoogleCalendarDAO();
-        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
-        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
-                workoutViewModel, menuViewModel, DAO);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutController, workoutViewModel);
-            }
-        });
+                "Instructions: " + exercise.getInstructions();
+        System.out.println(totalInfo);
+        resultArea.setText(totalInfo);
     }
 
     @Override

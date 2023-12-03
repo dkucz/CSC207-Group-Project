@@ -17,6 +17,7 @@ public class CreateEventPresenter {
     }
     public void prepareSuccessView(User u){
         this.workoutViewManagerModel.setActiveView("Workout View");
+        System.out.println("prepare success");
         this.workoutViewManagerModel.firePropertyChanged();
         this.workoutViewModel.setCurrentUser(u);
         this.workoutViewModel.firePropertyChanged();

@@ -16,6 +16,7 @@ public class CreateEventInteractor {
 
     public void execute(User u){
         this.createEventPresenter.prepareSuccessView(u);
+        System.out.println("working");
     }
 
 

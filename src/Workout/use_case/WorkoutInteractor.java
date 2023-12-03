@@ -57,9 +57,9 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
 
 
 
-    public void execute()
+    public void execute(User user, int separator)
     {
-        workoutPresenter.prepareSuccessView();
+        workoutPresenter.prepareMenuView(user);
     }
 
 
