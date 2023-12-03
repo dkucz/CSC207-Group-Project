@@ -7,7 +7,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
@@ -41,10 +40,10 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             //System.out.println(response);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this muscle");
-                workout.SetExercisesInfo("No exercises found for this muscle");
+                workout.setExercisesInfo("No exercises found for this muscle");
                 return;
             }
-            workout.SetExercisesInfo(responseBody);
+            workout.setExercisesInfo(responseBody);
             System.out.println(responseBody);
 
         } catch (IOException e) {
@@ -67,7 +66,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             //System.out.println(response);
-            workout.SetExercisesInfo(responseBody);
+            workout.setExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
                 return;
@@ -96,7 +95,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            workout.SetExercisesInfo(responseBody);
+            workout.setExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("Not a valid difficulty");
                 return;
@@ -109,7 +108,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
     @Override
-    public Workout get(String muscle) {
+    public Workout getWorkout(String muscle) {
         return null;
     }
 

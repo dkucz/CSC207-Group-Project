@@ -1,14 +1,12 @@
 package Workout.data_access;
 
-import entity.User;
 import entity.Workout;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public interface WorkoutDataAccessInterface {
 
-    boolean existsByName(String identifier);
+    boolean existsByName(String identifier) throws ExecutionException, InterruptedException;
 
     boolean existsByType(String type);
 
@@ -21,5 +19,5 @@ public interface WorkoutDataAccessInterface {
 
     void ExercisesOnDifficulty(Workout workout, String difficulty);
 
-    Workout get(String workout);
+    Workout getWorkout(String workout);
 }

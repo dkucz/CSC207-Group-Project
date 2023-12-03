@@ -1,5 +1,6 @@
 package Friend.use_case.AddFriend;
 
+import Friend.data_access.AddFriend.AddFriendDAOInterface;
 import Friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 import entity.Friend;
@@ -11,8 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
     AddFriendOutputBoundary addFriendPresenter;
-    FirestoreDAO firestoreDAO;
-    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, FirestoreDAO firestoreDAO){
+    AddFriendDAOInterface firestoreDAO;
+    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, AddFriendDAOInterface firestoreDAO){
         this.addFriendPresenter = addFriendPresenter;
         this.firestoreDAO = firestoreDAO;
     }

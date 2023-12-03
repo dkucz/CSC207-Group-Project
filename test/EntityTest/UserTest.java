@@ -2,8 +2,8 @@ package EntityTest;
 
 import entity.User;
 import entity.UserFactory;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.testng.annotations.Test;
 
 public class UserTest {
     @Test

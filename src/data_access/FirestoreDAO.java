@@ -1,5 +1,8 @@
 package data_access;
 
+import Friend.data_access.AddFriend.AddFriendDAOInterface;
+import Friend.data_access.DeleteFriend.DeleteFriendDAOInterface;
+import Friend.data_access.FriendPage.FriendPageDAOInterface;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -15,7 +18,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-public class FirestoreDAO {
+public class FirestoreDAO implements AddFriendDAOInterface, DeleteFriendDAOInterface, FriendPageDAOInterface {
 
     private final Firestore database;
     private final String userCollectionID = "users";

@@ -2,11 +2,11 @@ package Workout.use_case;
 
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.Workout;
-import login.data_access.LoginUserDataAccessInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public class WorkoutInteractor implements WorkoutInputBoundary {
     final WorkoutDataAccessInterface workoutDAO;
@@ -18,7 +18,7 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         this.workoutPresenter = workoutPresenter;
     }
 
-    public void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException {
+    public void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
         Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         //fix this condition cause its always returning false
@@ -28,13 +28,13 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         } else
         {
             workoutDAO.GetExercisesInfo(workout, muscle);
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.getExercisesInfo(), workout, false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
             System.out.println("working Interactor");
 
         }
     }
-    public void execute2(WorkoutInputData workoutInputData) {
+    public void execute2(WorkoutInputData workoutInputData) throws ExecutionException, InterruptedException {
         Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         String type = workoutInputData.getType();
@@ -50,13 +50,13 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         }
 
         try {
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.getExercisesInfo(), workout, false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
         } catch (Exception e) {
             System.out.println("Doesn't have type parameter");
         }
     }
-    public void execute3(WorkoutInputData workoutInputData) {
+    public void execute3(WorkoutInputData workoutInputData) throws ExecutionException, InterruptedException {
         Workout workout = workoutInputData.getWorkout();
         String muscle = workoutInputData.getMuscle();
         String type = workoutInputData.getType();
@@ -77,14 +77,13 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
             return;
         }
         try {
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout,
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.getExercisesInfo(), workout,
                     false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
         } catch (Exception e) {
             System.out.println("Error fetching workout data: " + e.getMessage());
         }
     }
-
 
     public void execute()
     {

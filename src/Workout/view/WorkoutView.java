@@ -1,29 +1,21 @@
 package Workout.view;
 
-import Workout.data_access.WorkoutDataAccessInterface;
 import Workout.interface_adapter.WorkoutController;
 import Workout.interface_adapter.WorkoutState;
 import Workout.interface_adapter.WorkoutViewModel;
-import app.ViewManagerModel;
-import app.WorkoutUseCaseFactory;
-import data_access.ExercisesDAO;
 import com.google.gson.Gson;
 import entity.Exercise;
-import menu.interface_adapter.MenuViewModel;
-import signup.interface_adapter.SignupViewModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
     private List<String> database; // Simulated database
@@ -31,7 +23,6 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
     private JTextField searchField;
     private JTextArea resultArea;
 
-    //placeholders blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
     public final String viewName = "Workout Creator";
 
@@ -91,9 +82,6 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         mainPanel.add(buttons);
         frame.add(mainPanel);
 
-            // Set the frame visibility to true
-        frame.setVisible(true);
-
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
@@ -111,11 +99,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
 
                         //resultArea.setText(workoutState.getExercises());
-                    } catch (GeneralSecurityException ex) {
+                    } catch (GeneralSecurityException | InterruptedException | ExecutionException | IOException ex) {
                         throw new RuntimeException(ex);
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
                     }
 
                     Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
@@ -138,11 +124,6 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                 }
             }
         });
-
-
-
-
-
 
     }
 
@@ -251,22 +232,6 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 //
 //
 //    }
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        MenuViewModel menuViewModel = new MenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        ExercisesDAO appDAO = new ExercisesDAO();
-        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
-                workoutViewModel, menuViewModel, appDAO);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutController, workoutViewModel);
-            }
-        });
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

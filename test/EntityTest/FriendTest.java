@@ -2,8 +2,8 @@ package EntityTest;
 
 import entity.FriendFactory;
 import entity.Friend;
+import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.testng.annotations.Test;
 
 public class FriendTest {
     @Test

@@ -7,6 +7,7 @@ import entity.Workout;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.concurrent.ExecutionException;
 
 public class WorkoutController {
 
@@ -16,7 +17,7 @@ public class WorkoutController {
         this.workoutUseCaseInteractor = workoutUseCaseInteractor;
     }
 
-    public void execute(Workout workout, String inputText) throws GeneralSecurityException, IOException {
+    public void execute(Workout workout, String inputText) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
         String[] params = inputText.split(";", 3); // Split the input muscle into up to three parts
 
         // Assign the split muscles to muscle1, muscle2, and muscle3

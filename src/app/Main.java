@@ -1,5 +1,7 @@
 package app;
 
+import Workout.interface_adapter.WorkoutViewModel;
+import Workout.view.WorkoutView;
 import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
@@ -21,7 +23,7 @@ import java.security.GeneralSecurityException;
 public class Main {
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         // Load the login screen
-        JFrame application = new JFrame("Login");
+        JFrame application = new JFrame("Fitness Tracker");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -35,6 +37,7 @@ public class Main {
         LoginViewModel loginViewModel = new LoginViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
         MenuViewModel menuViewModel = new MenuViewModel();
+        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
 
         GoogleCalendarDAO googleDAO = new GoogleCalendarDAO();
         FirestoreDAO firestoreDAO = new FirestoreDAO();
@@ -50,10 +53,12 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
-
         MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(menuView, menuView.viewname);
         loginView.getLoginViewModel().setMenuView(menuView);
+
+        WorkoutView workoutView = WorkoutUseCaseFactory.create(viewManagerModel, workoutViewModel, menuViewModel, appDAO);
+        views.add(workoutView, workoutView.viewName);
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
