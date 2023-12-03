@@ -1,6 +1,7 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import app.WorkoutUseCaseFactory;
 import entity.User;
 import entity.Workout;
 import login.data_access.LoginUserDataAccessInterface;
@@ -15,7 +16,9 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     private final GoogleCalendarDAO googleCalendarDAO;
     private final ExercisesDAO exercisesDAO;
 
-    public FacadeDAO(FirestoreDAO firestoreDAO, GoogleCalendarDAO googleCalendarDAO, ExercisesDAO exercisesDAO)
+    public FacadeDAO(FirestoreDAO firestoreDAO,
+                     GoogleCalendarDAO googleCalendarDAO,
+                     ExercisesDAO exercisesDAO)
     {
         this.firestoreDAO = firestoreDAO;
         this.googleCalendarDAO = googleCalendarDAO;

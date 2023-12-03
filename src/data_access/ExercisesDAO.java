@@ -11,16 +11,7 @@ import java.io.IOException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
-    //documentation: https://www.api-ninjas.com/api/exercises
-//    public static void main(String[] args){
-//
-//        ExercisesDAO owa = new ExercisesDAO();
-//
-//        //owa.GetExercisesInfo("chest");
-//        //owa.GetExercisesInfo("balls");
-//        //owa.ExercisesOnDifficulty("hard");
-//        //owa.FindOfType("strongman");
-//    }
+
 
     public void getExercisesInfo(Workout workout, String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,

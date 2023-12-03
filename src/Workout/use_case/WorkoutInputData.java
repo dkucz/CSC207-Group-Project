@@ -30,6 +30,9 @@ public class WorkoutInputData {
     public Workout getWorkout() {
         return this.workout;
     }
+
+    public String getWorkoutName() {return this.workout.getExercisesInfo();}
+
     public String getMuscle(){ return this.muscle; }
 
     public String getType() {return this.type;}

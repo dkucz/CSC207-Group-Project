@@ -26,7 +26,7 @@ import java.security.GeneralSecurityException;
 public class Main {
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         // Load the login screen
-        JFrame application = new JFrame("Login");
+        JFrame application = new JFrame("Fitness Tracker");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();

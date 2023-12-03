@@ -3,7 +3,6 @@ package Workout.use_case;
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
-import login.data_access.LoginUserDataAccessInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,22 +55,9 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
     }
 
 
-
-    public void execute(User user, int separator)
+    public void execute(User user)
     {
         workoutPresenter.prepareMenuView(user);
-    }
-
-    @Override
-    public void check(String name, int i) {
-
-    }
-
-
-    private static void deleteTokenFile()
-    {
-    File storedCredentials = new File("./tokens/StoredCredential");
-    storedCredentials.delete();
     }
 
     @Override

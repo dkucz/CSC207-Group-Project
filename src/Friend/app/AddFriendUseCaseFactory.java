@@ -1,5 +1,6 @@
 package Friend.app;
 
+import Friend.data_access.AddFriend.AddFriendDAOInterface;
 import Friend.interface_adapter.AddFriend.AddFriendController;
 import Friend.interface_adapter.AddFriend.AddFriendPresenter;
 import Friend.use_case.AddFriend.AddFriendInputBoundary;
@@ -15,7 +16,7 @@ public class AddFriendUseCaseFactory {
 
         AddFriendPresenter addFriendPresenter = new AddFriendPresenter(friendViewManager);
 
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        AddFriendDAOInterface firestoreDAO = new FirestoreDAO();
 
         AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(addFriendPresenter, firestoreDAO);
         return new AddFriendController(addFriendInteractor);

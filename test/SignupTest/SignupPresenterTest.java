@@ -46,7 +46,6 @@ public class SignupPresenterTest {
     public void testPrepareFailView() {
         signupPresenter.prepareFailView("Error message");
 
-        // Verify that the SignupViewModel was updated with the error message
         SignupState signupState = signupViewModel.getState();
         assertEquals("Error message", signupState.getUsernameError());
     }
