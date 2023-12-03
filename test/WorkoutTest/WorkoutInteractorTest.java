@@ -100,7 +100,7 @@ public class WorkoutInteractorTest {
         int separator = 123;
 
         // Act
-        workoutInteractor.execute(user, separator);
+        workoutInteractor.execute(user);
 
         // Assert
         verify(workoutPresenter).prepareMenuView(user);
