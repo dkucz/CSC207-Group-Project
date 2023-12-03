@@ -58,9 +58,12 @@ public class Main {
 
         WorkoutView workoutView = WorkoutUseCaseFactory.create(viewManagerModel,
                 workoutViewModel, menuViewModel, appDAO);
+
         views.add(workoutView, workoutView.viewname);
 
-        MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, menuViewModel, appDAO);
+
+        MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
+                menuViewModel, workoutViewModel, appDAO);
         views.add(menuView, menuView.viewname);
         loginView.getLoginViewModel().setMenuView(menuView);
 

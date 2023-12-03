@@ -21,7 +21,6 @@ import Friend.interface_adapter.FriendPage.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
 import Friend.view.*;
 import Friend.view.DeleteFriend.DeleteFriendView;
-import Workout.data_access.WorkoutDataAccessInterface;
 import Workout.interface_adapter.WorkoutController;
 import Workout.interface_adapter.WorkoutViewModel;
 import Workout.view.WorkoutView;
@@ -42,6 +41,7 @@ import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.SignoutController;
+import signup.interface_adapter.SignupViewModel;
 
 import static menu.app.CreateEventUseCaseFactory.createEventUseCase;
 
@@ -113,30 +113,34 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
                         try {
+                            //STUFF
                             WorkoutViewManagerModel workoutManagerModel = new WorkoutViewManagerModel();
                             WorkoutViewManager workoutViewManager = new WorkoutViewManager(workoutManagerModel);
-                            WorkoutViewModel workoutModel = new WorkoutViewModel();
+                            WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+                            SignupViewModel signupViewModel = new SignupViewModel();
+                            MenuViewModel menuViewModel = new MenuViewModel();
                             ViewManagerModel viewManagerModel = new ViewManagerModel();
-                            GoogleCalendarDAO googleDAO = new GoogleCalendarDAO();
+
+                            //FACADE initialization
+                            ExercisesDAO appDAO = new ExercisesDAO();
                             FirestoreDAO firestoreDAO = new FirestoreDAO();
-                            ExercisesDAO exercisesDAO = new ExercisesDAO();
-                            FacadeDAO appDAO = new FacadeDAO(firestoreDAO, googleDAO, exercisesDAO);
-                            WorkoutView workoutView = null;
-                            workoutView = WorkoutUseCaseFactory.create(viewManagerModel,
-                                    workoutModel, menuViewModel, appDAO);
-                            workoutViewManager.addView(workoutView);
-                            CreateEventController createEventController = createEventUseCase(workoutViewManager, workoutModel);
+                            GoogleCalendarDAO google = new GoogleCalendarDAO();
+                            FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+
+                            //WORKOUT VIEW initialization
+                            WorkoutView workout = WorkoutUseCaseFactory.create(viewManagerModel,
+                                    workoutViewModel, menuViewModel, DAO);
+                            workoutViewManager.addView(workout);
+                            CreateEventController createEventController = createEventUseCase(workoutManagerModel,
+                                    workoutViewManager, workoutViewModel);
                             createEventController.execute(MenuView.this.currentUser);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
+                            System.out.println("The workout name is " + workout.viewName);
                         } catch (GeneralSecurityException ex) {
                             throw new RuntimeException(ex);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
                         }
-                        System.out.println("workoutView created");
-                        //CreateEventController createEventController = createEventUseCase(workoutViewManager, workoutModel);
-
                     }
                 }
         );

@@ -34,19 +34,21 @@ import java.util.concurrent.ExecutionException;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
 
+
     public final String viewname = "Workout View";
     private List<String> database; // Simulated database
 
-    private JTextField searchField;
-    private JTextArea resultArea;
+    final JTextField searchField;
+    final JTextArea resultArea;
 
-    private JPanel buttonPanel;
+    final JPanel buttonPanel;
+
+    public boolean isShowing = false;
 
     public final String viewName = "Workout Creator";
 
     private final WorkoutViewModel workoutViewModel;
 
-//    final JButton searchExercise;
     final JButton saveWorkout;
     final JButton exitWorkout;
 
@@ -61,6 +63,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
     public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
+
 
         JFrame frame = new JFrame("Workout Creator");
         frame.setSize(500, 400);
@@ -79,7 +82,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         // Create a result area panel
         JPanel resultPanel = new JPanel();
-        resultPanel.setVisible(false);
+        resultPanel.setVisible(true);
         resultArea = new JTextArea(10, 30);// Make it read-only
 
         JPanel buttons = new JPanel();
@@ -109,6 +112,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         frame.add(mainPanel);
 
+        //frame.setVisible(true);
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
@@ -139,6 +143,15 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(), 2);
+            }
+        });
+
+
+        saveWorkout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ScheduleView scheduleView = new ScheduleView();
+                scheduleView.setVisible(true);
             }
         });
 
@@ -193,6 +206,25 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
+    public static void main(String[] args) throws GeneralSecurityException, IOException {
+        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
+        MenuViewModel menuViewModel = new MenuViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        ExercisesDAO appDAO = new ExercisesDAO();
+        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        GoogleCalendarDAO google = new GoogleCalendarDAO();
+        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+                workoutViewModel, menuViewModel, DAO);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                //new WorkoutView(workoutView, workoutViewModel);
+                new WorkoutView(workoutController, workoutViewModel);
+            }
+        });
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

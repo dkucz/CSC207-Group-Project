@@ -1,6 +1,11 @@
 package menu.app;
 
+import Workout.interface_adapter.WorkoutController;
+import Workout.interface_adapter.WorkoutViewModel;
+import Workout.view.WorkoutView;
 import app.ViewManagerModel;
+import app.WorkoutUseCaseFactory;
+import data_access.FacadeDAO;
 import login.data_access.LoginUserDataAccessInterface;
 import login.interface_adapter.LoginController;
 import login.interface_adapter.LoginPresenter;
@@ -28,14 +33,22 @@ import login.view.LoginView;
 import menu.interface_adapter.MenuViewModel;
 import signup.interface_adapter.SignupViewModel;
 
-    public class SignoutUseCaseFactory {
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
+import static app.WorkoutUseCaseFactory.createWorkoutUseCase;
+
+public class SignoutUseCaseFactory {
 
         public static MenuView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel,
-                                       SignupViewModel signupViewModel, MenuViewModel menuViewModel, LoginUserDataAccessInterface loginDAO)
-        {
+                                      SignupViewModel signupViewModel, MenuViewModel menuViewModel,
+                                      WorkoutViewModel workoutViewModel, FacadeDAO appDAO) throws GeneralSecurityException, IOException {
 
             SignoutController signoutController = createSignoutUseCase(viewManagerModel,
                     signupViewModel, loginViewModel, menuViewModel);
+
+            WorkoutView workoutView = WorkoutUseCaseFactory.create(viewManagerModel,
+                    workoutViewModel, menuViewModel, appDAO);
 
             return new MenuView(signoutController, menuViewModel);
         }
