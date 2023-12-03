@@ -22,6 +22,11 @@ import signup.data_access.SignupUserDataAccessInterface;
 import javax.swing.*;
 import java.io.*;
 import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class GoogleCalendarDAO {
@@ -91,7 +96,71 @@ public class GoogleCalendarDAO {
         } while (pageToken != null);
         return eventListModel;
     }
+    public DefaultListModel<String> getEventsForToday(String calendarName) throws GeneralSecurityException, IOException {
+        DefaultListModel<String> eventsForToday = new DefaultListModel<>();
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
 
+        // Get the calendar ID for the specified calendar name
+        String calendarId = getCalendarIdByName(service, calendarName);
+        if (calendarId == null){
+            return null;
+        }
+
+        // Define the start and end times for today
+        DateTime startOfDay = getStartOfDay();
+        DateTime endOfDay = getEndOfDay();
+
+        // Query for events for today
+        Events events = service.events().list(calendarId)
+                .setTimeMin(startOfDay)
+                .setTimeMax(endOfDay)
+                .execute();
+
+        // Iterate through events and add them to the list
+        List<Event> items = events.getItems();
+        for (Event event : items) {
+            Date startDate = new Date(event.getStart().getDateTime().getValue());
+            String formattedTime = getFormattedTime(startDate);
+            String eventDescription = formattedTime + ": " + event.getSummary();
+            eventsForToday.addElement(eventDescription);
+        }
+
+        return eventsForToday;
+    }
+
+    private String getFormattedTime(Date date) {
+        return timeFormatter.format(date);
+    }
+    // Helper method to get the calendar ID by name
+    private String getCalendarIdByName(Calendar service, String calendarName) throws IOException {
+        CalendarList calendarList = service.calendarList().list().execute();
+        List<CalendarListEntry> items = calendarList.getItems();
+
+        for (CalendarListEntry calendarListEntry : items) {
+            if (calendarListEntry.getSummary().equals(calendarName)) {
+                return calendarListEntry.getId();
+            }
+        }
+
+        // Return null if the calendar with the specified name is not found
+        return null;
+    }
+    private SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+
+    // Helper method to get the start of the day in DateTime format
+    private DateTime getStartOfDay() {
+        LocalDate today = LocalDate.now();
+        return new DateTime(today.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    }
+
+    // Helper method to get the end of the day in DateTime format
+    private DateTime getEndOfDay() {
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        return new DateTime(tomorrow.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+    }
     public void createCalendar() throws GeneralSecurityException, IOException
     {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();

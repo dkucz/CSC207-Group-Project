@@ -214,12 +214,18 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         }
 
         GoogleCalendarDAO cal = new GoogleCalendarDAO();
-        DefaultListModel<String> events = cal.getCalendarList();
-        JList<String> eventList = new JList<>(events);
-        JScrollPane scrollPane = new JScrollPane(eventList);
-
         this.calendarPanel.removeAll();
-        this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
+
+        String calendarName = this.currentUser.getGmail();
+        DefaultListModel<String> events = cal.getEventsForToday(calendarName);
+        if (events != null) {
+            events.add(0, "Calendar: " + calendarName);
+
+            JList<String> eventList = new JList<>(events);
+            JScrollPane scrollPane = new JScrollPane(eventList);
+
+            this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
+        }
 
 
     }

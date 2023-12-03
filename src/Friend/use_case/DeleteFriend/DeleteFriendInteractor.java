@@ -1,5 +1,6 @@
 package Friend.use_case.DeleteFriend;
 
+import Friend.data_access.DeleteFriend.DeleteFriendDAOInterface;
 import data_access.FirestoreDAO;
 import entity.Friend;
 import java.util.ArrayList;
@@ -7,8 +8,8 @@ import java.util.concurrent.ExecutionException;
 
 public class DeleteFriendInteractor implements DeleteFriendInputBoundary{
     private DeleteFriendOutputBoundary deleteFriendPresenter;
-    private FirestoreDAO firestoreDAO;
-    public DeleteFriendInteractor(DeleteFriendOutputBoundary deleteFriendPresenter, FirestoreDAO firestoreDAO){
+    private DeleteFriendDAOInterface firestoreDAO;
+    public DeleteFriendInteractor(DeleteFriendOutputBoundary deleteFriendPresenter, DeleteFriendDAOInterface firestoreDAO){
         this.deleteFriendPresenter = deleteFriendPresenter;
         this.firestoreDAO = firestoreDAO;
     }

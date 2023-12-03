@@ -1,9 +1,5 @@
 package app;
 
-//import data_access.FileUserDataAccessObject;
-//import signup.use_case.UserSignupDataAccessInterface;
-//import entity.CommonUserFactory;
-
 import entity.UserFactory;
 import login.interface_adapter.LoginViewModel;
 import signup.data_access.SignupUserDataAccessInterface;
@@ -35,7 +31,6 @@ public class SignupUseCaseFactory {
                                                             LoginViewModel loginViewModel,
                                                             SignupUserDataAccessInterface signupDAO) throws IOException, GeneralSecurityException {
 
-        // Notice how we pass this method's parameters to the Presenter.
         SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel, loginViewModel, viewManagerModel);
 
         UserFactory userFactory = new UserFactory();

@@ -1,7 +1,6 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
-import entity.User;
 import entity.Workout;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,18 +10,8 @@ import java.io.IOException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
-    //documentation: https://www.api-ninjas.com/api/exercises
-//    public static void main(String[] args){
-//
-//        ExercisesDAO owa = new ExercisesDAO();
-//
-//        //owa.GetExercisesInfo("chest");
-//        //owa.GetExercisesInfo("balls");
-//        //owa.ExercisesOnDifficulty("hard");
-//        //owa.FindOfType("strongman");
-//    }
-
     public void getExercisesInfo(Workout workout, String muscle) {
+=======
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
 
         OkHttpClient client = new OkHttpClient();

@@ -9,6 +9,8 @@ public class Workout {
     public String getExercisesInfo() {
         return exercise;
     }
+
+
     public void setExercisesInfo(String exercise) {
         this.exercise = exercise;
     }
