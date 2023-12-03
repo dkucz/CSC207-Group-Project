@@ -3,6 +3,8 @@ package app;
 import Workout.interface_adapter.WorkoutController;
 import Workout.interface_adapter.WorkoutViewModel;
 import Workout.view.WorkoutView;
+import Workout.view.WorkoutViewManager;
+import Workout.view.WorkoutViewManagerModel;
 import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
