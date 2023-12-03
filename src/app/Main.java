@@ -1,5 +1,6 @@
 package app;
 
+import Workout.interface_adapter.WorkoutController;
 import Workout.interface_adapter.WorkoutViewModel;
 import Workout.view.WorkoutView;
 import data_access.ExercisesDAO;
