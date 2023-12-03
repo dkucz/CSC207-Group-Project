@@ -1,6 +1,7 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import app.WorkoutUseCaseFactory;
 import entity.User;
 import entity.Workout;
 import login.data_access.LoginUserDataAccessInterface;

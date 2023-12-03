@@ -1,4 +1,5 @@
 package Friend.app;
+import Friend.data_access.DeleteFriend.DeleteFriendDAOInterface;
 import Friend.interface_adapter.DeleteFriend.DeleteFriendController;
 import Friend.interface_adapter.DeleteFriend.DeleteFriendPresenter;
 import Friend.use_case.DeleteFriend.DeleteFriendInputBoundary;
@@ -10,10 +11,9 @@ import java.io.IOException;
 public class DeleteFriendUseCaseFactory {
     public DeleteFriendUseCaseFactory(){}
     public static DeleteFriendController create(FriendViewManager friendViewManager) throws IOException {
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        DeleteFriendDAOInterface firestoreDAO = new FirestoreDAO();
         DeleteFriendOutputBoundary deleteFriendPresenter = new DeleteFriendPresenter(friendViewManager);
         DeleteFriendInputBoundary deleteFriendInteractor = new DeleteFriendInteractor(deleteFriendPresenter, firestoreDAO);
         return new DeleteFriendController(deleteFriendInteractor);
-
     }
 }
