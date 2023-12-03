@@ -1,5 +1,6 @@
 package Friend.use_case.FriendPage;
 
+import Friend.data_access.FriendPage.FriendPageDAOInterface;
 import Friend.interface_adapter.FriendPage.FriendPresenter;
 import data_access.FirestoreDAO;
 import entity.Friend;
@@ -9,8 +10,8 @@ import java.util.concurrent.ExecutionException;
 
 public class FriendInteractor implements FriendInputBoundary {
     private final FriendOutputBoundary friendPresenter;
-    private final FirestoreDAO firestoreDAO;
-    public FriendInteractor(FriendPresenter FriendPresenter, FirestoreDAO firestoreDAO){
+    private final FriendPageDAOInterface firestoreDAO;
+    public FriendInteractor(FriendPresenter FriendPresenter, FriendPageDAOInterface firestoreDAO){
         this.friendPresenter = FriendPresenter;
         this.firestoreDAO = firestoreDAO;
     }
