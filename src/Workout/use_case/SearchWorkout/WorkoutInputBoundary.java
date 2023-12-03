@@ -1,4 +1,4 @@
-package Workout.use_case;
+package Workout.use_case.SearchWorkout;
 
 import entity.User;
 
@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 public interface WorkoutInputBoundary {
     void execute(WorkoutInputData workoutInputData) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException;
 
-    void export(String user, String name, int day);
+    void export(User user, String name, int day);
 
     void execute(User user);
 }

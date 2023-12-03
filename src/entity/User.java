@@ -1,10 +1,15 @@
 package entity;
+
+import java.util.ArrayList;
+
 public class User implements CommonUser{
     /* User Class, each User is instantiated using their Google credentials*/
     private String username;
     private String password;
     private String gmail;
-  
+
+    public Week week = new Week();
+
     public User(){}
 
     public User(String username, String pass, String gmail){

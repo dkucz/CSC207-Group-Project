@@ -1,5 +1,9 @@
 package Workout.view;
 
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutState;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,21 +13,27 @@ import java.beans.PropertyChangeListener;
 
 public class ScheduleView extends JFrame implements ActionListener, PropertyChangeListener {
 
+    //private ModifyWorkoutController controller;
+    private ModifyWorkoutViewModel viewModel;
     private JButton close;
     private String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
-    private String[][] exercises = {
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
-            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"}
-    };
+    private String[][] exercises;
+//    = {
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"},
+//            {"Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5"}
+//    };
 
-    public ScheduleView() {
+    public ScheduleView(ModifyWorkoutViewModel viewModel) {
+        //this.controller = controller;
+        this.viewModel = viewModel;
 
-
+        ModifyWorkoutState state = viewModel.getState();
+        exercises = state.getSchedule();
         setTitle("Exercise Schedule");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,13 +72,13 @@ public class ScheduleView extends JFrame implements ActionListener, PropertyChan
         return label;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ScheduleView schedule = new ScheduleView();
-            schedule.setLocationRelativeTo(null);
-            schedule.setVisible(true);
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            ScheduleView schedule = new ScheduleView();
+//            schedule.setLocationRelativeTo(null);
+//            schedule.setVisible(true);
+//        });
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

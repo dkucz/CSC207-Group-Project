@@ -1,6 +1,6 @@
 package menu.interface_adapter;
 
-import Workout.interface_adapter.WorkoutViewModel;
+import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
 import Workout.view.WorkoutViewManager;
 import Workout.view.WorkoutViewManagerModel;
 import entity.User;
