@@ -21,6 +21,9 @@ import Friend.interface_adapter.FriendPage.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
 import Friend.view.*;
 import Friend.view.DeleteFriend.DeleteFriendView;
+import Workout.interface_adapter.WorkoutViewModel;
+import Workout.view.WorkoutViewManager;
+import Workout.view.WorkoutViewManagerModel;
 import data_access.GoogleCalendarDAO;
 import Friend.view.AddFriend.AddFriendFailedView;
 import Friend.view.AddFriend.AddFriendView;
@@ -31,6 +34,8 @@ import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.SignoutController;
+
+import static menu.app.CreateEventUseCaseFactory.createEventUseCase;
 
 public class MenuView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewname = "menu";
@@ -100,11 +105,16 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        /*try {
+                        WorkoutViewManagerModel workoutManagerModel = new WorkoutViewManagerModel();
+                        WorkoutViewManager workoutViewManager = new WorkoutViewManager(workoutManagerModel);
+                        WorkoutViewModel workoutModel = new WorkoutViewModel();
+                        CreateEventController createEventController = createEventUseCase(workoutViewManager, workoutModel);
+                        System.out.println("workoutView created");
+                        try {
                             createEventController.execute(MenuView.this.currentUser);
                         } catch (GeneralSecurityException | IOException ex){
                             throw new RuntimeException(ex);
-                        }*/
+                        }
                     }
                 }
         );

@@ -4,6 +4,7 @@ import Workout.use_case.WorkoutOutputBoundary;
 import Workout.use_case.WorkoutOutputData;
 import app.ViewManagerModel;
 import com.google.gson.Gson;
+import entity.User;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
 
@@ -41,8 +42,15 @@ public class WorkoutPresenter implements WorkoutOutputBoundary {
         System.out.println(error);
     }
 
-    @Override
-    public void prepareSuccessView() {
 
+
+    public void prepareMenuView(User user) {
+        MenuState menuState = new MenuState();
+        menuState.setUser(user);
+        this.menuViewModel.setState(menuState);
+        menuViewModel.firePropertyChanged();
+        System.out.println("creating Menu");
+        viewManagerModel.setActiveView(menuViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

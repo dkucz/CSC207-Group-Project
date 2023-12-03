@@ -1,13 +1,13 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import entity.User;
 import entity.Workout;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
@@ -109,12 +109,11 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
     @Override
-    public Workout get(String muscle) {
-        return null;
-    }
+    public void addExercise(String user, String exerciseName, int day) {}
+
 
     @Override
-    public boolean existsByName(String identifer) {
+    public boolean existsByMuscle(String identifer) {
         String[] validMuscles = {
                 "abdominals", "abductors", "adductors", "biceps", "calves",
                 "chest", "forearms", "glutes", "hamstrings", "lats",
@@ -132,11 +131,34 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public boolean existsByType(String type){
+
+
+        String[] validTypes = {
+            "cardio", "olympic_weightlifting", "plyometrics", "powerlifting",
+            "strength", "stretching", "strongman"
+        };
+
+        for (String muscle : validTypes) {
+        if (muscle.equalsIgnoreCase(type)) {
+            return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public boolean existsByDifficulty(String difficulty) {
+        String[] validMuscles = {
+                "beginner", "intermediate", "expert"
+        };
+
+        for (String muscle : validMuscles) {
+            if (muscle.equalsIgnoreCase(difficulty)) {
+                return true;
+            }
+        }
+
         return false;
     }
 

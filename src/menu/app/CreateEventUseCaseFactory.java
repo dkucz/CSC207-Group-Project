@@ -9,7 +9,7 @@ import menu.use_case.CreateEventInteractor;
 public class CreateEventUseCaseFactory {
 
 
-    private static CreateEventController createEventUseCase(WorkoutViewManager workoutViewManager, WorkoutViewModel workoutViewModel){
+    public static CreateEventController createEventUseCase(WorkoutViewManager workoutViewManager, WorkoutViewModel workoutViewModel){
         CreateEventPresenter createEventPresenter = new CreateEventPresenter(workoutViewManager, workoutViewModel);
         CreateEventInteractor createEventInteractor = new CreateEventInteractor(createEventPresenter);
         return new CreateEventController(createEventInteractor);
