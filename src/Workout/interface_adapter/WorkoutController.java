@@ -22,10 +22,13 @@ public class WorkoutController {
         String[] params = inputText.split(";", 3); // Split the input muscle into up to three parts
 
         // Assign the split muscles to muscle1, muscle2, and muscle3
-        if (params.length > 0) {
+        if (params.length > 2) {
             String muscle = params[0];
-            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle);
+            String type = params[1];
+            String difficulty = params[2];
+            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle, type, difficulty);
             workoutUseCaseInteractor.execute(workoutInputData);
+            System.out.println("I gave a " + muscle + ", a " + type + ", and a " + difficulty);
         }
 
         if (params.length > 1) {
@@ -35,14 +38,12 @@ public class WorkoutController {
             workoutUseCaseInteractor.execute(workoutInputData);
         }
 
-        if (params.length > 2) {
+        if (params.length > 0) {
             String muscle = params[0];
-            String type = params[1];
-            String difficulty = params[2];
-            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle, type, difficulty);
+            WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle);
             workoutUseCaseInteractor.execute(workoutInputData);
-            System.out.println("I gave a " + muscle + ", a " + type + ", and a " + difficulty);
         }
+
     }
 
     public void export(String user, String name, int day) {
