@@ -3,7 +3,6 @@ package Workout.use_case;
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
-import login.data_access.LoginUserDataAccessInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,23 +49,15 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
             System.out.println("muscle activated");
         }
 
-            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.GetExercisesInfo(), workout, false);
+            WorkoutOutputData workoutOutputData = new WorkoutOutputData(workout.getExercisesInfo(), workout, false);
             workoutPresenter.prepareSuccessView(workoutOutputData);
             System.out.println("working Interactor");
     }
 
 
-
-    public void execute(User user, int separator)
+    public void execute(User user)
     {
         workoutPresenter.prepareMenuView(user);
-    }
-
-
-    private static void deleteTokenFile()
-    {
-    File storedCredentials = new File("./tokens/StoredCredential");
-    storedCredentials.delete();
     }
 
     @Override

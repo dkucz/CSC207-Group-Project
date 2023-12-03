@@ -9,6 +9,15 @@ public class WorkoutState {
 //    private String type = "";
 //    private String difficulty = "";
 
+
+    public WorkoutState(){}
+
+    public WorkoutState(WorkoutState copy)
+    {
+        workout = copy.workout;
+        exercises = copy.exercises;
+    }
+
     public Workout getWorkout() {
         return workout;
     }
