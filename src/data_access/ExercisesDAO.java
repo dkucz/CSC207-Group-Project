@@ -1,6 +1,7 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import entity.User;
 import entity.Workout;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -9,17 +10,6 @@ import okhttp3.Response;
 import java.io.IOException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
-
-    //documentation: https://www.api-ninjas.com/api/exercises
-//    public static void main(String[] args){
-//
-//        ExercisesDAO owa = new ExercisesDAO();
-//
-//        //owa.GetExercisesInfo("chest");
-//        //owa.GetExercisesInfo("balls");
-//        //owa.ExercisesOnDifficulty("hard");
-//        //owa.FindOfType("strongman");
-//    }
 
     public void GetExercisesInfo(Workout workout, String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
@@ -40,10 +30,10 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             //System.out.println(response);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this muscle");
-                workout.setExercisesInfo("No exercises found for this muscle");
+                workout.SetExercisesInfo("No exercises found for this muscle");
                 return;
             }
-            workout.setExercisesInfo(responseBody);
+            workout.SetExercisesInfo(responseBody);
             System.out.println(responseBody);
 
         } catch (IOException e) {
@@ -66,7 +56,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             //System.out.println(response);
-            workout.setExercisesInfo(responseBody);
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("No exercises found for this type");
                 return;
@@ -95,7 +85,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string(); // Store the response body in a variable
             System.out.println(response);
-            workout.setExercisesInfo(responseBody);
+            workout.SetExercisesInfo(responseBody);
             if (responseBody.equals("[]")) {
                 System.out.println("Not a valid difficulty");
                 return;
@@ -108,12 +98,11 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
     @Override
-    public Workout getWorkout(String muscle) {
-        return null;
-    }
+    public void addExercise(String user, String exerciseName, int day) {}
+
 
     @Override
-    public boolean existsByName(String identifer) {
+    public boolean existsByMuscle(String identifer) {
         String[] validMuscles = {
                 "abdominals", "abductors", "adductors", "biceps", "calves",
                 "chest", "forearms", "glutes", "hamstrings", "lats",
@@ -131,11 +120,34 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public boolean existsByType(String type){
+
+
+        String[] validTypes = {
+            "cardio", "olympic_weightlifting", "plyometrics", "powerlifting",
+            "strength", "stretching", "strongman"
+        };
+
+        for (String muscle : validTypes) {
+        if (muscle.equalsIgnoreCase(type)) {
+            return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public boolean existsByDifficulty(String difficulty) {
+        String[] validMuscles = {
+                "beginner", "intermediate", "expert"
+        };
+
+        for (String muscle : validMuscles) {
+            if (muscle.equalsIgnoreCase(difficulty)) {
+                return true;
+            }
+        }
+
         return false;
     }
 

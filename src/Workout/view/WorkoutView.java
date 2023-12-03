@@ -1,28 +1,46 @@
 package Workout.view;
 
+import Workout.data_access.WorkoutDataAccessInterface;
 import Workout.interface_adapter.WorkoutController;
 import Workout.interface_adapter.WorkoutState;
 import Workout.interface_adapter.WorkoutViewModel;
+import app.ViewManagerModel;
+import app.WorkoutUseCaseFactory;
+import data_access.ExercisesDAO;
 import com.google.gson.Gson;
+import data_access.FacadeDAO;
+import data_access.FirestoreDAO;
+import data_access.GoogleCalendarDAO;
 import entity.Exercise;
+import menu.interface_adapter.MenuState;
+import menu.interface_adapter.MenuViewModel;
+import menu.view.MenuView;
+import signup.interface_adapter.SignupViewModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
+
+    public final String viewname = "Workout View";
     private List<String> database; // Simulated database
 
     private JTextField searchField;
     private JTextArea resultArea;
 
+    private JPanel buttonPanel;
 
     public final String viewName = "Workout Creator";
 
@@ -38,16 +56,16 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
     //final JButton addExercise;
     private List<Exercise> exerciseList;
 
+    private Exercise standby;
+
     public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
-            // Create the main frame
         JFrame frame = new JFrame("Workout Creator");
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            // panel to hold components with a BoxLayout
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -56,10 +74,13 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         searchField = new JTextField(20);
         JButton searchButton = new JButton(WorkoutViewModel.SEARCH_LABEL);
 
-            // Create a result area panel
+        buttonPanel = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(buttonPanel);
+
+        // Create a result area panel
         JPanel resultPanel = new JPanel();
-        resultArea = new JTextArea(10, 30);
-        resultArea.setEditable(false); // Make it read-only
+        resultPanel.setVisible(false);
+        resultArea = new JTextArea(10, 30);// Make it read-only
 
         JPanel buttons = new JPanel();
         addExercise = new JButton(WorkoutViewModel.MAKE_WORKOUT_LABEL);
@@ -75,163 +96,97 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
-        resultPanel.add(new JScrollPane(resultArea));
 
+        //resultPanel.add(new JScrollPane(resultArea));
+
+        // Add the scroll pane to the main panel
         mainPanel.add(searchPanel);
         mainPanel.add(resultPanel);
+        mainPanel.add(scrollPane);
+        //mainPanel.add(resultPanel);
         mainPanel.add(buttons);
+
+
         frame.add(mainPanel);
 
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Call the search method when the button is clicked
-                    //WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
                     System.out.println(searchField.getText());
-                    //workoutDataAccessInterface.GetExercisesInfo(searchField.getText());
-
-                    //change the way this works so appropriate conditions allow execute 2, 3, or 4 arugmenets
                     WorkoutState workoutState = workoutViewModel.getState();
                     try {
-                        //workoutController.execute(workoutState.getWorkout(), workoutState.getExercises());
                         workoutController.execute(workoutState.getWorkout(), searchField.getText());
 
-
-                        //resultArea.setText(workoutState.getExercises());
-                    } catch (GeneralSecurityException | InterruptedException | ExecutionException | IOException ex) {
+                    } catch (GeneralSecurityException | IOException | ExecutionException | InterruptedException ex) {
                         throw new RuntimeException(ex);
 
                     }
 
                     Exercise[] exercises = new Gson().fromJson(workoutState.getExercises(), Exercise[].class);
+                    System.out.println(exercises.toString());
                     exerciseList = Arrays.asList(exercises);
-                    displayNames();
+                    buttonPanel.removeAll();
+                    buttonPanel.revalidate();
+                    buttonPanel.repaint();
+                    addButtons();
+
 
                 }
             });
 
-
-        resultArea.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int offset = resultArea.viewToModel(evt.getPoint());
-                for (Exercise exercise : exerciseList) {
-                    if (offset >= exercise.getName().indexOf(exercise.getName()) &&
-                            offset <= exercise.getName().indexOf(exercise.getName()) + exercise.getName().length()) {
-                        displayFullEntry(exercise);
-                        break;
-                    }
-                }
+        addExercise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(), 2);
             }
         });
 
+
+        exitWorkout.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e){
+                workoutController.execute(workoutViewModel.currentUser);
+                System.out.println(workoutViewModel.currentUser.getUsername());
+            }
+
+        });
+
+
     }
 
-    private void displayNames() {
-        StringBuilder resultText = new StringBuilder();
+    private void addButtons() {
         for (Exercise exercise : exerciseList) {
-            resultText.append(exercise.getName()).append("\n");
-            System.out.println(exercise.getName());
+            JButton button = new JButton(exercise.getName());
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    displayFullEntry(exercise);
+                    standby = exercise;
+                    System.out.println(standby);
+                }
+            });
+            button.setBorderPainted(false); // Remove the button border
+            button.setContentAreaFilled(false);
+            buttonPanel.add(button);
+
+
+            buttonPanel.revalidate();
+            buttonPanel.repaint();
         }
-        resultArea.setText(resultText.toString());
     }
 
 
     private void displayFullEntry(Exercise exercise) {
-        resultArea.setText(exercise.toString() + "\n\n" +
+        String totalInfo = exercise.toString() + "\n\n" +
                 "Type: " + exercise.getType() + "\n" +
                 "Muscle: " + exercise.getMuscle() + "\n" +
                 "Equipment: " + exercise.getEquipment() + "\n" +
                 "Difficulty: " + exercise.getDifficulty() + "\n" +
-                "Instructions: " + exercise.getInstructions());
+                "Instructions: " + exercise.getInstructions();
+        System.out.println(totalInfo);
+        resultArea.setText(totalInfo);
     }
-//    public void DatabaseSearchApp() {
-//        this.workoutViewModel = workoutViewModel;
-//        this.workoutViewModel.addPropertyChangeListener(this);
-//
-//
-//        JLabel title = new JLabel("Workout Screen");
-//
-//        JPanel searchPanel = new JPanel ();
-//        searchExercise = new JButton(WorkoutViewModel.SEARCH_LABEL);
-//        searchPanel.add(searchExercise);
-//        LabelTextPanel searchInfo = new LabelTextPanel(new JLabel("Search"), searchInputField);
-//
-//        JPanel buttons = new JPanel();
-//        addExercise = new JButton(WorkoutViewModel.MAKE_WORKOUT_LABEL);
-//        buttons.add(addExercise);
-//        saveWorkout = new JButton(WorkoutViewModel.SAVE_LABEL);
-//        buttons.add(saveWorkout);
-//        exitWorkout = new JButton(WorkoutViewModel.CANCEL_BUTTON_LABEL);
-//        buttons.add(exitWorkout);
-//
-//        addExercise.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent e) {
-//                        WorkoutState workoutState = workoutViewModel.getState();
-//                        try {
-//                            workoutController.execute(workoutState.getWorkout(), workoutState.getMuscle(),
-//                                    workoutState.getType(), workoutState.getDifficulty());
-//                        } catch (GeneralSecurityException ex) {
-//                            throw new RuntimeException(ex);
-//                        } catch (IOException ex) {
-//                            throw new RuntimeException(ex);
-//                        }
-//                    }
-//                }
-//        );
-//
-//        saveWorkout.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent e) {
-//                        WorkoutState workoutState = workoutViewModel.getState();
-//                        //frick
-//                    }
-//                }
-//        );
-//
-//        exitWorkout.addActionListener(
-//                new ActionListener() {
-//                    public void actionPerformed(ActionEvent e) {
-//                        WorkoutState workoutState = workoutViewModel.getState();
-//                        //call the other thing
-//                    }
-//                }
-//        );
-//        searchExercise.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // clean architecture can eat my ass
-//                WorkoutDataAccessInterface workoutDataAccessInterface = new ExercisesDAO();
-//                workoutDataAccessInterface.GetExercisesInfo(searchInputField.getText());
-//            }
-//        });
-//        searchInputField.addKeyListener(
-//
-//                new KeyListener() {
-//                    @Override
-//                    public void keyTyped(KeyEvent e) {
-//                        WorkoutState currentState = workoutViewModel.getState();
-//                        currentState.setPassword(searchInputField.getText() + e.getKeyChar());
-//                        workoutViewModel.setState(currentState);
-//                    }
-//
-//                    @Override
-//                    public void keyPressed(KeyEvent e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void keyReleased(KeyEvent e) {
-//
-//                    }
-//
-//                }
-//        );
-//
-//
-//
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -39,37 +39,42 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
+    public boolean existsByMuscle(String identifier) throws ExecutionException, InterruptedException {
+        return exercisesDAO.existsByMuscle(identifier);
+    }
+
+    @Override
     public boolean existsByType(String type) {
-        return false;
+        return exercisesDAO.existsByType(type);
     }
 
     @Override
     public boolean existsByDifficulty(String type) {
-        return false;
+        return exercisesDAO.existsByDifficulty(type);
     }
 
     @Override
     public void GetExercisesInfo(Workout workout, String muscle) {
-
+        exercisesDAO.GetExercisesInfo(workout, muscle);
     }
 
     @Override
     public void FindOfType(Workout workout, String type) {
-
+        exercisesDAO.FindOfType(workout, type);
     }
 
     @Override
     public void ExercisesOnDifficulty(Workout workout, String difficulty) {
-
-    }
-
-    @Override
-    public Workout getWorkout(String workout) {
-        return null;
+        exercisesDAO.ExercisesOnDifficulty(workout, difficulty);
     }
 
     @Override
     public void save(User user) throws ExecutionException, InterruptedException {
         firestoreDAO.save(user);
+    }
+
+    public void addExercise(String userName, String exerciseName, int day)
+    {
+        System.out.println("userName");//do stuff;
     }
 }
