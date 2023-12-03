@@ -34,19 +34,21 @@ import java.util.concurrent.ExecutionException;
 
 public class WorkoutView extends JPanel implements ActionListener, PropertyChangeListener {
 
+
     public final String viewname = "Workout View";
     private List<String> database; // Simulated database
 
-    private JTextField searchField;
-    private JTextArea resultArea;
+    final JTextField searchField;
+    final JTextArea resultArea;
 
-    private JPanel buttonPanel;
+    final JPanel buttonPanel;
+
+    public boolean isShowing = false;
 
     public final String viewName = "Workout Creator";
 
     private final WorkoutViewModel workoutViewModel;
 
-//    final JButton searchExercise;
     final JButton saveWorkout;
     final JButton exitWorkout;
 
@@ -62,6 +64,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         this.workoutViewModel = workoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
+
         JFrame frame = new JFrame("Workout Creator");
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,12 +77,21 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         searchField = new JTextField(20);
         JButton searchButton = new JButton(WorkoutViewModel.SEARCH_LABEL);
 
+        JPanel secondPanel = new JPanel();
+        JLabel daySelect = new JLabel("Select Day: ");
+        JTextField dayInput = new JTextField(10);
+        secondPanel.add(daySelect);
+        secondPanel.add(dayInput);
+        mainPanel.add(secondPanel);
+
+
+
         buttonPanel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(buttonPanel);
 
         // Create a result area panel
         JPanel resultPanel = new JPanel();
-        resultPanel.setVisible(false);
+        resultPanel.setVisible(true);
         resultArea = new JTextArea(10, 30);// Make it read-only
 
         JPanel buttons = new JPanel();
@@ -109,6 +121,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
         frame.add(mainPanel);
 
+        frame.setVisible(true);
             // Add ActionListener to the search button
         searchButton.addActionListener(new ActionListener() {
                 @Override
@@ -118,8 +131,12 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     try {
                         workoutController.execute(workoutState.getWorkout(), searchField.getText());
 
-                    } catch (GeneralSecurityException | IOException | ExecutionException | InterruptedException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (GeneralSecurityException | IOException | NullPointerException |ExecutionException |
+                             InterruptedException ex) {
+                        JOptionPane.showMessageDialog(null,
+                                "Give a valid input",
+                                "Invalid",
+                                JOptionPane.ERROR_MESSAGE);
 
                     }
 
@@ -138,7 +155,27 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         addExercise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(), 2);
+                try {
+                    workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(),
+                            Integer.parseInt(dayInput.getText()));
+                } catch (NullPointerException ex) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Select a valid number day and/or exercise",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+
+                System.out.println(workoutViewModel.currentUser.getUsername());
+            }
+        });
+
+
+        saveWorkout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ScheduleView scheduleView = new ScheduleView();
+                scheduleView.setVisible(true);
             }
         });
 
@@ -146,8 +183,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         exitWorkout.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e){
-                workoutController.execute(workoutViewModel.currentUser);
-                System.out.println(workoutViewModel.currentUser.getUsername());
+//                workoutController.execute(workoutViewModel.currentUser);
+//                System.out.println(workoutViewModel.currentUser.getUsername());
+                frame.dispose();
             }
 
         });
@@ -193,6 +231,25 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
+    public static void main(String[] args) throws GeneralSecurityException, IOException {
+        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+        SignupViewModel signupViewModel = new SignupViewModel();
+        MenuViewModel menuViewModel = new MenuViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        ExercisesDAO appDAO = new ExercisesDAO();
+        FirestoreDAO firestoreDAO = new FirestoreDAO();
+        GoogleCalendarDAO google = new GoogleCalendarDAO();
+        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+                workoutViewModel, menuViewModel, DAO);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                //new WorkoutView(workoutView, workoutViewModel);
+                new WorkoutView(workoutController, workoutViewModel);
+            }
+        });
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

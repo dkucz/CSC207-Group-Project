@@ -1,5 +1,6 @@
 package menu.interface_adapter;
 
+import Workout.view.WorkoutViewManagerModel;
 import entity.User;
 import menu.use_case.CreateEventInteractor;
 
@@ -9,6 +10,8 @@ import java.security.GeneralSecurityException;
 public class CreateEventController {
 
     private final CreateEventInteractor createEventInteractor;
+    private WorkoutViewManagerModel viewManagerModel;
+
     public CreateEventController(CreateEventInteractor i){
         this.createEventInteractor = i;
     }

@@ -10,7 +10,8 @@ import java.io.IOException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
-    public void GetExercisesInfo(Workout workout, String muscle) {
+    public void getExercisesInfo(Workout workout, String muscle) {
+=======
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
 
         OkHttpClient client = new OkHttpClient();
@@ -40,7 +41,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         }
     }
 
-    public void FindOfType(Workout workout, String type) {
+    public void findOfType(Workout workout, String type) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -68,7 +69,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
 
-    public void ExercisesOnDifficulty(Workout workout, String difficulty) {
+    public void exercisesOnDifficulty(Workout workout, String difficulty) {
 
         OkHttpClient client = new OkHttpClient();
 
