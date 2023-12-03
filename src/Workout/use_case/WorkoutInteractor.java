@@ -30,12 +30,12 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         //fix this condition cause its always returning false
         if(workoutDAO.existsByDifficulty(difficulty))
         {
-            workoutDAO.ExercisesOnDifficulty(workout, difficulty);
+            workoutDAO.exercisesOnDifficulty(workout, difficulty);
             System.out.println("difficulty activated");
         }
         else if(workoutDAO.existsByType(type))
         {
-            workoutDAO.FindOfType(workout, type);
+            workoutDAO.findOfType(workout, type);
             System.out.println("type activated");
         }
         else if (!workoutDAO.existsByMuscle(muscle))
@@ -45,7 +45,7 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
             return;
         } else
         {
-            workoutDAO.GetExercisesInfo(workout, muscle);
+            workoutDAO.getExercisesInfo(workout, muscle);
             System.out.println("muscle activated");
         }
 
@@ -60,8 +60,21 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         workoutPresenter.prepareMenuView(user);
     }
 
+
+    private static void deleteTokenFile()
+    {
+    File storedCredentials = new File("./tokens/StoredCredential");
+    storedCredentials.delete();
+    }
+
     @Override
     public void export(String user, String name, int day){
-        workoutDAO.addExercise(user, name, day);
+        if (day < 7){
+            workoutDAO.addExercise(user, name, day);
+        }
+        else {
+            workoutDAO.addExercise(user, name, 1);
+        }
+
     }
 }

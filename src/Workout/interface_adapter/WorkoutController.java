@@ -38,6 +38,7 @@ public class WorkoutController {
             WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle);
             workoutInteractor.execute(workoutInputData);
         }
+
     }
 
     public void export(String user, String name, int day) {
@@ -48,6 +49,9 @@ public class WorkoutController {
         workoutInteractor.execute(user);
     }
 
+    public void check(String name, int i) {
+        workoutUseCaseInteractor.check(name, i);
+    }
 }
 
 
