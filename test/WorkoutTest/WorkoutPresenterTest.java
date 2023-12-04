@@ -1,23 +1,17 @@
 package WorkoutTest;
 
 
-import Workout.interface_adapter.WorkoutPresenter;
-import Workout.interface_adapter.WorkoutState;
-import Workout.interface_adapter.WorkoutViewModel;
-import Workout.use_case.WorkoutOutputData;
+import Workout.interface_adapter.SearchWorkout.WorkoutPresenter;
+import Workout.interface_adapter.SearchWorkout.WorkoutState;
+import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import Workout.use_case.SearchWorkout.WorkoutOutputData;
 import app.ViewManagerModel;
 import entity.User;
 import entity.Workout;
-import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
-import java.awt.*;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class WorkoutPresenterTest {
     private ViewManagerModel viewManagerModel;

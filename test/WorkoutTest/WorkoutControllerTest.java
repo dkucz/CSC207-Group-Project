@@ -1,20 +1,16 @@
 package WorkoutTest;
 
-import Workout.interface_adapter.WorkoutController;
-import Workout.use_case.WorkoutInputBoundary;
-import Workout.use_case.WorkoutInputData;
+import Workout.interface_adapter.SearchWorkout.WorkoutController;
+import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
+import Workout.use_case.SearchWorkout.WorkoutInputData;
 import entity.User;
 import entity.Workout;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class WorkoutControllerTest {
     private WorkoutInputBoundary workoutUseCaseInteractor;
@@ -30,7 +26,7 @@ public class WorkoutControllerTest {
             }
 
             @Override
-            public void export(String user, String name, int day) {
+            public void export(User user, String name, int day) {
 
             }
 
@@ -56,9 +52,10 @@ public class WorkoutControllerTest {
             }
 
             @Override
-            public void export(String user, String name, int day) {
+            public void export(User user, String name, int day) {
 
             }
+
 
             @Override
             public void execute(User user) {
@@ -83,7 +80,7 @@ public class WorkoutControllerTest {
             }
 
             @Override
-            public void export(String user, String name, int day) {
+            public void export(User user, String name, int day) {
 
             }
 

@@ -7,6 +7,7 @@ import entity.Workout;
 import login.data_access.LoginUserDataAccessInterface;
 import signup.data_access.SignupUserDataAccessInterface;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
@@ -36,12 +37,17 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
+    public void createCalendar() throws GeneralSecurityException, IOException {
+        googleCalendarDAO.createCalendar();
+    }
+
+    @Override
     public boolean existsByName(String identifier) throws ExecutionException, InterruptedException {
         return firestoreDAO.existsByName(identifier);
     }
 
     @Override
-    public boolean existsByMuscle(String identifier) throws ExecutionException, InterruptedException {
+    public boolean existsByMuscle(String identifier) {
         return exercisesDAO.existsByMuscle(identifier);
     }
 
@@ -75,10 +81,13 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
         firestoreDAO.save(user);
     }
 
-    public void addExercise(String userName, String exerciseName, int day)
+    public void addExercise(String userName, String exerciseName, int day) throws ExecutionException, InterruptedException {
+        firestoreDAO.addExerciseToSchedule(userName, day, exerciseName);
+    }
+
+    public void deleteTokenFile()
     {
-        System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
-
-
+        File storedCredentials = new File("./tokens/StoredCredential");
+        storedCredentials.delete();
     }
 }

@@ -1,9 +1,9 @@
 package WorkoutTest;
 
 import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.use_case.WorkoutInputData;
-import Workout.use_case.WorkoutInteractor;
-import Workout.use_case.WorkoutOutputBoundary;
+import Workout.use_case.SearchWorkout.WorkoutInputData;
+import Workout.use_case.SearchWorkout.WorkoutInteractor;
+import Workout.use_case.SearchWorkout.WorkoutOutputBoundary;
 import entity.User;
 import entity.Workout;
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class WorkoutInteractorTest {
         workoutInteractor.execute(inputData);
 
         // Assert
-        verify(workoutDAO).ExercisesOnDifficulty(inputData.getWorkout(), "easy");
+        verify(workoutDAO).exercisesOnDifficulty(inputData.getWorkout(), "easy");
         // Add additional assertions based on the expected behavior
     }
 
@@ -55,7 +55,7 @@ public class WorkoutInteractorTest {
         workoutInteractor.execute(inputData);
 
         // Assert
-        verify(workoutDAO).FindOfType(inputData.getWorkout(), "cardio");
+        verify(workoutDAO).findOfType(inputData.getWorkout(), "cardio");
         // Add additional assertions based on the expected behavior
     }
 
@@ -89,7 +89,7 @@ public class WorkoutInteractorTest {
         workoutInteractor.execute(inputData);
 
         // Assert
-        verify(workoutDAO).GetExercisesInfo(inputData.getWorkout(), "validMuscle");
+        verify(workoutDAO).getExercisesInfo(inputData.getWorkout(), "validMuscle");
         verify(workoutPresenter).prepareSuccessView(any());
     }
 
@@ -109,7 +109,7 @@ public class WorkoutInteractorTest {
     @Test
     public void testExport() {
         // Arrange
-        String user = "testUser";
+        User user = new User("testUser", "pass", "gmail");
         String name = "exerciseName";
         int day = 1;
 
@@ -117,6 +117,6 @@ public class WorkoutInteractorTest {
         workoutInteractor.export(user, name, day);
 
         // Assert
-        verify(workoutDAO).addExercise(user, name, day);
+        verify(workoutDAO).addExercise(user.getUsername(), name, day);
     }
 }
