@@ -23,17 +23,6 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         this.modViewModel = modViewModel;
 
     }
-//    @Override
-//    public void prepareSuccessView(ModifyWorkoutOutputData outputData) {
-//        String[][] schedule = convertToNestedArray(outputData.getSchedule());
-//        System.out.println(outputData.getExerciseAdded());
-//        System.out.println(convertToString(schedule));
-//        ModifyWorkoutState workoutState = modViewModel.getState();
-//        //modviewModel is null
-//        workoutState.setSchedule(schedule);
-//        this.modViewModel.setState(workoutState);
-//        this.modViewModel.firePropertyChanged();
-//    }
 
     @Override
     public void prepareSuccessView(ModifyWorkoutOutputData outputData) throws GeneralSecurityException, IOException {
@@ -61,10 +50,6 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         String endDate = getDateTimeForDay(day, hour+ 6);
         System.out.println("Start date: " + startDate);
         googleCalendarDAO.createEvent(googleID, first, response, startDate, endDate);
-        //modviewModel is null
-//        workoutState.setSchedule(schedule);
-//        this.modViewModel.setState(workoutState);
-//        this.modViewModel.firePropertyChanged();
     }
 
     @Override
@@ -142,18 +127,14 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         return result.toString();
     }
 
-    public void test(){
-        System.out.println("Fuck You");
-    }
-
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        GoogleCalendarDAO googleCalendarDAO = new GoogleCalendarDAO();
-        String googleID = googleCalendarDAO.findIdByName("Fitness Tracker");
-        String startDate = getDateTimeForDay(1, 8);
-        String endDate = getDateTimeForDay(1, 9);
-        System.out.println("Start date: " + startDate);
-        googleCalendarDAO.createEvent(googleID, "baloney, subronie", "Workout at this time, " +
-                "get to the gym", startDate, endDate);
-    }
+//    public static void main(String[] args) throws GeneralSecurityException, IOException {
+//        GoogleCalendarDAO googleCalendarDAO = new GoogleCalendarDAO();
+//        String googleID = googleCalendarDAO.findIdByName("Fitness Tracker");
+//        String startDate = getDateTimeForDay(1, 8);
+//        String endDate = getDateTimeForDay(1, 9);
+//        System.out.println("Start date: " + startDate);
+//        googleCalendarDAO.createEvent(googleID, "baloney, subronie", "Workout at this time, " +
+//                "get to the gym", startDate, endDate);
+//    }
 }
 

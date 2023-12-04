@@ -75,8 +75,18 @@ public class FirestoreDAO implements AddFriendDAOInterface, DeleteFriendDAOInter
     }
 
     @Override
-    public void addExercise(String user, String exerciseName, int day) {
-
+    public void addExercise(String username, String exerciseName, int day) throws ExecutionException, InterruptedException {
+        CollectionReference exerciseSchedule = userCollection.document(username).collection(exerciseScheduleID);
+        DocumentReference dayDocument = exerciseSchedule.document(String.valueOf(day));
+        DocumentSnapshot documentSnapshot = dayDocument.get().get();
+        if(!documentSnapshot.exists() || !documentSnapshot.contains("exercises"))
+        {
+            Map<String, Object> exerciseData = new HashMap<>();
+            exerciseData.put("exercises", Arrays.asList(exerciseName));
+            dayDocument.set(exerciseData);
+        }else{
+            dayDocument.update("exercises", FieldValue.arrayUnion(exerciseName));
+        }
     }
 
     public void save(User user) throws ExecutionException, InterruptedException
