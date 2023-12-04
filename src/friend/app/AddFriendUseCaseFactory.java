@@ -18,7 +18,7 @@ public class AddFriendUseCaseFactory {
 
         AddFriendPresenter addFriendPresenter = new AddFriendPresenter(friendViewManager);
 
-        AddFriendDAOInterface firestoreDAO = new FirestoreDAO();
+        AddFriendDAOInterface firestoreDAO = (AddFriendDAOInterface) new FirestoreDAO();
         ShareCalendarDAOInterface calendarDAO = new GoogleCalendarDAO();
 
         AddFriendInputBoundary addFriendInteractor = new AddFriendInteractor(addFriendPresenter, firestoreDAO, calendarDAO);

@@ -9,6 +9,7 @@ import signup.data_access.SignupUserDataAccessInterface;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, WorkoutDataAccessInterface {
@@ -85,13 +86,34 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
         firestoreDAO.save(user);
     }
 
-    public void addExercise(String userName, String exerciseName, int day) throws ExecutionException, InterruptedException {
-        firestoreDAO.addExerciseToSchedule(userName, day, exerciseName);
-    }
-
-    public void deleteTokenFile()
-    {
+    @Override
+    public void deleteTokenFile() {
         File storedCredentials = new File("./tokens/StoredCredential");
         storedCredentials.delete();
     }
-}
+
+    @Override
+    public ArrayList<ArrayList<String>> getExerciseSchedule(String username) throws ExecutionException, InterruptedException {
+        return firestoreDAO.getExerciseSchedule(username);
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
+        return firestoreDAO.addExerciseToSchedule(username, day, exerciseName);
+    }
+
+    @Override
+    public boolean hasFiveExercises(String username, int day) throws ExecutionException, InterruptedException {
+        return firestoreDAO.hasFiveExercises(username, day);
+    }
+
+    @Override
+    public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
+        return firestoreDAO.exerciseScheduleExists(username);
+    }
+
+    public void addExercise(String username, String exerciseName, int day)
+    {
+       firestoreDAO.addExercise(username, day, exerciseName);
+
+}}

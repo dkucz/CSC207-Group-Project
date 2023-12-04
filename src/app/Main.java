@@ -55,7 +55,7 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
-        ScheduleView scheduleView = ScheduleUseCaseFactory.create(modViewModel, appDAO);
+        //ScheduleView scheduleView = ScheduleUseCaseFactory.create(modViewModel, appDAO);
         MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
                 menuViewModel, appDAO);
         views.add(menuView, menuView.viewname);
