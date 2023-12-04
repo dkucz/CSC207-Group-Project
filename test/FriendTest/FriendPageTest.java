@@ -1,4 +1,4 @@
-package FriendPageTest;
+package FriendTest;
 
 import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
@@ -146,6 +146,7 @@ public class FriendPageTest {
         AddFriendInteractor addFriendInteractor = new AddFriendInteractor(addFriendPresenter,firestoreDAO,googleCalendarDAO);
         AddFriendInputData addFriendInputData = new AddFriendInputData("Pranky_0","Pranky_1");
         addFriendInteractor.execute(addFriendInputData);
+        addFriendInteractor.execute(addFriendInputData);
 
         assert  firestoreDAO.getFriendsAsList("Pranky_0").get(0).getUsername().equals("Pranky_1");
 
@@ -189,7 +190,6 @@ public class FriendPageTest {
 
 
         assert  firestoreDAO.getFriendsAsList("Pranky_0").size() == 0;
-
 
     }
 

@@ -121,10 +121,22 @@ public class DeleteFriendView extends JFrame implements PropertyChangeListener {
             yes.setVisible(true);
             no.setVisible(true);
         }else{
-            this.canvas.repaint();
-            yes.setVisible(false);
-            no.setVisible(false);
-            ok.setVisible(true);
+            if (this.canvas != null)
+            {
+                this.canvas.repaint();
+            }
+            if (this.yes != null)
+            {
+                yes.setVisible(false);
+            }
+            if (this.no != null)
+            {
+                no.setVisible(false);
+            }
+            if (this.ok != null)
+            {
+                ok.setVisible(true);
+            }
         }
     }
     @Override

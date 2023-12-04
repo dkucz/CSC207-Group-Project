@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class FriendView extends JFrame implements PropertyChangeListener {
     private String userName;
-    private ArrayList<Friend> friendList;
+    private ArrayList<Friend> friendList = new ArrayList<>();
     private FriendViewManager friendViewManager;
     private FriendViewModel friendViewModel;
     private JLayeredPane JLayeredPane;
