@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.DateTimeException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -68,7 +69,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         JButton searchButton = new JButton(WorkoutViewModel.SEARCH_LABEL);
 
         JPanel secondPanel = new JPanel();
-        JLabel daySelect = new JLabel("Select Day: ");
+        JLabel daySelect = new JLabel("Day:Hour(24)");
         JTextField dayInput = new JTextField(10);
         secondPanel.add(daySelect);
         secondPanel.add(dayInput);
@@ -121,8 +122,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     try {
                         workoutController.execute(workoutState.getWorkout(), searchField.getText());
 
-                    } catch (GeneralSecurityException | IOException | NullPointerException |ExecutionException |
-                             InterruptedException ex) {
+                    } catch (DateTimeException | IOException | NullPointerException | ExecutionException |
+                             InterruptedException | GeneralSecurityException ex) {
                         JOptionPane.showMessageDialog(null,
                                 "Give a valid input",
                                 "Invalid",
@@ -146,12 +147,20 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    String [] inputs = dayInput.getText().split(":");
+                    String name = inputs[0];
+                    String hour = inputs[1];
 
                     modController.execute(workoutViewModel.currentUser, standby.getName(),
-                            Integer.parseInt(dayInput.getText()));
+                            Integer.parseInt(name), Integer.parseInt(hour));
                     workoutController.export(workoutViewModel.currentUser, standby.getName(),
-                            Integer.parseInt(dayInput.getText()));
-                } catch (NullPointerException ex) {
+                            Integer.parseInt(name));
+
+                    JOptionPane.showMessageDialog(null,
+                            standby.getName() + "s has been added to your schedule",
+                            "Confirm",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (ArrayIndexOutOfBoundsException | NullPointerException ex) {
 
                     JOptionPane.showMessageDialog(null,
                             "Select a valid number day and/or exercise",

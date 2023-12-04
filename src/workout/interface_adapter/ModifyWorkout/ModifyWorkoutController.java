@@ -13,10 +13,10 @@ public class ModifyWorkoutController {
     public ModifyWorkoutController(ModifyWorkoutInputBoundary modInteractor) {
         this.modInteractor = modInteractor;
     }
-    public void execute(User user, String name, int day) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
+    public void execute(User user, String name, int day, int hour) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         System.out.println("Working");
         //modInteractor.export(user, name, day);
-        modInteractor.execute(user, name, day);
+        modInteractor.execute(user, name, day, hour);
         System.out.println("Bruh working");
         System.out.println("Exported " + name + " to " + day);
     }

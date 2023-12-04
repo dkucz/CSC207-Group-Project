@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
+
 public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
 
     private workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel modViewModel;
@@ -36,29 +37,42 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
 
     @Override
     public void prepareSuccessView(ModifyWorkoutOutputData outputData) throws GeneralSecurityException, IOException {
-        String[][] schedule = convertToNestedArray(outputData.getSchedule());
-        System.out.println(convertToString(schedule));
-        ModifyWorkoutState workoutState = modViewModel.getState();
+        System.out.println("FINALLY");
+        System.out.println(outputData.getSchedule());
+        int day = outputData.getExerciseDay();
+        int hour = outputData.getExerciseHour();
+        String chart = convertToString(convertToNestedArray(outputData.getSchedule()));
+        System.out.println(chart);
+
+        ArrayList<ArrayList<String>> schedule = outputData.getSchedule();
+        ArrayList<String> list = schedule.get(day);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < list.size(); i++){
+            stringBuilder.append(list.get(i));
+            stringBuilder.append("\n");
+        }
+        String first = list.get(0).toString();
+        String response = stringBuilder.toString();
+        System.out.println(response);
+
         GoogleCalendarDAO googleCalendarDAO = new GoogleCalendarDAO();
         String googleID = googleCalendarDAO.findIdByName("Fitness Tracker");
-        String startDate = getDateTimeForDay(1, 8);
-        String endDate = getDateTimeForDay(1, 9);
+        String startDate = getDateTimeForDay(day, hour+5);
+        String endDate = getDateTimeForDay(day, hour+ 6);
         System.out.println("Start date: " + startDate);
-        googleCalendarDAO.createEvent(googleID, convertToString(schedule), "Workout at this time, " +
-                        "get to the gym", startDate, endDate);
+        googleCalendarDAO.createEvent(googleID, first, response, startDate, endDate);
         //modviewModel is null
-        workoutState.setSchedule(schedule);
-        this.modViewModel.setState(workoutState);
-        this.modViewModel.firePropertyChanged();
+//        workoutState.setSchedule(schedule);
+//        this.modViewModel.setState(workoutState);
+//        this.modViewModel.firePropertyChanged();
     }
 
     @Override
-    public void prepareFailView(String outputData) {
-        System.out.println("Nothing added to " + outputData);
-        ModifyWorkoutState workoutState = modViewModel.getState();
-        this.modViewModel.setState(workoutState);
-        this.modViewModel.firePropertyChanged();
+    public void prepareFailView(ModifyWorkoutOutputData outputData) {
+
     }
+
+
 
     public static String getDateTimeForDay(int dayOfWeekNumber, int hour) {
         // Ensure the input is valid (0 to 6)
@@ -72,7 +86,7 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         int daysToAdd = dayOfWeekNumber - currentDate.getDayOfWeek().getValue();
         LocalDateTime desiredDate = currentDate.plusDays(daysToAdd);
 
-        desiredDate = desiredDate.withHour(hour+5).withMinute(0).withSecond(0);
+        desiredDate = desiredDate.withHour(hour).withMinute(0).withSecond(0);
         char T = 'T';
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         return desiredDate.format(formatter);
@@ -103,7 +117,8 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
 
         return nestedArray;
     }
-    public static String convertToString(String[][] nestedArray) {
+    @Override
+    public String convertToString(String[][] nestedArray) {
         StringBuilder result = new StringBuilder();
 
         result.append("{");
@@ -127,6 +142,9 @@ public class ModifyWorkoutPresenter implements ModifyWorkoutOutputBoundary {
         return result.toString();
     }
 
+    public void test(){
+        System.out.println("Fuck You");
+    }
 
     public static void main(String[] args) throws GeneralSecurityException, IOException {
         GoogleCalendarDAO googleCalendarDAO = new GoogleCalendarDAO();
