@@ -44,8 +44,9 @@ public class WorkoutViewTest {
             }
         });
         ModifyWorkoutController workoutController = new ModifyWorkoutController(new ModifyWorkoutInputBoundary() {
+
             @Override
-            public void execute(User user, String name, int day) throws ExecutionException, InterruptedException {
+            public void execute(User user, String name, int day, int hour) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
 
             }
 

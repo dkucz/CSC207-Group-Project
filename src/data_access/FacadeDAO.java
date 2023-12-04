@@ -111,9 +111,6 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
         return firestoreDAO.exerciseScheduleExists(username);
     }
-
-    public void addExercise(String username, String exerciseName, int day)
-    {
+    public void addExercise(String username, String exerciseName, int day) throws ExecutionException, InterruptedException {
        firestoreDAO.addExercise(username, exerciseName, day);
-
 }}
