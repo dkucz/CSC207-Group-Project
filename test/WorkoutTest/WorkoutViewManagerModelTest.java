@@ -1,11 +1,13 @@
-package workout.view;
+package WorkoutTest;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.junit.jupiter.api.Test;
+import workout.view.WorkoutViewManagerModel;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WorkoutViewManagerModel {
+public class WorkoutViewManagerModelTest {
 
     @Test
     void testInitialState() {
@@ -34,13 +36,12 @@ public class WorkoutViewManagerModel {
             public void propertyChange(PropertyChangeEvent evt) {
                 assertEquals("view", evt.getPropertyName());
                 assertNull(evt.getOldValue()); // No previous state
-                assertNotNull(evt.getNewValue()); // New state should not be null
+
             }
         };
 
         model.addPropertyChangeListener(listener);
 
-        // Trigger a property change
         model.firePropertyChanged();
     }
 

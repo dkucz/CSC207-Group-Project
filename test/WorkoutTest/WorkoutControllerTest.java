@@ -94,4 +94,46 @@ public class WorkoutControllerTest {
         workout.setExercisesInfo("bench press");
         workoutController.execute(workout, "muscle;type;difficulty");
     }
+
+    @Test
+    public void executeTest() throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
+        WorkoutInputBoundary workoutInteractor = new WorkoutInputBoundary() {
+            @Override
+            public void execute(WorkoutInputData workoutInputData) {}
+
+            @Override
+            public void export(User user, String name, int day) {}
+
+            @Override
+            public void execute(User user) {
+                Assertions.assertEquals("testUser", user.getUsername());
+                Assertions.assertEquals("pass", user.getPassword());
+                Assertions.assertEquals("gmail", user.getGmail());
+            }
+        };
+        WorkoutController workoutController = new WorkoutController(workoutInteractor);
+        workoutController.execute(new User("testUser", "pass", "gmail"));
+    }
+
+    @Test
+    public void exportTest() throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
+        WorkoutInputBoundary workoutInteractor = new WorkoutInputBoundary() {
+            @Override
+            public void execute(WorkoutInputData workoutInputData) {}
+
+            @Override
+            public void export(User user, String name, int day) {
+                Assertions.assertEquals("testUser", user.getUsername());
+                Assertions.assertEquals("pass", user.getPassword());
+                Assertions.assertEquals("gmail", user.getGmail());
+                Assertions.assertEquals(0, day);
+                Assertions.assertEquals("bench", name);
+            }
+
+            @Override
+            public void execute(User user) {}
+        };
+        WorkoutController workoutController = new WorkoutController(workoutInteractor);
+        workoutController.export(new User("testUser", "pass", "gmail"), "bench", 0);
+    }
 }
