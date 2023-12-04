@@ -1,15 +1,15 @@
 package app;
 
-import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
-import Workout.interface_adapter.SearchWorkout.WorkoutController;
-import Workout.interface_adapter.SearchWorkout.WorkoutPresenter;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
-import Workout.use_case.SearchWorkout.WorkoutInteractor;
-import Workout.use_case.SearchWorkout.WorkoutOutputBoundary;
-import Workout.view.WorkoutView;
+import workout.data_access.WorkoutDataAccessInterface;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import workout.interface_adapter.SearchWorkout.WorkoutController;
+import workout.interface_adapter.SearchWorkout.WorkoutPresenter;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.use_case.SearchWorkout.WorkoutInputBoundary;
+import workout.use_case.SearchWorkout.WorkoutInteractor;
+import workout.use_case.SearchWorkout.WorkoutOutputBoundary;
+import workout.view.WorkoutView;
 import menu.interface_adapter.MenuViewModel;
 
 import java.io.IOException;

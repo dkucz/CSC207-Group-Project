@@ -1,9 +1,8 @@
 package menu.interface_adapter;
 
-import Workout.view.WorkoutViewManagerModel;
+import workout.view.WorkoutViewManagerModel;
 import entity.User;
 import menu.use_case.CreateEventInputBoundary;
-import menu.use_case.CreateEventInteractor;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
