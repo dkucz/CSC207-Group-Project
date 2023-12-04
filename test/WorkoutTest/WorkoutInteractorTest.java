@@ -107,7 +107,7 @@ public class WorkoutInteractorTest {
     }
 
     @Test
-    public void testExport() {
+    public void testExport() throws ExecutionException, InterruptedException {
         // Arrange
         User user = new User("testUser", "pass", "gmail");
         String name = "exerciseName";

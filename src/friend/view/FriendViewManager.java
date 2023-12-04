@@ -1,12 +1,12 @@
 package friend.view;
 
 import friend.interface_adapter.FriendViewManagerModel;
+
 import friend.view.add_friend.AddFriendFailedView;
 import friend.view.add_friend.AddFriendView;
 import friend.view.delete_friend.DeleteFriendView;
 import friend.view.friend_page.FriendView;
 import friend.view.show_friend_info.ShowFriendInfoView;
-
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

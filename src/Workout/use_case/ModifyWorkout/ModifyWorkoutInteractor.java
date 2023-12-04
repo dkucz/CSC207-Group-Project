@@ -152,7 +152,7 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
     }
 
     @Override
-    public void export(User user, String name, int day) {
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException {
         workoutDAO.addExercise(user.getUsername(), name, day);
     }
 

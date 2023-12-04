@@ -1,4 +1,5 @@
 package friend.app;
+
 import friend.data_access.friend_page.FriendPageDAOInterface;
 import friend.interface_adapter.friend_page.FriendController;
 import friend.interface_adapter.friend_page.FriendPresenter;
