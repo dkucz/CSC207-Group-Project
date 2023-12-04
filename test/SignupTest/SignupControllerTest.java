@@ -6,11 +6,13 @@ import signup.interface_adapter.SignupController;
 import signup.use_case.SignupInputBoundary;
 import signup.use_case.SignupInputData;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
 class SignupControllerTest {
     @Test
-    void executeSuccess() throws ExecutionException, InterruptedException {
+    void executeSuccess() throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         SignupInputBoundary signupInteractor = new SignupInputBoundary() {
             @Override
             public void execute(SignupInputData inputData) {
