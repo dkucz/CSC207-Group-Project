@@ -47,7 +47,7 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
-    public boolean existsByMuscle(String identifier) throws ExecutionException, InterruptedException {
+    public boolean existsByMuscle(String identifier) {
         return exercisesDAO.existsByMuscle(identifier);
     }
 
@@ -81,11 +81,8 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
         firestoreDAO.save(user);
     }
 
-    public void addExercise(String userName, String exerciseName, int day)
-    {
-        System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
-
-
+    public void addExercise(String userName, String exerciseName, int day) throws ExecutionException, InterruptedException {
+        firestoreDAO.addExerciseToSchedule(userName, day, exerciseName);
     }
 
     public void deleteTokenFile()
