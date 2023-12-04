@@ -1,10 +1,9 @@
-package Workout.use_case;
+package Workout.use_case.SearchWorkout;
 
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
@@ -61,19 +60,16 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
     }
 
 
-    private static void deleteTokenFile()
-    {
-    File storedCredentials = new File("./tokens/StoredCredential");
-    storedCredentials.delete();
-    }
-
     @Override
-    public void export(String user, String name, int day){
-        if (day < 7){
-            workoutDAO.addExercise(user, name, day);
+    public void export(User user, String name, int day){
+
+        if (day >= 1 && day <= 7)
+        {
+            workoutDAO.addExercise(user.getUsername(), name, day);
         }
         else {
-            workoutDAO.addExercise(user, name, 1);
+            throw new NullPointerException("Day must be between 1 and 7");
+            //workoutDAO.addExercise(user, name, 1);
         }
 
     }

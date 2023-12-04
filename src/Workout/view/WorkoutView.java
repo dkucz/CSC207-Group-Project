@@ -1,9 +1,11 @@
 package Workout.view;
 
-import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.interface_adapter.WorkoutController;
-import Workout.interface_adapter.WorkoutState;
-import Workout.interface_adapter.WorkoutViewModel;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import Workout.interface_adapter.SearchWorkout.WorkoutController;
+import Workout.interface_adapter.SearchWorkout.WorkoutState;
+import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import app.ScheduleUseCaseFactory;
 import app.ViewManagerModel;
 import app.WorkoutUseCaseFactory;
 import data_access.ExercisesDAO;
@@ -12,22 +14,16 @@ import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
 import entity.Exercise;
-import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
-import menu.view.MenuView;
 import signup.interface_adapter.SignupViewModel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -49,6 +45,8 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private final WorkoutViewModel workoutViewModel;
 
+    private final ModifyWorkoutViewModel modWorkoutViewModel;
+
     final JButton saveWorkout;
     final JButton exitWorkout;
 
@@ -60,8 +58,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     private Exercise standby;
 
-    public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel) {
+    public WorkoutView(WorkoutController workoutController, WorkoutViewModel workoutViewModel, ModifyWorkoutController modController, ModifyWorkoutViewModel modWorkoutViewModel) {
         this.workoutViewModel = workoutViewModel;
+        this.modWorkoutViewModel = modWorkoutViewModel;
         this.workoutViewModel.addPropertyChangeListener(this);
 
 
@@ -156,7 +155,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    workoutController.export(workoutViewModel.currentUser.getUsername(), standby.getName(),
+
+                    modController.export(workoutViewModel.currentUser, standby.getName(),
+                            Integer.parseInt(dayInput.getText()));
+                    workoutController.export(workoutViewModel.currentUser, standby.getName(),
                             Integer.parseInt(dayInput.getText()));
                 } catch (NullPointerException ex) {
 
@@ -164,6 +166,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                             "Select a valid number day and/or exercise",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
+                } catch (ExecutionException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
                 }
 
                 System.out.println(workoutViewModel.currentUser.getUsername());
@@ -174,8 +180,9 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         saveWorkout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ScheduleView scheduleView = new ScheduleView();
-                scheduleView.setVisible(true);
+                modController.execute();
+//                ScheduleView scheduleView = new ScheduleView(modWorkoutViewModel);
+//                scheduleView.setVisible(true);
             }
         });
 
@@ -231,25 +238,26 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
 
     }
 
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
-        SignupViewModel signupViewModel = new SignupViewModel();
-        MenuViewModel menuViewModel = new MenuViewModel();
-        ViewManagerModel viewManagerModel = new ViewManagerModel();
-        ExercisesDAO appDAO = new ExercisesDAO();
-        FirestoreDAO firestoreDAO = new FirestoreDAO();
-        GoogleCalendarDAO google = new GoogleCalendarDAO();
-        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
-        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
-                workoutViewModel, menuViewModel, DAO);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                //new WorkoutView(workoutView, workoutViewModel);
-                new WorkoutView(workoutController, workoutViewModel);
-            }
-        });
-    }
+//    public static void main(String[] args) throws GeneralSecurityException, IOException {
+//        WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+//        SignupViewModel signupViewModel = new SignupViewModel();
+//        MenuViewModel menuViewModel = new MenuViewModel();
+//        ViewManagerModel viewManagerModel = new ViewManagerModel();
+//        ModifyWorkoutViewModel modviewModel = new ModifyWorkoutViewModel();
+//        ExercisesDAO appDAO = new ExercisesDAO();
+//        FirestoreDAO firestoreDAO = new FirestoreDAO();
+//        GoogleCalendarDAO google = new GoogleCalendarDAO();
+//        FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+//        WorkoutController workoutController = WorkoutUseCaseFactory.createWorkoutUseCase(viewManagerModel,
+//                workoutViewModel, menuViewModel, DAO);
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                //new WorkoutView(workoutView, workoutViewModel);
+//                new WorkoutView(workoutController, workoutViewModel, modviewModel);
+//            }
+//        });
+//    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

@@ -1,7 +1,7 @@
-package Workout.interface_adapter;
+package Workout.interface_adapter.SearchWorkout;
 
-import Workout.use_case.WorkoutInputBoundary;
-import Workout.use_case.WorkoutInputData;
+import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
+import Workout.use_case.SearchWorkout.WorkoutInputData;
 import entity.User;
 import entity.Workout;
 
@@ -41,7 +41,7 @@ public class WorkoutController {
 
     }
 
-    public void export(String user, String name, int day) {
+    public void export(User user, String name, int day) {
         workoutInteractor.export(user, name, day);
     }
 
@@ -49,9 +49,6 @@ public class WorkoutController {
         workoutInteractor.execute(user);
     }
 
-    public void check(String name, int i) {
-        workoutUseCaseInteractor.check(name, i);
-    }
 }
 
 
