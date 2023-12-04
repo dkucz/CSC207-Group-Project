@@ -1,10 +1,10 @@
 package WorkoutTest;
 
 
-import Workout.interface_adapter.SearchWorkout.WorkoutPresenter;
-import Workout.interface_adapter.SearchWorkout.WorkoutState;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.use_case.SearchWorkout.WorkoutOutputData;
+import workout.interface_adapter.SearchWorkout.WorkoutPresenter;
+import workout.interface_adapter.SearchWorkout.WorkoutState;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.use_case.SearchWorkout.WorkoutOutputData;
 import app.ViewManagerModel;
 import entity.User;
 import entity.Workout;

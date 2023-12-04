@@ -1,9 +1,9 @@
 package WorkoutTest;
 
-import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.use_case.SearchWorkout.WorkoutInputData;
-import Workout.use_case.SearchWorkout.WorkoutInteractor;
-import Workout.use_case.SearchWorkout.WorkoutOutputBoundary;
+import workout.data_access.WorkoutDataAccessInterface;
+import workout.use_case.SearchWorkout.WorkoutInputData;
+import workout.use_case.SearchWorkout.WorkoutInteractor;
+import workout.use_case.SearchWorkout.WorkoutOutputBoundary;
 import entity.User;
 import entity.Workout;
 import org.junit.Before;

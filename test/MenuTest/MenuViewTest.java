@@ -31,7 +31,7 @@ public class MenuViewTest {
 
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException, IOException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException, IOException, GeneralSecurityException {
 
         CardLayout cardLayout = new CardLayout();
 
@@ -87,7 +87,7 @@ public class MenuViewTest {
 
     }
 
-    void testFriendsButton() throws IOException {
+    void testFriendsButton() throws IOException, GeneralSecurityException {
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
@@ -130,7 +130,7 @@ public class MenuViewTest {
         }
     }
 
-    void testCreateEventButton() throws IOException {
+    void testCreateEventButton() throws IOException, GeneralSecurityException {
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
