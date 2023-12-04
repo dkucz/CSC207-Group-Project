@@ -19,7 +19,7 @@ public class LoginInteractor implements LoginInputBoundary {
     }
 
     public void execute(LoginInputData loginInputData) throws GeneralSecurityException, IOException, ExecutionException, InterruptedException {
-        deleteTokenFile();
+        userDAO.deleteTokenFile();
         String username = loginInputData.getUsername();
         String password = loginInputData.getPassword();
         if (!userDAO.existsByName(username))
@@ -44,11 +44,5 @@ public class LoginInteractor implements LoginInputBoundary {
     public void execute()
     {
         loginPresenter.prepareSuccessView();
-    }
-
-    private static void deleteTokenFile()
-    {
-    File storedCredentials = new File("./tokens/StoredCredential");
-    storedCredentials.delete();
     }
 }

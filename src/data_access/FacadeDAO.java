@@ -7,6 +7,7 @@ import entity.Workout;
 import login.data_access.LoginUserDataAccessInterface;
 import signup.data_access.SignupUserDataAccessInterface;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
@@ -33,6 +34,11 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     @Override
     public void createStoredCredentials() throws GeneralSecurityException, IOException {
         googleCalendarDAO.createStoredCredentials();
+    }
+
+    @Override
+    public void createCalendar() throws GeneralSecurityException, IOException {
+        googleCalendarDAO.createCalendar();
     }
 
     @Override
@@ -80,5 +86,11 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
         System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
 
 
+    }
+
+    public void deleteTokenFile()
+    {
+        File storedCredentials = new File("./tokens/StoredCredential");
+        storedCredentials.delete();
     }
 }

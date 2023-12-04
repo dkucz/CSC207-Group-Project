@@ -14,4 +14,6 @@ public interface LoginUserDataAccessInterface {
     User get(String username) throws ExecutionException, InterruptedException;
 
     void createStoredCredentials() throws GeneralSecurityException, IOException;
+
+    void deleteTokenFile();
 }
