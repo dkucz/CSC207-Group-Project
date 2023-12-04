@@ -41,4 +41,9 @@ public class InMemoryUserDAO implements SignupUserDataAccessInterface, LoginUser
     public void createCalendar() {
 
     }
+
+    @Override
+    public boolean hasCalendar() throws GeneralSecurityException, IOException {
+        return false;
+    }
 }

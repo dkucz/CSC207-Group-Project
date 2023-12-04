@@ -41,7 +41,10 @@ public class SignupInteractor implements SignupInputBoundary {
             signupDataAccess.save(user);
             signupDataAccess.deleteTokenFile();
             signupDataAccess.createStoredCredentials();
-            signupDataAccess.createCalendar();
+            if (!signupDataAccess.hasCalendar())
+            {
+                signupDataAccess.createCalendar();
+            }
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
             signupPresenter.prepareSuccessView(signupOutputData);

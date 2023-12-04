@@ -298,4 +298,21 @@ public class GoogleCalendarDAO {
         AclRule createdRule = service.acl().insert(calendarID, rule).execute();
         System.out.println(createdRule.getId());
     }
+
+    public boolean hasCalendar() throws IOException, GeneralSecurityException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Credential credentials = getCredentials(HTTP_TRANSPORT);
+        Calendar calendarService = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credentials)
+                .setApplicationName("applicationName").build();
+        CalendarList calendarList = calendarService.calendarList().list().execute();
+
+        for (CalendarListEntry calendarEntry : calendarList.getItems()) {
+            String calendarSummary = calendarEntry.getSummary();
+
+            if ("Fitness Tracker".equals(calendarSummary)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

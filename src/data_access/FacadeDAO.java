@@ -41,6 +41,11 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
+    public boolean hasCalendar() throws GeneralSecurityException, IOException {
+        return googleCalendarDAO.hasCalendar();
+    }
+
+    @Override
     public boolean existsByName(String identifier) throws ExecutionException, InterruptedException {
         return firestoreDAO.existsByName(identifier);
     }
