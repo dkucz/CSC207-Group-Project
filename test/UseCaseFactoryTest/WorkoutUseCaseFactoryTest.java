@@ -1,10 +1,10 @@
 package UseCaseFactoryTest;
 
-import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.WorkoutView;
+import workout.data_access.WorkoutDataAccessInterface;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.WorkoutView;
 import app.ViewManagerModel;
 import app.WorkoutUseCaseFactory;
 import data_access.FacadeDAO;
