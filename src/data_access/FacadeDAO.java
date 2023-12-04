@@ -88,7 +88,8 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
 
     @Override
     public void deleteTokenFile() {
-
+        File storedCredentials = new File("./tokens/StoredCredential");
+        storedCredentials.delete();
     }
 
     @Override
@@ -111,8 +112,8 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
         return firestoreDAO.exerciseScheduleExists(username);
     }
 
-    public void addExercise(String userName, String exerciseName, int day)
+    public void addExercise(String username, String exerciseName, int day)
     {
-        System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
+       firestoreDAO.addExercise(username, day, exerciseName);
 
 }}
