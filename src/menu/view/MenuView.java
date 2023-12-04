@@ -113,7 +113,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                         GoogleCalendarDAO cal = new GoogleCalendarDAO();
                         MenuView.this.calendarPanel.removeAll();
 
-                        String calendarName = MenuView.this.currentUser.getGmail();
+                        String calendarName = "Fitness Tracker";
                         DefaultListModel<String> events = null;
 
                         try {
@@ -256,7 +256,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         GoogleCalendarDAO cal = new GoogleCalendarDAO();
         this.calendarPanel.removeAll();
 
-        String calendarName = this.currentUser.getGmail();
+        String calendarName = "Fitness Tracker";
         DefaultListModel<String> events = cal.getEventsForToday(calendarName);
         if (events != null) {
             events.add(0, "Calendar: " + calendarName);
