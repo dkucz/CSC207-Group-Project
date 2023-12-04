@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
-public class WorkoutInteractor implements WorkoutInputBoundary {
+public class WorkoutInteractor implements workout.use_case.SearchWorkout.WorkoutInputBoundary {
     final WorkoutDataAccessInterface workoutDAO;
 
 

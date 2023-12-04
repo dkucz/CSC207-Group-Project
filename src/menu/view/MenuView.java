@@ -167,7 +167,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                             FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
 
                             //WORKOUT VIEW initialization
-                            ModifyWorkoutController modController = ScheduleUseCaseFactory.createModUseCase(modifyWorkoutViewModel, DAO);
+                            ModifyWorkoutController modController = ScheduleUseCaseFactory.createModUseCase(modifyWorkoutViewModel, firestoreDAO);
                             WorkoutView workout = WorkoutUseCaseFactory.create(viewManagerModel,
                                     workoutViewModel, modifyWorkoutViewModel, modController, menuViewModel, DAO);
                             workoutViewManager.addView(workout);

@@ -14,17 +14,15 @@ public class ScheduleUseCaseFactory {
 
     public ScheduleUseCaseFactory(){};
     public static ScheduleView create(ModifyWorkoutViewModel viewModel, WorkoutDataAccessInterface facadeDAO) throws IOException {
-    {
+
         ModifyWorkoutController controller = createModUseCase(viewModel, facadeDAO);
-
-    }
-
         return new ScheduleView(viewModel);
     }
 
     public static ModifyWorkoutController createModUseCase(ModifyWorkoutViewModel viewModel, WorkoutDataAccessInterface facadeDAO) {
         ModifyWorkoutPresenter presenter = new ModifyWorkoutPresenter(viewModel);
         ModifyWorkoutInputBoundary interactor = new ModifyWorkoutInteractor(facadeDAO, presenter);
+
         return new ModifyWorkoutController(interactor);
     }
 
