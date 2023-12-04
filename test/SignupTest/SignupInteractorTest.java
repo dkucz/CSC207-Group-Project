@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import signup.data_access.SignupUserDataAccessInterface;
 import signup.use_case.*;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
@@ -14,7 +16,7 @@ import static org.junit.Assert.*;
 public class SignupInteractorTest {
 
     @Test
-    void SuccessTest() throws ExecutionException, InterruptedException {
+    void SuccessTest() throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         SignupUserDataAccessInterface userRepository = new InMemoryUserDAO();
         SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
 
@@ -40,7 +42,7 @@ public class SignupInteractorTest {
     }
 
     @Test
-    void UserExistsTest() throws ExecutionException, InterruptedException {
+    void UserExistsTest() throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         SignupUserDataAccessInterface userRepository = new InMemoryUserDAO();
         SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
 
@@ -61,7 +63,6 @@ public class SignupInteractorTest {
 
         SignupInputData inputData = new SignupInputData("testUser", "test@gmail.com", "password123", "password123");
         SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new UserFactory());
-        interactor.execute(inputData);
         interactor.execute(inputData);
     }
 
@@ -123,7 +124,7 @@ public class SignupInteractorTest {
     }
 
     @Test
-    void TestEmptyInput() throws ExecutionException, InterruptedException {
+    void TestEmptyInput() throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         SignupUserDataAccessInterface userRepository = new InMemoryUserDAO();
         SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
 
@@ -148,7 +149,7 @@ public class SignupInteractorTest {
     }
 
     @Test
-    void TestNotMatchingPassword() throws ExecutionException, InterruptedException {
+    void TestNotMatchingPassword() throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         SignupUserDataAccessInterface userRepository = new InMemoryUserDAO();
         SignupOutputBoundary successPresenter = new SignupOutputBoundary() {
 

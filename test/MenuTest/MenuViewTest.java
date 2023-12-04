@@ -31,7 +31,7 @@ public class MenuViewTest {
 
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException, IOException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException, IOException, GeneralSecurityException {
 
         CardLayout cardLayout = new CardLayout();
 
@@ -82,12 +82,9 @@ public class MenuViewTest {
         User u = new User();
         menuView.setUser(u);
 
-        assert menuView.getCurrentUser() == u;
-
-
-    }
-
-    void testFriendsButton() throws IOException {
+        assert menuView.getCurrentUser() == u;}
+    @Test
+    void TestFriendsButton() throws IOException, GeneralSecurityException {
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
@@ -129,8 +126,8 @@ public class MenuViewTest {
             e.printStackTrace();
         }
     }
-
-    void testCreateEventButton() throws IOException {
+    @Test
+    void TestCreateEventButton() throws IOException, GeneralSecurityException {
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
