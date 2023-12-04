@@ -9,6 +9,7 @@ public class MenuViewModel extends ViewModel{
     public final String FRIENDS_BUTTON_LABEL = "Friends";
     public final String CREATE_EVENT_BUTTON_LABEL = "Create Event";
     public final String MODIFY_EVENT_BUTTON_LABEL = "Modify Event";
+    public final String REFRESH_BUTTON_LABEL = "Refresh";
     public final String SIGNOUT_BUTTON_LABEL = "Signout";
     private MenuState state = new MenuState();
 
