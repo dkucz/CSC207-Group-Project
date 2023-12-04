@@ -1,8 +1,8 @@
 package WorkoutTest;
 
-import Workout.interface_adapter.SearchWorkout.WorkoutController;
-import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
-import Workout.use_case.SearchWorkout.WorkoutInputData;
+import workout.interface_adapter.SearchWorkout.WorkoutController;
+import workout.use_case.SearchWorkout.WorkoutInputBoundary;
+import workout.use_case.SearchWorkout.WorkoutInputData;
 import entity.User;
 import entity.Workout;
 import org.junit.jupiter.api.Assertions;
