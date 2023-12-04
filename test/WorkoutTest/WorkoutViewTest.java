@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
 import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
 import workout.interface_adapter.SearchWorkout.WorkoutController;
+import workout.interface_adapter.SearchWorkout.WorkoutState;
 import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
 import workout.use_case.ModifyWorkout.ModifyWorkoutInputBoundary;
 import workout.use_case.ModifyWorkout.ModifyWorkoutInteractor;
@@ -21,6 +22,7 @@ import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class WorkoutViewTest {
     @Test
@@ -59,5 +61,4 @@ public class WorkoutViewTest {
         });
         WorkoutView view = new WorkoutView(controller, new WorkoutViewModel(), workoutController, new ModifyWorkoutViewModel());
     }
-
 }
