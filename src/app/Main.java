@@ -1,8 +1,8 @@
 package app;
 
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.ScheduleView;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.ScheduleView;
 import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;

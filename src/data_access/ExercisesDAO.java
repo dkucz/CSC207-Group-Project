@@ -1,6 +1,6 @@
 package data_access;
 
-import Workout.data_access.WorkoutDataAccessInterface;
+import workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
 import okhttp3.OkHttpClient;
