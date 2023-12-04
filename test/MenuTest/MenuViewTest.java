@@ -87,8 +87,6 @@ public class MenuViewTest {
 
     }
 
-    void testFriendsButton() throws IOException, GeneralSecurityException {
-        assert menuView.getCurrentUser() == u;}
     @Test
     void TestFriendsButton() throws IOException, GeneralSecurityException {
 
