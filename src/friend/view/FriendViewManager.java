@@ -61,7 +61,6 @@ public class FriendViewManager implements PropertyChangeListener {
             }else if(evt.getNewValue().equals("deleteFriendView")){
                 // this.views.get(1).setVisible(false);
                 this.views.get(4).setVisible(true);
-
             }
         }
     }
