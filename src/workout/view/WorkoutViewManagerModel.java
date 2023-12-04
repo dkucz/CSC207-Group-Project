@@ -1,67 +1,31 @@
 package workout.view;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import java.beans.PropertyChangeSupport;
 
 public class WorkoutViewManagerModel {
+    private String activeView;
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    @Test
-    void testInitialState() {
-        WorkoutViewManagerModel model = new WorkoutViewManagerModel();
 
-        assertNull(model.getActiveView());
+    public void firePropertyChanged(){
+        this.support.firePropertyChange("view", null, this.activeView);
+    }
+    public void addPropertyChangeListener(PropertyChangeListener x){
+        this.support.addPropertyChangeListener(x);
     }
 
-    @Test
-    void testSetAndGetActiveView() {
-        WorkoutViewManagerModel model = new WorkoutViewManagerModel();
 
-        // Set the active view
-        model.setActiveView("TestView");
-
-        // Check if the active view is set correctly
-        assertEquals("TestView", model.getActiveView());
+    public void setActiveView(String view){
+        this.activeView = view;
+    }
+    public String getActiveView(){
+        return this.activeView;
     }
 
-    @Test
-    void testPropertyChangeSupport() {
-        WorkoutViewManagerModel model = new WorkoutViewManagerModel();
 
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertEquals("view", evt.getPropertyName());
-                assertNull(evt.getOldValue()); // No previous state
-                assertNotNull(evt.getNewValue()); // New state should not be null
-            }
-        };
 
-        model.addPropertyChangeListener(listener);
 
-        // Trigger a property change
-        model.firePropertyChanged();
-    }
 
-    @Test
-    void testPropertyChangeWithActiveView() {
-        WorkoutViewManagerModel model = new WorkoutViewManagerModel();
 
-        PropertyChangeListener listener = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertEquals("view", evt.getPropertyName());
-                assertNull(evt.getOldValue()); // No previous state
-                assertNotNull(evt.getNewValue()); // New state should not be null
-                assertEquals("TestView", evt.getNewValue()); // New state should match the active view
-            }
-        };
-
-        model.addPropertyChangeListener(listener);
-
-        // Set the active view and trigger a property change
-        model.setActiveView("TestView");
-        model.firePropertyChanged();
-    }
 }
