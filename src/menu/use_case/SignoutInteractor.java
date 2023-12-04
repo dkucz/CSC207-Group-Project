@@ -3,11 +3,11 @@ package menu.use_case;
 import app.ViewManagerModel;
 import menu.interface_adapter.SignoutPresenter;
 
-public class SignoutInteractor{
+public class SignoutInteractor implements SignoutInputBoundary {
 
-    final SignoutPresenter signoutPresenter;
+    final SignoutOutputBoundary signoutPresenter;
 
-    public SignoutInteractor(SignoutPresenter s){
+    public SignoutInteractor(SignoutOutputBoundary s){
 
         this.signoutPresenter = s;
 

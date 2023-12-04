@@ -2,8 +2,9 @@ package menu.interface_adapter;
 
 import app.ViewManagerModel;
 import login.interface_adapter.LoginViewModel;
+import menu.use_case.SignoutOutputBoundary;
 
-public class SignoutPresenter {
+public class SignoutPresenter implements SignoutOutputBoundary {
 
     private final LoginViewModel loginViewModel;
 
