@@ -53,7 +53,6 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
     final JButton friends;
     final JButton createEvent;
-    final JButton modifyEvent;
     final JButton refresh;
     final JLabel user;
 
@@ -96,8 +95,6 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         createEvent = new JButton(menuViewModel.CREATE_EVENT_BUTTON_LABEL);
         buttons.add(createEvent);
 
-        modifyEvent = new JButton(menuViewModel.MODIFY_EVENT_BUTTON_LABEL);
-        buttons.add(modifyEvent);
 
         refresh = new JButton(menuViewModel.REFRESH_BUTTON_LABEL);
         buttons.add(refresh);
@@ -217,7 +214,6 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 }
         );
 
-        modifyEvent.addActionListener(this);
         this.add(title, BorderLayout.NORTH);
 
         this.add(calendar, BorderLayout.WEST);
