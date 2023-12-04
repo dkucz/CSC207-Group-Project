@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -78,8 +77,6 @@ public class AddFriendView extends JFrame implements PropertyChangeListener {
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                } catch (GeneralSecurityException ex) {
                     throw new RuntimeException(ex);
                 }
             }

@@ -28,6 +28,5 @@ public class MenuState
         return this.currentUser.getUsername();
     }
 
-    public void setUsername(String username){this.username = username;}
-
+    public void setUsername(String username) { this.username = username; }
 }
