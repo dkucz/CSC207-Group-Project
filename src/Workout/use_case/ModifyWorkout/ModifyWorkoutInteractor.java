@@ -4,6 +4,8 @@ import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Week;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -17,7 +19,7 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
         this.modifyPresenter = modifyPresenter;
     }
 
-    public void execute(User user, String name, int day) throws ExecutionException, InterruptedException {
+    public void execute(User user, String name, int day) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         System.out.println("1");
         if (day == 1){
             System.out.println("This is " + user.week.getMon().size());
@@ -152,8 +154,18 @@ public class ModifyWorkoutInteractor implements ModifyWorkoutInputBoundary {
     }
 
     @Override
-    public void export(User user, String name, int day) {
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         workoutDAO.addExercise(user.getUsername(), name, day);
+        if (workoutDAO.hasFiveExercises(user.getUsername(), day) && workoutDAO.hasFiveExercises(user.getUsername(), day)){
+            ArrayList<ArrayList<String>> schedule = workoutDAO.addExerciseToSchedule(user.getUsername(), day, name);
+            modifyPresenter.prepareSuccessView(new ModifyWorkoutOutputData(schedule, name + " added to " + day));
+        }
+        else {
+            //ArrayList<ArrayList<String>> schedule = workoutDAO.addExerciseToSchedule(user.getUsername(), day, name);
+            //modifyPresenter.prepareFailView(new ModifyWorkoutOutputData(schedule, "You can only add 5 exercises to a day"));
+
+        }
+
     }
 
     @Override

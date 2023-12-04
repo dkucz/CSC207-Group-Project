@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
@@ -106,6 +107,26 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     @Override
     public void save(User user) throws ExecutionException, InterruptedException {
 
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> getExerciseSchedule(String username) throws ExecutionException, InterruptedException {
+        return null;
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
+        return null;
+    }
+
+    @Override
+    public boolean hasFiveExercises(String username, int day) throws ExecutionException, InterruptedException {
+        return false;
+    }
+
+    @Override
+    public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
+        return false;
     }
 
 

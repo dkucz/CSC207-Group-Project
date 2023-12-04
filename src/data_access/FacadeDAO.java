@@ -9,6 +9,7 @@ import signup.data_access.SignupUserDataAccessInterface;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAccessInterface, WorkoutDataAccessInterface {
@@ -73,6 +74,26 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     @Override
     public void save(User user) throws ExecutionException, InterruptedException {
         firestoreDAO.save(user);
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> getExerciseSchedule(String username) throws ExecutionException, InterruptedException {
+        return firestoreDAO.getExerciseSchedule(username);
+    }
+
+    @Override
+    public ArrayList<ArrayList<String>> addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
+        return null;
+    }
+
+    @Override
+    public boolean hasFiveExercises(String username, int day) throws ExecutionException, InterruptedException {
+        return false;
+    }
+
+    @Override
+    public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
+        return false;
     }
 
     public void addExercise(String userName, String exerciseName, int day)

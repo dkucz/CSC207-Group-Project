@@ -170,6 +170,10 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
                     throw new RuntimeException(ex);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
+                } catch (GeneralSecurityException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
 
                 System.out.println(workoutViewModel.currentUser.getUsername());

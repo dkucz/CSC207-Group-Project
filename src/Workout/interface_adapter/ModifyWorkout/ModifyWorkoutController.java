@@ -6,6 +6,8 @@ import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
 import Workout.use_case.SearchWorkout.WorkoutOutputData;
 import entity.User;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
 public class ModifyWorkoutController {
@@ -14,7 +16,7 @@ public class ModifyWorkoutController {
     public ModifyWorkoutController(ModifyWorkoutInputBoundary modInteractor) {
         this.modInteractor = modInteractor;
     }
-    public void export(User user, String name, int day) throws ExecutionException, InterruptedException {
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         System.out.println("Working");
         modInteractor.export(user, name, day);
         modInteractor.execute(user, name, day);
