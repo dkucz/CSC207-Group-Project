@@ -56,18 +56,18 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
-    public void GetExercisesInfo(Workout workout, String muscle) {
-        exercisesDAO.GetExercisesInfo(workout, muscle);
+    public void getExercisesInfo(Workout workout, String muscle) {
+        exercisesDAO.getExercisesInfo(workout, muscle);
     }
 
     @Override
-    public void FindOfType(Workout workout, String type) {
-        exercisesDAO.FindOfType(workout, type);
+    public void findOfType(Workout workout, String type) {
+        exercisesDAO.findOfType(workout, type);
     }
 
     @Override
-    public void ExercisesOnDifficulty(Workout workout, String difficulty) {
-        exercisesDAO.ExercisesOnDifficulty(workout, difficulty);
+    public void exercisesOnDifficulty(Workout workout, String difficulty) {
+        exercisesDAO.exercisesOnDifficulty(workout, difficulty);
     }
 
     @Override
@@ -77,6 +77,8 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
 
     public void addExercise(String userName, String exerciseName, int day)
     {
-        System.out.println("userName");//do stuff;
+        System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
+
+
     }
 }

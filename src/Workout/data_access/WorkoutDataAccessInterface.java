@@ -17,11 +17,12 @@ public interface WorkoutDataAccessInterface {
     boolean existsByDifficulty(String type);
 
 
-    void GetExercisesInfo(Workout workout, String muscle);
+    void getExercisesInfo(Workout workout, String muscle);
 
-    void FindOfType(Workout workout, String type);
+    void findOfType(Workout workout, String type);
 
-    void ExercisesOnDifficulty(Workout workout, String difficulty);
+    void exercisesOnDifficulty(Workout workout, String difficulty);
 
     void addExercise(String user, String exerciseName, int day);
+    public void save(User user) throws ExecutionException, InterruptedException;
 }

@@ -1,4 +1,4 @@
-package Workout.interface_adapter;
+package Workout.interface_adapter.SearchWorkout;
 
 import app.ViewModel;
 import entity.User;
@@ -18,7 +18,7 @@ public class WorkoutViewModel extends ViewModel {
     private WorkoutState state = new WorkoutState();
 
     public WorkoutViewModel() {
-        super("Make Workout");
+        super("Workout View");
     }
     public void setState(WorkoutState state){this.state = state;}
     public WorkoutState getState() {

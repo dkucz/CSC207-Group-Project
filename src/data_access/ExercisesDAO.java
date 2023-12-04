@@ -1,16 +1,20 @@
 package data_access;
 
 import Workout.data_access.WorkoutDataAccessInterface;
+import entity.User;
 import entity.Workout;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class ExercisesDAO implements WorkoutDataAccessInterface {
 
-    public void GetExercisesInfo(Workout workout, String muscle) {
+
+
+    public void getExercisesInfo(Workout workout, String muscle) {
         //Muscle Examples: triceps, shoulders, biceps, shoulders, back, shoulders,
 
         OkHttpClient client = new OkHttpClient();
@@ -40,7 +44,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
         }
     }
 
-    public void FindOfType(Workout workout, String type) {
+    public void findOfType(Workout workout, String type) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -68,7 +72,7 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
     }
 
 
-    public void ExercisesOnDifficulty(Workout workout, String difficulty) {
+    public void exercisesOnDifficulty(Workout workout, String difficulty) {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -98,6 +102,11 @@ public class ExercisesDAO implements WorkoutDataAccessInterface {
 
     @Override
     public void addExercise(String user, String exerciseName, int day) {}
+
+    @Override
+    public void save(User user) throws ExecutionException, InterruptedException {
+
+    }
 
 
     @Override

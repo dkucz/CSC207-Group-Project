@@ -1,10 +1,9 @@
-package Workout.use_case;
+package Workout.use_case.SearchWorkout;
 
 import Workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
@@ -30,12 +29,12 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         //fix this condition cause its always returning false
         if(workoutDAO.existsByDifficulty(difficulty))
         {
-            workoutDAO.ExercisesOnDifficulty(workout, difficulty);
+            workoutDAO.exercisesOnDifficulty(workout, difficulty);
             System.out.println("difficulty activated");
         }
         else if(workoutDAO.existsByType(type))
         {
-            workoutDAO.FindOfType(workout, type);
+            workoutDAO.findOfType(workout, type);
             System.out.println("type activated");
         }
         else if (!workoutDAO.existsByMuscle(muscle))
@@ -45,7 +44,7 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
             return;
         } else
         {
-            workoutDAO.GetExercisesInfo(workout, muscle);
+            workoutDAO.getExercisesInfo(workout, muscle);
             System.out.println("muscle activated");
         }
 
@@ -60,8 +59,18 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
         workoutPresenter.prepareMenuView(user);
     }
 
+
     @Override
-    public void export(String user, String name, int day){
-        workoutDAO.addExercise(user, name, day);
+    public void export(User user, String name, int day){
+
+        if (day >= 1 && day <= 7)
+        {
+            workoutDAO.addExercise(user.getUsername(), name, day);
+        }
+        else {
+            throw new NullPointerException("Day must be between 1 and 7");
+            //workoutDAO.addExercise(user, name, 1);
+        }
+
     }
 }

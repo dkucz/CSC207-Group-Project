@@ -1,6 +1,6 @@
 package menu.interface_adapter;
 
-import Workout.interface_adapter.WorkoutViewModel;
+import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
 import Workout.view.WorkoutViewManager;
 import Workout.view.WorkoutViewManagerModel;
 import entity.User;
@@ -16,7 +16,7 @@ public class CreateEventPresenter {
 
     }
     public void prepareSuccessView(User u){
-        this.workoutViewManagerModel.setActiveView("Workout View");
+        this.workoutViewManagerModel.setActiveView("Workout Creator");
         System.out.println("prepare success");
         this.workoutViewManagerModel.firePropertyChanged();
         this.workoutViewModel.setCurrentUser(u);

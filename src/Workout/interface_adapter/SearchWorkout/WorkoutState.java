@@ -1,4 +1,4 @@
-package Workout.interface_adapter;
+package Workout.interface_adapter.SearchWorkout;
 
 import entity.Workout;
 

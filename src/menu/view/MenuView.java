@@ -21,9 +21,19 @@ import Friend.interface_adapter.FriendPage.FriendViewModel;
 import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
 import Friend.view.*;
 import Friend.view.DeleteFriend.DeleteFriendView;
-import Workout.interface_adapter.WorkoutViewModel;
+import Workout.data_access.WorkoutDataAccessInterface;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import Workout.view.WorkoutView;
 import Workout.view.WorkoutViewManager;
 import Workout.view.WorkoutViewManagerModel;
+import app.ScheduleUseCaseFactory;
+import app.ViewManagerModel;
+import app.WorkoutUseCaseFactory;
+import data_access.ExercisesDAO;
+import data_access.FacadeDAO;
+import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
 import Friend.view.AddFriend.AddFriendFailedView;
 import Friend.view.AddFriend.AddFriendView;
@@ -34,6 +44,7 @@ import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.SignoutController;
+import signup.interface_adapter.SignupViewModel;
 
 import static menu.app.CreateEventUseCaseFactory.createEventUseCase;
 
@@ -105,14 +116,34 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        WorkoutViewManagerModel workoutManagerModel = new WorkoutViewManagerModel();
-                        WorkoutViewManager workoutViewManager = new WorkoutViewManager(workoutManagerModel);
-                        WorkoutViewModel workoutModel = new WorkoutViewModel();
-                        CreateEventController createEventController = createEventUseCase(workoutViewManager, workoutModel);
-                        System.out.println("workoutView created");
                         try {
+                            //STUFF
+                            WorkoutViewManagerModel workoutManagerModel = new WorkoutViewManagerModel();
+                            WorkoutViewManager workoutViewManager = new WorkoutViewManager(workoutManagerModel);
+                            WorkoutViewModel workoutViewModel = new WorkoutViewModel();
+                            SignupViewModel signupViewModel = new SignupViewModel();
+                            MenuViewModel menuViewModel = new MenuViewModel();
+                            ViewManagerModel viewManagerModel = new ViewManagerModel();
+                            ModifyWorkoutViewModel modifyWorkoutViewModel = new ModifyWorkoutViewModel();
+
+                            //FACADE initialization
+                            ExercisesDAO appDAO = new ExercisesDAO();
+                            FirestoreDAO firestoreDAO = new FirestoreDAO();
+                            GoogleCalendarDAO google = new GoogleCalendarDAO();
+                            FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
+
+                            //WORKOUT VIEW initialization
+                            ModifyWorkoutController modController = ScheduleUseCaseFactory.createModUseCase(modifyWorkoutViewModel, DAO);
+                            WorkoutView workout = WorkoutUseCaseFactory.create(viewManagerModel,
+                                    workoutViewModel, modifyWorkoutViewModel, modController, menuViewModel, DAO);
+                            workoutViewManager.addView(workout);
+                            CreateEventController createEventController = createEventUseCase(workoutManagerModel,
+                                    workoutViewManager, workoutViewModel);
                             createEventController.execute(MenuView.this.currentUser);
-                        } catch (GeneralSecurityException | IOException ex){
+                            System.out.println("The workout name is " + workout.viewName);
+                        } catch (GeneralSecurityException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
                     }

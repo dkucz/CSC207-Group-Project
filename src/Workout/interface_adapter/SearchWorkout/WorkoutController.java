@@ -1,7 +1,7 @@
-package Workout.interface_adapter;
+package Workout.interface_adapter.SearchWorkout;
 
-import Workout.use_case.WorkoutInputBoundary;
-import Workout.use_case.WorkoutInputData;
+import Workout.use_case.SearchWorkout.WorkoutInputBoundary;
+import Workout.use_case.SearchWorkout.WorkoutInputData;
 import entity.User;
 import entity.Workout;
 
@@ -38,9 +38,10 @@ public class WorkoutController {
             WorkoutInputData workoutInputData = new WorkoutInputData(workout, muscle);
             workoutInteractor.execute(workoutInputData);
         }
+
     }
 
-    public void export(String user, String name, int day) {
+    public void export(User user, String name, int day) {
         workoutInteractor.export(user, name, day);
     }
 

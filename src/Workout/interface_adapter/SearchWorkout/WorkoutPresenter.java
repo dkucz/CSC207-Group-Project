@@ -1,9 +1,8 @@
-package Workout.interface_adapter;
+package Workout.interface_adapter.SearchWorkout;
 
-import Workout.use_case.WorkoutOutputBoundary;
-import Workout.use_case.WorkoutOutputData;
+import Workout.use_case.SearchWorkout.WorkoutOutputBoundary;
+import Workout.use_case.SearchWorkout.WorkoutOutputData;
 import app.ViewManagerModel;
-import com.google.gson.Gson;
 import entity.User;
 import menu.interface_adapter.MenuState;
 import menu.interface_adapter.MenuViewModel;
@@ -21,7 +20,6 @@ public class WorkoutPresenter implements WorkoutOutputBoundary {
     }
     @Override
     public void prepareSuccessView(WorkoutOutputData data) {
-        //this.loginViewModel.menuView.setUser(data.getUser());
 
         WorkoutState workoutState = workoutViewModel.getState();
         workoutState.setExercises(data.getExercise());

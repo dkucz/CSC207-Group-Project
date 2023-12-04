@@ -1,4 +1,4 @@
-package Workout.use_case;
+package Workout.use_case.SearchWorkout;
 
 import entity.Workout;
 
