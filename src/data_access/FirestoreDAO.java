@@ -1,8 +1,8 @@
 package data_access;
 
-import friend.data_access.AddFriend.AddFriendDAOInterface;
-import friend.data_access.DeleteFriend.DeleteFriendDAOInterface;
-import friend.data_access.FriendPage.FriendPageDAOInterface;
+import friend.data_access.add_friend.AddFriendDAOInterface;
+import friend.data_access.delete_friend.DeleteFriendDAOInterface;
+import friend.data_access.friend_page.FriendPageDAOInterface;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
