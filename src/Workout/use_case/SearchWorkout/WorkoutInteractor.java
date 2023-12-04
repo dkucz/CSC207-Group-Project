@@ -61,7 +61,7 @@ public class WorkoutInteractor implements WorkoutInputBoundary {
 
 
     @Override
-    public void export(User user, String name, int day){
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException {
 
         if (day >= 1 && day <= 7)
         {

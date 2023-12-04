@@ -1,9 +1,5 @@
 package Workout.view;
 
-import Friend.interface_adapter.FriendViewManagerModel;
-import Friend.view.FriendPage.FriendView;
-import Friend.view.FriendViewManager;
-
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

@@ -41,7 +41,7 @@ public class WorkoutController {
 
     }
 
-    public void export(User user, String name, int day) {
+    public void export(User user, String name, int day) throws ExecutionException, InterruptedException {
         workoutInteractor.export(user, name, day);
     }
 
