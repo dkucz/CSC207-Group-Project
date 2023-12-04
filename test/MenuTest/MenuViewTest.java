@@ -82,9 +82,16 @@ public class MenuViewTest {
         User u = new User();
         menuView.setUser(u);
 
+
+
+
+    }
+
+    void testFriendsButton() throws IOException, GeneralSecurityException {
         assert menuView.getCurrentUser() == u;}
     @Test
     void TestFriendsButton() throws IOException, GeneralSecurityException {
+
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
@@ -126,8 +133,10 @@ public class MenuViewTest {
             e.printStackTrace();
         }
     }
+
     @Test
     void TestCreateEventButton() throws IOException, GeneralSecurityException {
+
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
