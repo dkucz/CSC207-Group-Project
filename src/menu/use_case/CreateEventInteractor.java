@@ -4,16 +4,15 @@ import com.google.api.services.storage.Storage;
 import entity.User;
 import menu.interface_adapter.CreateEventPresenter;
 
-public class CreateEventInteractor {
+public class CreateEventInteractor implements CreateEventInputBoundary {
 
-    private final CreateEventPresenter createEventPresenter;
-    public CreateEventInteractor(CreateEventPresenter c){
+    private final CreateEventOutputBoundary createEventPresenter;
+    public CreateEventInteractor(CreateEventOutputBoundary c){
         this.createEventPresenter = c;
 
     }
     public void execute(User u){
         this.createEventPresenter.prepareSuccessView(u);
-        System.out.println("working");
     }
 
 
