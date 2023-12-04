@@ -6,18 +6,21 @@ import entity.Friend;
 import entity.User;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class AddFriendInteractor implements AddFriendInputBoundary {
     AddFriendOutputBoundary addFriendPresenter;
     AddFriendDAOInterface firestoreDAO;
-    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, AddFriendDAOInterface firestoreDAO){
+    ShareCalendarDAOInterface calendarDAO;
+    public AddFriendInteractor(AddFriendOutputBoundary addFriendPresenter, AddFriendDAOInterface firestoreDAO, ShareCalendarDAOInterface calendarDAO){
         this.addFriendPresenter = addFriendPresenter;
         this.firestoreDAO = firestoreDAO;
+        this.calendarDAO = calendarDAO;
     }
     @Override
-    public void execute(AddFriendInputData addFriendInputData) throws ExecutionException, InterruptedException, IOException {
+    public void execute(AddFriendInputData addFriendInputData) throws ExecutionException, InterruptedException, IOException, GeneralSecurityException {
         String currentUsername = addFriendInputData.getCurrentUsername();
         String wantToAddFriendUsername = addFriendInputData.wantToAddFriendUsername;
         boolean friendDoesNotExist = !(this.firestoreDAO.existsByName(wantToAddFriendUsername));
@@ -58,6 +61,7 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
 
             firestoreDAO.addFriend(currentUser,friend);
             firestoreDAO.addFriend(Friend,User);
+            calendarDAO.createAccessControlRule(friend.getGmail());
             this.addFriendPresenter.prepareSuccessView(outputData);
         }
     }
