@@ -69,7 +69,7 @@ public class WorkoutView extends JPanel implements ActionListener, PropertyChang
         JButton searchButton = new JButton(WorkoutViewModel.SEARCH_LABEL);
 
         JPanel secondPanel = new JPanel();
-        JLabel daySelect = new JLabel("Day:Hour(24)");
+        JLabel daySelect = new JLabel("Day(7):Hour(24)");
         JTextField dayInput = new JTextField(10);
         secondPanel.add(daySelect);
         secondPanel.add(dayInput);
