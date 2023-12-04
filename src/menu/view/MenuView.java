@@ -11,23 +11,22 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
-import Friend.app.FriendUseCaseFactory;
-import Friend.interface_adapter.*;
-import Friend.interface_adapter.AddFriend.AddFriendFailedViewModel;
-import Friend.interface_adapter.AddFriend.AddFriendViewModel;
-import Friend.interface_adapter.DeleteFriend.DeleteFriendViewModel;
-import Friend.interface_adapter.FriendPage.FriendController;
-import Friend.interface_adapter.FriendPage.FriendViewModel;
-import Friend.interface_adapter.ShowFriendInfo.ShowFriendInfoViewModel;
-import Friend.view.*;
-import Friend.view.DeleteFriend.DeleteFriendView;
-import Workout.data_access.WorkoutDataAccessInterface;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.WorkoutView;
-import Workout.view.WorkoutViewManager;
-import Workout.view.WorkoutViewManagerModel;
+import friend.app.FriendUseCaseFactory;
+import friend.interface_adapter.*;
+import friend.interface_adapter.add_friend.AddFriendFailedViewModel;
+import friend.interface_adapter.add_friend.AddFriendViewModel;
+import friend.interface_adapter.delete_friend.DeleteFriendViewModel;
+import friend.interface_adapter.friend_page.FriendController;
+import friend.interface_adapter.friend_page.FriendViewModel;
+import friend.interface_adapter.show_friend_info.ShowFriendInfoViewModel;
+import friend.view.*;
+import friend.view.delete_friend.DeleteFriendView;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutController;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.WorkoutView;
+import workout.view.WorkoutViewManager;
+import workout.view.WorkoutViewManagerModel;
 import app.ScheduleUseCaseFactory;
 import app.ViewManagerModel;
 import app.WorkoutUseCaseFactory;
@@ -35,10 +34,10 @@ import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
 import data_access.GoogleCalendarDAO;
-import Friend.view.AddFriend.AddFriendFailedView;
-import Friend.view.AddFriend.AddFriendView;
-import Friend.view.FriendPage.FriendView;
-import Friend.view.ShowFriendInfo.ShowFriendInfoView;
+import friend.view.add_friend.AddFriendFailedView;
+import friend.view.add_friend.AddFriendView;
+import friend.view.friend_page.FriendView;
+import friend.view.show_friend_info.ShowFriendInfoView;
 import entity.User;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.MenuViewModel;
@@ -55,6 +54,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     final JButton friends;
     final JButton createEvent;
     final JButton modifyEvent;
+    final JButton refresh;
     final JLabel user;
 
     final JPanel calendarPanel;
@@ -99,8 +99,42 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         modifyEvent = new JButton(menuViewModel.MODIFY_EVENT_BUTTON_LABEL);
         buttons.add(modifyEvent);
 
+        refresh = new JButton(menuViewModel.REFRESH_BUTTON_LABEL);
+        buttons.add(refresh);
+
         signout = new JButton(menuViewModel.SIGNOUT_BUTTON_LABEL);
         buttons.add(signout);
+
+
+        refresh.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        GoogleCalendarDAO cal = new GoogleCalendarDAO();
+                        MenuView.this.calendarPanel.removeAll();
+
+                        String calendarName = MenuView.this.currentUser.getGmail();
+                        DefaultListModel<String> events = null;
+
+                        try {
+                            events = cal.getEventsForToday(calendarName);
+
+
+                            if (events != null) {
+                                events.add(0, "Calendar: " + calendarName);
+
+                                JList<String> eventList = new JList<>(events);
+                                JScrollPane scrollPane = new JScrollPane(eventList);
+
+                                MenuView.this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
+                                MenuView.this.calendarPanel.revalidate();
+                            }
+                        } catch (GeneralSecurityException | IOException ex){
+                            System.out.println("Refresh failed!");
+                        }
+                    }
+                }
+        );
 
         signout.addActionListener(
                 new ActionListener() {
@@ -133,7 +167,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                             FacadeDAO DAO = new FacadeDAO(firestoreDAO, google, appDAO);
 
                             //WORKOUT VIEW initialization
-                            ModifyWorkoutController modController = ScheduleUseCaseFactory.createModUseCase(modifyWorkoutViewModel, DAO);
+                            ModifyWorkoutController modController = ScheduleUseCaseFactory.createModUseCase(modifyWorkoutViewModel, firestoreDAO);
                             WorkoutView workout = WorkoutUseCaseFactory.create(viewManagerModel,
                                     workoutViewModel, modifyWorkoutViewModel, modController, menuViewModel, DAO);
                             workoutViewManager.addView(workout);
@@ -206,6 +240,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     public User getCurrentUser(){
         return this.currentUser;
     }
+
 
     public void setUser(User u) throws GeneralSecurityException, IOException {
 

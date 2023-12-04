@@ -4,6 +4,8 @@ import entity.UserFactory;
 import entity.User;
 import signup.data_access.SignupUserDataAccessInterface;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDateTime;
 import java.util.concurrent.ExecutionException;
 
@@ -21,7 +23,7 @@ public class SignupInteractor implements SignupInputBoundary {
     }
 
     @Override
-    public void execute(SignupInputData signupInputData) throws ExecutionException, InterruptedException {
+    public void execute(SignupInputData signupInputData) throws ExecutionException, InterruptedException, GeneralSecurityException, IOException {
         if (signupDataAccess.existsByName(signupInputData.getUsername())) {
             signupPresenter.prepareFailView("User already exists.");
         } else if (signupInputData.getUsername().equals("") ||
@@ -37,6 +39,12 @@ public class SignupInteractor implements SignupInputBoundary {
             User user = userFactory.create(signupInputData.getUsername(),
                     signupInputData.getPassword(), signupInputData.getGmail());
             signupDataAccess.save(user);
+            signupDataAccess.deleteTokenFile();
+            signupDataAccess.createStoredCredentials();
+            if (!signupDataAccess.hasCalendar())
+            {
+                signupDataAccess.createCalendar();
+            }
 
             SignupOutputData signupOutputData = new SignupOutputData(user.getUsername(), false);
             signupPresenter.prepareSuccessView(signupOutputData);

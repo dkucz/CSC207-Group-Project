@@ -1,18 +1,18 @@
 package menu.interface_adapter;
 
-import Workout.view.WorkoutViewManagerModel;
+import workout.view.WorkoutViewManagerModel;
 import entity.User;
-import menu.use_case.CreateEventInteractor;
+import menu.use_case.CreateEventInputBoundary;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class CreateEventController {
 
-    private final CreateEventInteractor createEventInteractor;
+    private final CreateEventInputBoundary createEventInteractor;
     private WorkoutViewManagerModel viewManagerModel;
 
-    public CreateEventController(CreateEventInteractor i){
+    public CreateEventController(CreateEventInputBoundary i){
         this.createEventInteractor = i;
     }
 

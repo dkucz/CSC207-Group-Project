@@ -1,8 +1,8 @@
 package app;
 
-import Workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.ScheduleView;
+import workout.interface_adapter.ModifyWorkout.ModifyWorkoutViewModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.ScheduleView;
 import data_access.ExercisesDAO;
 import data_access.FacadeDAO;
 import data_access.FirestoreDAO;
@@ -55,7 +55,7 @@ public class Main {
                 loginViewModel, signupViewModel, menuViewModel, appDAO);
         views.add(loginView, loginView.viewName);
 
-        ScheduleView scheduleView = ScheduleUseCaseFactory.create(modViewModel, appDAO);
+        //ScheduleView scheduleView = ScheduleUseCaseFactory.create(modViewModel, appDAO);
         MenuView menuView = SignoutUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel,
                 menuViewModel, appDAO);
         views.add(menuView, menuView.viewname);
@@ -63,7 +63,6 @@ public class Main {
 
         viewManagerModel.setActiveView(signupView.viewName);
         viewManagerModel.firePropertyChanged();
-
 
         application.pack();
         application.setVisible(true);

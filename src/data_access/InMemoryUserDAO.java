@@ -25,10 +25,25 @@ public class InMemoryUserDAO implements SignupUserDataAccessInterface, LoginUser
     }
 
     @Override
+    public void deleteTokenFile() {
+
+    }
+
+    @Override
     public User get(String username) {
         return users.get(username);
     }
 
     @Override
     public void createStoredCredentials() {}
+
+    @Override
+    public void createCalendar() {
+
+    }
+
+    @Override
+    public boolean hasCalendar() throws GeneralSecurityException, IOException {
+        return false;
+    }
 }

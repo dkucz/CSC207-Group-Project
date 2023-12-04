@@ -1,9 +1,9 @@
 package data_access;
 
-import Friend.data_access.AddFriend.AddFriendDAOInterface;
-import Friend.data_access.DeleteFriend.DeleteFriendDAOInterface;
-import Friend.data_access.FriendPage.FriendPageDAOInterface;
-import Workout.data_access.WorkoutDataAccessInterface;
+import friend.data_access.add_friend.AddFriendDAOInterface;
+import friend.data_access.delete_friend.DeleteFriendDAOInterface;
+import friend.data_access.friend_page.FriendPageDAOInterface;
+import workout.data_access.WorkoutDataAccessInterface;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -44,22 +44,22 @@ public class FirestoreDAO implements AddFriendDAOInterface, DeleteFriendDAOInter
         userCollection = database.collection(userCollectionID);
     }
 
-    @Override
+
     public boolean existsByMuscle(String identifier) throws ExecutionException, InterruptedException {
         return false;
     }
 
-    @Override
+
     public boolean existsByType(String type) {
         return false;
     }
 
-    @Override
+
     public boolean existsByDifficulty(String type) {
         return false;
     }
 
-    @Override
+
     public void getExercisesInfo(Workout workout, String muscle) {
 
     }
@@ -151,7 +151,7 @@ public class FirestoreDAO implements AddFriendDAOInterface, DeleteFriendDAOInter
         deleteFriendDocument(friendUsername, username);
     }
 
-    @Override
+
     public ArrayList<ArrayList<String>> addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
         CollectionReference exerciseSchedule = userCollection.document(username).collection(exerciseScheduleID);
         DocumentReference dayDocument = exerciseSchedule.document(String.valueOf(day));

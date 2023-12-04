@@ -1,12 +1,12 @@
 package data_access;
 
-import Workout.data_access.WorkoutDataAccessInterface;
-import app.WorkoutUseCaseFactory;
+import workout.data_access.WorkoutDataAccessInterface;
 import entity.User;
 import entity.Workout;
 import login.data_access.LoginUserDataAccessInterface;
 import signup.data_access.SignupUserDataAccessInterface;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -37,12 +37,22 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
+    public void createCalendar() throws GeneralSecurityException, IOException {
+        googleCalendarDAO.createCalendar();
+    }
+
+    @Override
+    public boolean hasCalendar() throws GeneralSecurityException, IOException {
+        return googleCalendarDAO.hasCalendar();
+    }
+
+    @Override
     public boolean existsByName(String identifier) throws ExecutionException, InterruptedException {
         return firestoreDAO.existsByName(identifier);
     }
 
     @Override
-    public boolean existsByMuscle(String identifier) throws ExecutionException, InterruptedException {
+    public boolean existsByMuscle(String identifier) {
         return exercisesDAO.existsByMuscle(identifier);
     }
 
@@ -77,29 +87,32 @@ public class FacadeDAO implements SignupUserDataAccessInterface, LoginUserDataAc
     }
 
     @Override
+    public void deleteTokenFile() {
+
+    }
+
+    @Override
     public ArrayList<ArrayList<String>> getExerciseSchedule(String username) throws ExecutionException, InterruptedException {
         return firestoreDAO.getExerciseSchedule(username);
     }
 
     @Override
     public ArrayList<ArrayList<String>> addExerciseToSchedule(String username, int day, String exerciseName) throws ExecutionException, InterruptedException {
-        return null;
+        return firestoreDAO.addExerciseToSchedule(username, day, exerciseName);
     }
 
     @Override
     public boolean hasFiveExercises(String username, int day) throws ExecutionException, InterruptedException {
-        return false;
+        return firestoreDAO.hasFiveExercises(username, day);
     }
 
     @Override
     public boolean exerciseScheduleExists(String username) throws ExecutionException, InterruptedException {
-        return false;
+        return firestoreDAO.exerciseScheduleExists(username);
     }
 
     public void addExercise(String userName, String exerciseName, int day)
     {
         System.out.println(userName + " likes doing " + exerciseName + "s on + " + day);//do stuff;
 
-
-    }
-}
+}}

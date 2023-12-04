@@ -1,15 +1,16 @@
 package menu.interface_adapter;
 
+import menu.use_case.SignoutInputBoundary;
 import menu.use_case.SignoutInteractor;
 
 public class SignoutController {
 
 
-    final SignoutInteractor signoutInteractor;
+    final SignoutInputBoundary signoutInteractor;
 
 
 
-    public SignoutController(SignoutInteractor s){
+    public SignoutController(SignoutInputBoundary s){
 
         this.signoutInteractor = s;
 

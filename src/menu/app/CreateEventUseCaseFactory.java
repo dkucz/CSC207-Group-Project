@@ -1,8 +1,8 @@
 package menu.app;
 
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.WorkoutViewManager;
-import Workout.view.WorkoutViewManagerModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.WorkoutViewManager;
+import workout.view.WorkoutViewManagerModel;
 import menu.interface_adapter.CreateEventController;
 import menu.interface_adapter.CreateEventPresenter;
 import menu.use_case.CreateEventInteractor;

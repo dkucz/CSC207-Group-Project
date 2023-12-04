@@ -1,11 +1,12 @@
 package menu.interface_adapter;
 
-import Workout.interface_adapter.SearchWorkout.WorkoutViewModel;
-import Workout.view.WorkoutViewManager;
-import Workout.view.WorkoutViewManagerModel;
+import workout.interface_adapter.SearchWorkout.WorkoutViewModel;
+import workout.view.WorkoutViewManager;
+import workout.view.WorkoutViewManagerModel;
 import entity.User;
+import menu.use_case.CreateEventOutputBoundary;
 
-public class CreateEventPresenter {
+public class CreateEventPresenter implements CreateEventOutputBoundary {
     private final WorkoutViewManager workoutViewManager;
     private final WorkoutViewModel workoutViewModel;
     private final WorkoutViewManagerModel workoutViewManagerModel;
