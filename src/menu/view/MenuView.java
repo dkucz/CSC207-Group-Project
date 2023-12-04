@@ -116,20 +116,22 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
                         String calendarName = MenuView.this.currentUser.getGmail();
                         DefaultListModel<String> events = null;
+
                         try {
                             events = cal.getEventsForToday(calendarName);
-                        } catch (GeneralSecurityException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        if (events != null) {
-                            events.add(0, "Calendar: " + calendarName);
 
-                            JList<String> eventList = new JList<>(events);
-                            JScrollPane scrollPane = new JScrollPane(eventList);
 
-                            MenuView.this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
+                            if (events != null) {
+                                events.add(0, "Calendar: " + calendarName);
+
+                                JList<String> eventList = new JList<>(events);
+                                JScrollPane scrollPane = new JScrollPane(eventList);
+
+                                MenuView.this.calendarPanel.add(scrollPane, BorderLayout.CENTER);
+                                MenuView.this.calendarPanel.revalidate();
+                            }
+                        } catch (GeneralSecurityException | IOException ex){
+                            System.out.println("Refresh failed!");
                         }
                     }
                 }
