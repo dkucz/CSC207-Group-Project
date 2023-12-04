@@ -15,4 +15,6 @@ public interface SignupUserDataAccessInterface {
     void createStoredCredentials() throws GeneralSecurityException, IOException;
 
     void createCalendar() throws GeneralSecurityException, IOException;
+
+    boolean hasCalendar() throws GeneralSecurityException, IOException;
 }
