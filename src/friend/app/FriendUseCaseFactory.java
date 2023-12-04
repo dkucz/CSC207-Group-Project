@@ -1,10 +1,10 @@
 package friend.app;
-import friend.data_access.FriendPage.FriendPageDAOInterface;
-import friend.interface_adapter.FriendPage.FriendController;
-import friend.interface_adapter.FriendPage.FriendPresenter;
-import friend.interface_adapter.FriendPage.FriendViewModel;
-import friend.use_case.FriendPage.FriendInputBoundary;
-import friend.use_case.FriendPage.FriendInteractor;
+import friend.data_access.friend_page.FriendPageDAOInterface;
+import friend.interface_adapter.friend_page.FriendController;
+import friend.interface_adapter.friend_page.FriendPresenter;
+import friend.interface_adapter.friend_page.FriendViewModel;
+import friend.use_case.friend_page.FriendInputBoundary;
+import friend.use_case.friend_page.FriendInteractor;
 import friend.view.FriendViewManager;
 import data_access.FirestoreDAO;
 
