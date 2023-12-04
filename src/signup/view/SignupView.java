@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.concurrent.ExecutionException;
 
 public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
@@ -63,7 +65,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                                 signupController.execute(signupViewModel.getState().getUsername(), signupViewModel.getState().getGmail(),
                                         String.valueOf(signupViewModel.getState().getPassword()),
                                         String.valueOf(signupViewModel.getState().getRepeatPassword()));
-                            } catch (ExecutionException | InterruptedException e) {
+                            } catch (ExecutionException | InterruptedException | GeneralSecurityException |
+                                     IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }
